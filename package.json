@@ -6,7 +6,13 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "format": "npx --yes @biomejs/biome check --write --unsafe ./src",
+    "lint": "npx --yes @biomejs/biome check ./src",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:cov": "bun test --coverage",
+    "test:e2e": "bun test -t *.e2e-spec.ts",
+    "update": "npx --yes npm-check-updates -u --timeout 100000 && npm i && npm audit fix --force"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -14,11 +20,12 @@
     "next": "15.1.6"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@biomejs/biome": "1.9.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
