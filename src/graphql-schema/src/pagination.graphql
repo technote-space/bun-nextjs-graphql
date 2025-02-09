@@ -1,0 +1,25 @@
+type PageInfo {
+  totalCount: Int!
+  perPage: Int!
+  totalPage: Int!
+  currentPage: Int!
+}
+
+interface Node {
+  id: ID!
+}
+
+interface Edge {
+  cursor: String!
+  node: Node!
+}
+
+interface Connection {
+  edges: [Edge!]!
+  pageInfo: PageInfo!
+}
+
+enum SortOrder {
+  asc,
+  desc,
+}
