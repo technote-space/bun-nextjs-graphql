@@ -1,0 +1,55 @@
+enum TaskSortKey {
+  id
+  title
+}
+
+type Task implements Node {
+  id: ID! @complexity(value: 0)
+  userId: ID! @complexity(value: 0)
+  title: String! @complexity(value: 0)
+  description: String! @complexity(value: 0)
+  completedAt: DateTime @complexity(value: 0)
+  createdAt: DateTime! @complexity(value: 0)
+  updatedAt: DateTime! @complexity(value: 0)
+
+  user: User! @complexity(value: 3)
+}
+
+type TaskEdge implements Edge {
+  cursor: String!
+  node: Task!
+}
+
+type TaskConnection implements Connection {
+  pageInfo: PageInfo!
+  edges: [TaskEdge!]!
+}
+
+input CreateTaskInput {
+  userId: ID!
+  title: String!
+  description: String!
+}
+
+input UpdateTaskInput {
+  title: String
+  description: String
+}
+
+type Query {
+  task(id: ID!): Task!
+  tasks(
+    page: Int = 1
+    perPage: Int = 10
+    sortKey: TaskSortKey = id
+    sortOrder: SortOrder = asc
+    keywords: String
+  ): TaskConnection! @complexity(value: 1, multipliers: ["perPage"])
+}
+
+type Mutation {
+  createTask(input: CreateTaskInput): Task!
+  updateTask(id: ID!, input: UpdateTaskInput!): Task!
+  completeTask(id: ID!): Task!
+  deleteTask(id: ID!): Task
+}

@@ -1,4 +1,1 @@
-directive @complexity(
-  value: Int!
-  multipliers: [String!]
-) on FIELD_DEFINITION
+directive @complexity(value: Int!, multipliers: [String!]) on FIELD_DEFINITION

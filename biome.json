@@ -7,7 +7,11 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": [
+			"src/app/api/graphql/schema.graphql",
+			"src/app/api/graphql/types.ts",
+			"src/gql/*"
+		]
 	},
 	"formatter": {
 		"enabled": true,

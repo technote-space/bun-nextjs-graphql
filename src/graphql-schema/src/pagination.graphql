@@ -5,10 +5,6 @@ type PageInfo {
   currentPage: Int!
 }
 
-interface Node {
-  id: ID!
-}
-
 interface Edge {
   cursor: String!
   node: Node!
@@ -20,6 +16,6 @@ interface Connection {
 }
 
 enum SortOrder {
-  asc,
-  desc,
+  asc
+  desc
 }

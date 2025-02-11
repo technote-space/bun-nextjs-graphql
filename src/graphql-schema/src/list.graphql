@@ -1,0 +1,4 @@
+interface List {
+  totalCount: Int!
+  items: [Node!]!
+}

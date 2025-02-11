@@ -15,9 +15,19 @@
     "update": "npx --yes npm-check-updates -u --timeout 100000 && npm i && npm audit fix --force"
   },
   "dependencies": {
+    "@apollo/client": "^3.12.11",
+    "@apollo/server": "^4.11.3",
+    "@as-integrations/next": "^3.2.0",
+    "@graphql-tools/graphql-file-loader": "^8.0.14",
+    "@graphql-tools/load": "^8.0.14",
+    "@graphql-tools/schema": "^10.0.18",
+    "graphql": "^16.10.0",
+    "graphql-query-complexity": "^1.0.0",
+    "graphql-scalars": "^1.24.1",
+    "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.6"
+    "tsyringe": "^4.8.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

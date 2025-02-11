@@ -1,0 +1,54 @@
+enum UserSortKey {
+  id
+  name
+}
+
+type User implements Node {
+  id: ID! @complexity(value: 0)
+  name: String! @complexity(value: 0)
+  createdAt: DateTime! @complexity(value: 0)
+  updatedAt: DateTime! @complexity(value: 0)
+
+  tasks(
+    page: Int = 1
+    perPage: Int = 10
+    sortKey: TaskSortKey = id
+    sortOrder: SortOrder = asc
+    keywords: String
+  ): TaskConnection! @complexity(value: 1, multipliers: ["perPage"])
+}
+
+type UserEdge implements Edge {
+  cursor: String!
+  node: User!
+}
+
+type UserConnection implements Connection {
+  pageInfo: PageInfo!
+  edges: [UserEdge!]!
+}
+
+input CreateUserInput {
+  name: String!
+}
+
+input UpdateUserInput {
+  name: String
+}
+
+type Query {
+  user(id: ID!): User!
+  users(
+    page: Int = 1
+    perPage: Int = 10
+    sortKey: UserSortKey = id
+    sortOrder: SortOrder = asc
+    name: String
+  ): UserConnection! @complexity(value: 1, multipliers: ["perPage"])
+}
+
+type Mutation {
+  createUser(input: CreateUserInput): User!
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+  deleteUser(id: ID!): User
+}
