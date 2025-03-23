@@ -1,0 +1,48 @@
+import { singleton } from 'tsyringe';
+import { Task } from '#/domains/entities/task';
+import {
+  CompletedAt,
+  CreatedAt,
+  Description,
+  Id,
+  Title,
+  UpdatedAt,
+} from '#/domains/entities/task/valueObjects';
+import { Id as UserId } from '#/domains/entities/user/valueObjects';
+import type { TaskRepository } from '#/domains/repositories/taskRepository';
+import type {
+  Task as PrismaTask,
+  TransactionPrismaClient,
+} from '#/frameworks/database/prisma';
+import { PrismaSharedRepository } from './sharedRepository';
+
+@singleton()
+export class PrismaTaskRepository
+  extends PrismaSharedRepository<PrismaTask, Task, 'Task'>
+  implements TaskRepository<TransactionPrismaClient>
+{
+  public toEntity(task: PrismaTask): Task {
+    return Task.reconstruct(
+      new Id(task.id),
+      new UserId(task.userId),
+      new Title(task.title),
+      new Description(task.description),
+      new CompletedAt(task.completedAt),
+      new CreatedAt(task.createdAt),
+      new UpdatedAt(task.updatedAt),
+    );
+  }
+
+  protected getUpsertParams(task: Task) {
+    return {
+      userId: task.userId.value,
+      title: task.title.value,
+      description: task.description.value,
+      completedAt: task.completedAt.value?.toDate(),
+    };
+  }
+
+  protected get model(): Lowercase<'Task'> {
+    return 'task';
+  }
+}

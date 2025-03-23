@@ -21,8 +21,12 @@
     "paths": {
       "^/*": ["./src/*"],
       "@/*": ["./src/app/*"],
-      "$/*": ["./src/app/api/graphql/*"]
-    }
+      "$/*": ["./src/app/api/graphql/*"],
+      "#/*": ["./src/server/*"]
+    },
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

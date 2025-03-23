@@ -1,5 +1,5 @@
 import type { GraphQLContext } from '$/context';
-import type { UserResolvers } from '$/types';
+import type { Task, UserResolvers } from '$/types';
 
 export const User: UserResolvers<GraphQLContext> = {
   tasks: async (parent) => ({
@@ -18,7 +18,7 @@ export const User: UserResolvers<GraphQLContext> = {
           description: 'task description1',
           createdAt: new Date(),
           updatedAt: new Date(),
-        },
+        } as Task,
       },
       {
         cursor: 'task-id2',
@@ -29,7 +29,7 @@ export const User: UserResolvers<GraphQLContext> = {
           completedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-        },
+        } as Task,
       },
     ],
   }),

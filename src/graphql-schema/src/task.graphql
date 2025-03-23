@@ -43,7 +43,7 @@ type Query {
     perPage: Int = 10
     sortKey: TaskSortKey = id
     sortOrder: SortOrder = asc
-    keywords: String
+    q: String
   ): TaskConnection! @complexity(value: 1, multipliers: ["perPage"])
 }
 

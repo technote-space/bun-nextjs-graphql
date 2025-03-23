@@ -1,5 +1,5 @@
 import type { GraphQLContext } from '$/context';
-import type { QueryResolvers } from '$/types';
+import type { QueryResolvers, Task } from '$/types';
 
 export const tasks: Pick<Required<QueryResolvers<GraphQLContext>>, 'tasks'> = {
   tasks: async (_parent, args, { token }) => ({
@@ -18,7 +18,7 @@ export const tasks: Pick<Required<QueryResolvers<GraphQLContext>>, 'tasks'> = {
           description: 'task description1',
           createdAt: new Date(),
           updatedAt: new Date(),
-        },
+        } as Task,
       },
       {
         cursor: 'task-id2',
@@ -29,7 +29,7 @@ export const tasks: Pick<Required<QueryResolvers<GraphQLContext>>, 'tasks'> = {
           completedAt: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
-        },
+        } as Task,
       },
     ],
   }),

@@ -10,7 +10,9 @@
 		"ignore": [
 			"src/app/api/graphql/schema.graphql",
 			"src/app/api/graphql/types.ts",
-			"src/gql/*"
+			"src/gql/*",
+			"src/server/frameworks/database/prisma/client/*",
+			"src/server/frameworks/database/prisma/fabbrica/*"
 		]
 	},
 	"formatter": {
@@ -29,6 +31,9 @@
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "single"
+		},
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
 		}
 	}
 }

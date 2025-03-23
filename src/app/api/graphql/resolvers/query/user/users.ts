@@ -1,5 +1,5 @@
 import type { GraphQLContext } from '$/context';
-import type { QueryResolvers } from '$/types';
+import type { QueryResolvers, User } from '$/types';
 
 export const users: Pick<Required<QueryResolvers<GraphQLContext>>, 'users'> = {
   users: async (_parent, args, { token }) => ({
@@ -17,7 +17,7 @@ export const users: Pick<Required<QueryResolvers<GraphQLContext>>, 'users'> = {
           name: 'user1',
           createdAt: new Date(),
           updatedAt: new Date(),
-        },
+        } as User,
       },
     ],
   }),

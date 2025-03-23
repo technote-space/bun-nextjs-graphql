@@ -118,9 +118,9 @@ export type QueryTaskArgs = {
 
 
 export type QueryTasksArgs = {
-  keywords?: InputMaybe<Scalars['String']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  q?: InputMaybe<Scalars['String']['input']>;
   sortKey?: InputMaybe<TaskSortKey>;
   sortOrder?: InputMaybe<SortOrder>;
 };
@@ -193,9 +193,9 @@ export type User = Node & {
 
 
 export type UserTasksArgs = {
-  keywords?: InputMaybe<Scalars['String']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  q?: InputMaybe<Scalars['String']['input']>;
   sortKey?: InputMaybe<TaskSortKey>;
   sortOrder?: InputMaybe<SortOrder>;
 };

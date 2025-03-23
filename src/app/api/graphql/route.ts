@@ -1,3 +1,4 @@
+import '^/server/config/registry';
 import { ComplexityPlugin } from '$/complexityPlugin';
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
@@ -13,7 +14,7 @@ const schema = loadSchemaSync('src/graphql-schema/src/*.graphql', {
 
 const server = new ApolloServer({
   schema: addResolversToSchema({ schema, resolvers }),
-  plugins: [ComplexityPlugin],
+  plugins: [new ComplexityPlugin()],
 });
 
 const handler = startServerAndCreateNextHandler(server, {
