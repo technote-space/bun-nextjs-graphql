@@ -16,6 +16,7 @@ export const DITokens = {
   UpdateTaskUseCase: 'UpdateTaskUseCase',
   OnCompleteTaskUseCase: 'OnCompleteTaskUseCase',
   TaskPresenter: 'TaskPresenter',
+  TaskQueryServicePresenter: 'TaskQueryServicePresenter',
 
   UserRepository: 'UserRepository',
   UserPolicy: 'UserPolicy',
@@ -25,4 +26,5 @@ export const DITokens = {
   DeleteUserUseCase: 'DeleteUserUseCase',
   UpdateUserUseCase: 'UpdateUserUseCase',
   UserPresenter: 'UserPresenter',
+  UserQueryServicePresenter: 'UserQueryServicePresenter',
 } as const;

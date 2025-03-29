@@ -23,7 +23,7 @@ export class PaginateTaskController<Result> extends BaseController<
     private readonly sessionProvider: UserSessionProvider,
     @inject(DITokens.PaginateTaskQueryService)
     private readonly queryService: TaskPaginationQueryService,
-    @inject(DITokens.TaskPresenter)
+    @inject(DITokens.TaskQueryServicePresenter)
     private readonly presenter: TaskQueryServicePresenter,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
     @inject(DITokens.HandleErrorUseCase)

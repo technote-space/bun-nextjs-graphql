@@ -23,7 +23,7 @@ export class PaginateUserController<Result> extends BaseController<
     private readonly sessionProvider: UserSessionProvider,
     @inject(DITokens.PaginateUserQueryService)
     private readonly queryService: UserPaginationQueryService,
-    @inject(DITokens.UserPresenter)
+    @inject(DITokens.UserQueryServicePresenter)
     private readonly presenter: UserQueryServicePresenter,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
     @inject(DITokens.HandleErrorUseCase)
