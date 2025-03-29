@@ -1,7 +1,8 @@
-import type { Task } from '#/domains/entities/task';
 import type { MaybeNullable } from '#/shared/types';
+import type { TaskOutputDto } from '#/usecases/task/dto';
 
-export interface TaskPresenter {
-  // biome-ignore lint/suspicious/noExplicitAny:
-  entity<T extends Task>(task: T | null): NonNullable<any> | MaybeNullable<T>;
+export interface TaskPresenter<Result> {
+  entity<T extends TaskOutputDto>(
+    task: T | null,
+  ): NonNullable<Result> | MaybeNullable<T>;
 }

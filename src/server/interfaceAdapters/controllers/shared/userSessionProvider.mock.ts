@@ -10,10 +10,6 @@ export class UserSessionProviderMock implements UserSessionProvider {
   ) {}
 
   public async getSession(token?: string): Promise<UserSession> {
-    if (!token) {
-      return new UserSession(null, {});
-    }
-
-    return new UserSession(this.context, {});
+    return new UserSession(token ? this.context : null, {});
   }
 }

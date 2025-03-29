@@ -17,7 +17,7 @@ class SucceededController extends BaseController<undefined, number> {
   }
 }
 
-class FailedController extends BaseController<undefined, never> {
+class FailedController extends BaseController<undefined, unknown> {
   public constructor(callable: () => void) {
     super(
       new HandleErrorInteractor([new NotificationMock(callable)]),

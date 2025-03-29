@@ -2,8 +2,6 @@ export type AuthorizedUser = Readonly<{
   id: string;
   username: string;
   email: string;
-  // biome-ignore lint/suspicious/noExplicitAny:
-  attributes?: Record<string, any>;
 }>;
 
 export type CreateAuthorizedUserInput = Readonly<{
@@ -27,4 +25,6 @@ export interface SSOClient {
   delete(id: string): Promise<void>;
 
   deleteAll(): Promise<void>;
+
+  getJwtPayload(token: string): Promise<{ sub: string }>;
 }

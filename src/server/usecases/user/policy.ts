@@ -9,7 +9,8 @@ export class UserPolicy extends PolicyBase<User> {
     context: UserSessionContext | null,
     action: Action,
   ): Promise<boolean | null> {
-    if (action === 'list') return this.isLoggedIn(context);
+    if (action === 'list' || action === 'create')
+      return this.isLoggedIn(context);
     return null;
   }
 

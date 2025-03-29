@@ -4,7 +4,7 @@ import type { Id } from '#/domains/entities/user/valueObjects';
 import type { UserRepository } from '#/domains/repositories/userRepository';
 import { NotFound } from '#/shared/exceptions';
 import type { UserSession } from '#/usecases/shared/session/userSession';
-import type { FetchUserOutput } from './dto';
+import type { UserOutputDto } from '../dto';
 import type { FetchUserUseCase } from './usecase';
 
 @singleton()
@@ -14,11 +14,11 @@ export class FetchUserInteractor implements FetchUserUseCase {
     private readonly userRepository: UserRepository,
   ) {}
 
-  public async handle(session: UserSession, id: Id): Promise<FetchUserOutput> {
+  public async handle(session: UserSession, id: Id): Promise<UserOutputDto> {
     return this.userRepository
       .transaction(async (client) => this.userRepository.find(client, id))
       .then(async (user) => {
-        if (!user) throw new NotFound('タスク', 'user', id.value);
+        if (!user) throw new NotFound('ユーザー', 'user', id.value);
         await session.authorize('read', user);
         return user;
       });

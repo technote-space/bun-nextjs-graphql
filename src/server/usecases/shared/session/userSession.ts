@@ -12,9 +12,9 @@ type Resource<A extends Action> = A extends 'list' ? string : Entity;
 
 export class UserSession {
   public constructor(
-    public readonly context: UserSessionContext | null,
+    private readonly context: UserSessionContext | null,
     // biome-ignore lint/suspicious/noExplicitAny:
-    protected readonly policies: Record<string, string | Policy<any>>,
+    private readonly policies: Record<string, string | Policy<any>>,
   ) {}
 
   public async can<A extends Action>(
@@ -72,5 +72,17 @@ export class UserSession {
 
       throw new Forbidden();
     }
+  }
+
+  public getContext(): UserSessionContext {
+    if (!this.context) {
+      throw new Unauthorized();
+    }
+
+    return this.context;
+  }
+
+  public getContextOrNull(): UserSessionContext | null {
+    return this.context;
   }
 }

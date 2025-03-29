@@ -33,7 +33,7 @@ export class User extends Entity {
     return User._reconstruct(id, name, createdAt, updatedAt);
   }
 
-  public update({ name }: { name: Name }): User {
+  public update({ name }: { name?: Name }): User {
     return User._update(
       this,
       this.id,

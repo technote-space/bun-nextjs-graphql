@@ -1,9 +1,9 @@
 import type { Task } from '$/types';
-import type { Task as TaskEntity } from '#/domains/entities/task';
+import type { TaskOutputDto } from '#/usecases/task/dto';
 
 export type GraphQLSchemaType = Task;
 
-export const toGraphQLSchema = (task: TaskEntity): GraphQLSchemaType =>
+export const toGraphQLSchema = (task: TaskOutputDto): GraphQLSchemaType =>
   ({
     __typename: 'Task',
     id: task.id.value,

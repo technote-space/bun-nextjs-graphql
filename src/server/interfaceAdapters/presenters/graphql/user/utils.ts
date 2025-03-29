@@ -1,9 +1,9 @@
 import type { User } from '$/types';
-import type { User as UserEntity } from '#/domains/entities/user';
+import type { UserOutputDto } from '#/usecases/user/dto';
 
 export type GraphQLSchemaType = User;
 
-export const toGraphQLSchema = (user: UserEntity): GraphQLSchemaType =>
+export const toGraphQLSchema = (user: UserOutputDto): GraphQLSchemaType =>
   ({
     __typename: 'User',
     id: user.id.value,

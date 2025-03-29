@@ -8,7 +8,7 @@ import { FetchUserInteractor } from './interactor';
 
 describe('FetchUserInteractor', () => {
   test.each([[null], [{ user: User.create(new Name('test')) }]])(
-    '指定されたIDのユーザが返却される',
+    '指定されたIDのユーザーが返却される',
     async (context) => {
       // given
       const user = User.create(new Name('name'));
@@ -31,7 +31,7 @@ describe('FetchUserInteractor', () => {
     },
   );
 
-  test('指定されたIDのユーザが存在しない場合、エラーが発生する', async () => {
+  test('指定されたIDのユーザーが存在しない場合、エラーが発生する', async () => {
     // given
     const repository = new UserRepositoryMock();
     const interactor = new FetchUserInteractor(repository);

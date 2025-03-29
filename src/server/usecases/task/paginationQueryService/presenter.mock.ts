@@ -4,8 +4,7 @@ import type { TaskQueryServicePresenter } from './presenter';
 export class TaskQueryServicePresenterMock
   implements TaskQueryServicePresenter
 {
-  // biome-ignore lint/suspicious/noExplicitAny:
-  public paginate(result: PaginateTaskOutput): any {
+  public paginate(result: PaginateTaskOutput): PaginateTaskOutput {
     return result;
   }
 }

@@ -1,11 +1,10 @@
-import type { Task } from '#/domains/entities/task';
-import type { FetchTaskOutput } from './dto';
+import type { TaskOutputDto } from '../dto';
 import type { FetchTaskUseCase } from './usecase';
 
 export class FetchTaskUseCaseMock implements FetchTaskUseCase {
-  public constructor(private readonly task: Task) {}
+  public constructor(private readonly task: TaskOutputDto) {}
 
-  public async handle(): Promise<FetchTaskOutput> {
+  public async handle(): Promise<TaskOutputDto> {
     return this.task;
   }
 }

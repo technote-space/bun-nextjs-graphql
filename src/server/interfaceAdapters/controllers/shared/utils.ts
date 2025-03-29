@@ -4,9 +4,9 @@ import type {
   ValueObject,
 } from '@technote-space/vo-entity-ts';
 
-// biome-ignore lint/suspicious/noExplicitAny:
 export const getUpdateValue = <
   T,
+  // biome-ignore lint/suspicious/noExplicitAny:
   V extends ValueObject<any, any> | Entity | Collection<any>,
 >(
   value: T | undefined,

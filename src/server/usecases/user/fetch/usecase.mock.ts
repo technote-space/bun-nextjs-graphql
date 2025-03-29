@@ -1,11 +1,10 @@
-import type { User } from '#/domains/entities/user';
-import type { FetchUserOutput } from './dto';
+import type { UserOutputDto } from '../dto';
 import type { FetchUserUseCase } from './usecase';
 
 export class FetchUserUseCaseMock implements FetchUserUseCase {
-  public constructor(private readonly user: User) {}
+  public constructor(private readonly user: UserOutputDto) {}
 
-  public async handle(): Promise<FetchUserOutput> {
+  public async handle(): Promise<UserOutputDto> {
     return this.user;
   }
 }

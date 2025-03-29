@@ -1,7 +1,8 @@
-import type { User } from '#/domains/entities/user';
 import type { MaybeNullable } from '#/shared/types';
+import type { UserOutputDto } from './dto';
 
-export interface UserPresenter {
-  // biome-ignore lint/suspicious/noExplicitAny:
-  entity<T extends User>(user: T | null): NonNullable<any> | MaybeNullable<T>;
+export interface UserPresenter<Result> {
+  entity<T extends UserOutputDto>(
+    user: T | null,
+  ): NonNullable<Result> | MaybeNullable<T>;
 }

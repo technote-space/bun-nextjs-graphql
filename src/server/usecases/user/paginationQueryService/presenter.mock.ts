@@ -4,8 +4,7 @@ import type { UserQueryServicePresenter } from './presenter';
 export class UserQueryServicePresenterMock
   implements UserQueryServicePresenter
 {
-  // biome-ignore lint/suspicious/noExplicitAny:
-  public paginate(result: PaginateUserOutput): any {
+  public paginate(result: PaginateUserOutput): PaginateUserOutput {
     return result;
   }
 }
