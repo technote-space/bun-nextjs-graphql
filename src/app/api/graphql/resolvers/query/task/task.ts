@@ -1,13 +1,12 @@
 import type { GraphQLContext } from '$/context';
-import type { QueryResolvers, Task } from '$/types';
+import type { QueryResolvers } from '$/types';
+import { container } from 'tsyringe';
+import { FetchTaskController } from '#/interfaceAdapters/controllers/task/fetchController';
+import type { GraphQLSchemaType } from '#/interfaceAdapters/presenters/graphql/task/utils';
 
 export const task: Pick<Required<QueryResolvers<GraphQLContext>>, 'task'> = {
   task: async (_parent, { id }, { token }) =>
-    ({
-      id: 'task-id1',
-      title: 'task1',
-      description: 'task description1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }) as Task,
+    container
+      .resolve(FetchTaskController<GraphQLSchemaType>)
+      .invoke({ id, token }),
 };

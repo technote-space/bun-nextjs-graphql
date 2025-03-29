@@ -28,7 +28,7 @@ export class PrismaTaskPaginationQueryService
     const keywords = getKeywords(params.q);
     return paginate('Task', params, this.taskRepository.toEntity, this.prisma, {
       where: {
-        userId: session.getContextOrNull()?.user.id.value,
+        userId: params.userId ?? session.getContextOrNull()?.user.id.value,
         ...(keywords.length
           ? {
               AND: keywords.map((keyword) => ({

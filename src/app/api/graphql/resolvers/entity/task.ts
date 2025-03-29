@@ -1,12 +1,12 @@
 import type { GraphQLContext } from '$/context';
-import type { TaskResolvers, User } from '$/types';
+import type { TaskResolvers } from '$/types';
+import { container } from 'tsyringe';
+import { FetchUserController } from '#/interfaceAdapters/controllers/user/fetchController';
+import type { GraphQLSchemaType } from '#/interfaceAdapters/presenters/graphql/user/utils';
 
 export const Task: TaskResolvers<GraphQLContext> = {
-  user: async (parent) =>
-    ({
-      id: 'user-id1',
-      name: 'user1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }) as User,
+  user: async (parent, _, { token }) =>
+    container
+      .resolve(FetchUserController<GraphQLSchemaType>)
+      .invoke({ id: parent.userId, token }),
 };

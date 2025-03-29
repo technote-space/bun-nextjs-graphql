@@ -1,12 +1,12 @@
 import type { GraphQLContext } from '$/context';
-import type { QueryResolvers, User } from '$/types';
+import type { QueryResolvers } from '$/types';
+import { container } from 'tsyringe';
+import { FetchUserController } from '#/interfaceAdapters/controllers/user/fetchController';
+import type { GraphQLSchemaType } from '#/interfaceAdapters/presenters/graphql/user/utils';
 
 export const user: Pick<Required<QueryResolvers<GraphQLContext>>, 'user'> = {
   user: async (_parent, { id }, { token }) =>
-    ({
-      id: 'user-id1',
-      name: 'user1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }) as User,
+    container
+      .resolve(FetchUserController<GraphQLSchemaType>)
+      .invoke({ id, token }),
 };

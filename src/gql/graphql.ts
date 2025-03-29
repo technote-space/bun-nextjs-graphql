@@ -60,12 +60,12 @@ export type MutationCompleteTaskArgs = {
 
 
 export type MutationCreateTaskArgs = {
-  input: InputMaybe<CreateTaskInput>;
+  input: CreateTaskInput;
 };
 
 
 export type MutationCreateUserArgs = {
-  input: InputMaybe<CreateUserInput>;
+  input: CreateUserInput;
 };
 
 

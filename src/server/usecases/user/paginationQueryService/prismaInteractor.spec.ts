@@ -82,7 +82,7 @@ describe('PrismaUserPaginationQueryService', () => {
         page: 1,
         perPage: 20,
         name,
-        sortKey: 'title',
+        sortKey: 'name',
         sortOrder: 'asc',
       },
     );
@@ -99,7 +99,7 @@ describe('PrismaUserPaginationQueryService', () => {
       where: expectedWhere,
     });
     expect(findMany).toBeCalledWith({
-      orderBy: { title: 'asc' },
+      orderBy: { name: 'asc' },
       skip: 0,
       take: 20,
       where: expectedWhere,

@@ -61,12 +61,12 @@ export type MutationCompleteTaskArgs = {
 
 
 export type MutationCreateTaskArgs = {
-  input?: InputMaybe<CreateTaskInput>;
+  input: CreateTaskInput;
 };
 
 
 export type MutationCreateUserArgs = {
-  input?: InputMaybe<CreateUserInput>;
+  input: CreateUserInput;
 };
 
 
@@ -386,8 +386,8 @@ export type ListResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   completeTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationCompleteTaskArgs, 'id'>>;
-  createTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, Partial<MutationCreateTaskArgs>>;
-  createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<MutationCreateUserArgs>>;
+  createTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationCreateTaskArgs, 'input'>>;
+  createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationDeleteTaskArgs, 'id'>>;
   deleteUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
   updateTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationUpdateTaskArgs, 'id' | 'input'>>;

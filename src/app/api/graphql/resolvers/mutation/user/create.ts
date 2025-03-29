@@ -1,15 +1,15 @@
 import type { GraphQLContext } from '$/context';
-import type { MutationResolvers, User } from '$/types';
+import type { MutationResolvers } from '$/types';
+import { container } from 'tsyringe';
+import { CreateUserController } from '#/interfaceAdapters/controllers/user/createController';
+import type { GraphQLSchemaType } from '#/interfaceAdapters/presenters/graphql/user/utils';
 
 export const createUser: Pick<
   Required<MutationResolvers<GraphQLContext>>,
   'createUser'
 > = {
   createUser: async (_parent, { input }, { token }) =>
-    ({
-      id: 'user-id1',
-      name: 'user1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }) as User,
+    container
+      .resolve(CreateUserController<GraphQLSchemaType>)
+      .invoke({ input, token }),
 };

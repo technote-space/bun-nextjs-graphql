@@ -5,13 +5,16 @@ import type { PaginateUserOutput } from '#/usecases/user/paginationQueryService/
 import type { UserQueryServicePresenter } from '#/usecases/user/paginationQueryService/presenter';
 import { type GraphQLSchemaType, toGraphQLSchema } from './utils';
 
+export type GraphQLPaginationUserSchemaType = GraphQLPaginationResult<
+  GraphQLSchemaType,
+  'User'
+>;
+
 @singleton()
 export class GraphQLUserQueryServicePresenter
   implements UserQueryServicePresenter
 {
-  public paginate(
-    result: PaginateUserOutput,
-  ): GraphQLPaginationResult<GraphQLSchemaType> {
+  public paginate(result: PaginateUserOutput): GraphQLPaginationUserSchemaType {
     return getGraphQLPaginationResult(result, toGraphQLSchema, 'User');
   }
 }
