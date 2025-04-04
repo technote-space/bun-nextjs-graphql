@@ -53,6 +53,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "core-js": "^3.41.0",
     "postcss": "^8",
     "prisma": "^6.5.0",
     "tailwindcss": "^4.1.2",
