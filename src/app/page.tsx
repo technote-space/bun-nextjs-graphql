@@ -15,7 +15,9 @@ export default async function Home() {
   return (
     <main>
       <h1>Welcome, {session.user.name}!</h1>
-      <div><a href="/auth/logout">Logout</a></div>
+      <div>
+        <a href="/auth/logout">Logout</a>
+      </div>
     </main>
   );
 }
