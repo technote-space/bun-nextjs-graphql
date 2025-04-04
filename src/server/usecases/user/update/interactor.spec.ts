@@ -31,7 +31,7 @@ describe('UpdateUserInteractor', () => {
         new UserSession(
           { user },
           {
-            User: DITokens.UserRepository,
+            User: DITokens.UserPolicy,
           },
         ),
         user.id,
@@ -44,7 +44,7 @@ describe('UpdateUserInteractor', () => {
 
       expect(repository.calledMethods).toHaveLength(2);
       expect(repository.calledMethods[0].method).toBe('find');
-      expect(repository.calledMethods[1].method).toBe('update');
+      expect(repository.calledMethods[1].method).toBe('save');
     },
   );
 
@@ -64,7 +64,7 @@ describe('UpdateUserInteractor', () => {
         new UserSession(
           { user },
           {
-            User: DITokens.UserRepository,
+            User: DITokens.UserPolicy,
           },
         ),
         new Id(undefined),
@@ -99,7 +99,7 @@ describe('UpdateUserInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(context, {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         }),
         user.id,
         {},

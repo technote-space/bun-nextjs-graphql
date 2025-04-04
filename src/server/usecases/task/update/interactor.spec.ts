@@ -12,7 +12,7 @@ describe('UpdateTaskInteractor', () => {
   test.each([
     [
       new Title('updated title'),
-      new Description('updated title'),
+      new Description('updated description'),
       'updated title',
       'updated description',
     ],
@@ -38,7 +38,7 @@ describe('UpdateTaskInteractor', () => {
         new UserSession(
           { user },
           {
-            Task: DITokens.TaskRepository,
+            Task: DITokens.TaskPolicy,
           },
         ),
         task.id,
@@ -51,7 +51,7 @@ describe('UpdateTaskInteractor', () => {
 
       expect(repository.calledMethods).toHaveLength(2);
       expect(repository.calledMethods[0].method).toBe('find');
-      expect(repository.calledMethods[1].method).toBe('update');
+      expect(repository.calledMethods[1].method).toBe('save');
     },
   );
 
@@ -76,7 +76,7 @@ describe('UpdateTaskInteractor', () => {
         new UserSession(
           { user },
           {
-            Task: DITokens.TaskRepository,
+            Task: DITokens.TaskPolicy,
           },
         ),
         new Id(undefined),
@@ -116,7 +116,7 @@ describe('UpdateTaskInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(context, {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         }),
         task.id,
         {},

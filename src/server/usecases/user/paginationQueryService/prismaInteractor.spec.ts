@@ -16,14 +16,11 @@ describe('PrismaUserPaginationQueryService', () => {
   test.each([
     [
       undefined,
-      {
-        userId: 'user-id1',
-      },
+      {},
     ],
     [
       'a b  a',
       {
-        userId: 'user-id1',
         AND: [
           {
             name: { contains: 'a' },

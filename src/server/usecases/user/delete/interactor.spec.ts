@@ -21,7 +21,7 @@ describe('DeleteUserInteractor', () => {
       new UserSession(
         { user },
         {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         },
       ),
       user.id,
@@ -50,7 +50,7 @@ describe('DeleteUserInteractor', () => {
       new UserSession(
         { user },
         {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         },
       ),
       new Id(undefined),
@@ -87,7 +87,7 @@ describe('DeleteUserInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(context, {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         }),
         user.id,
       ),

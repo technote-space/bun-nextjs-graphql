@@ -22,7 +22,7 @@ describe('CreateUserInteractor', () => {
           ),
         },
         {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         },
       ),
       { name: new UserName('name'), email: new UserEmail('user@example.com') },
@@ -33,7 +33,7 @@ describe('CreateUserInteractor', () => {
     expect(result.email.value).toBe('user@example.com');
 
     expect(repository.calledMethods).toHaveLength(1);
-    expect(repository.calledMethods[0].method).toBe('create');
+    expect(repository.calledMethods[0].method).toBe('save');
   });
 
   test('未ログインの場合、エラーが発生する', async () => {
@@ -46,7 +46,7 @@ describe('CreateUserInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(null, {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         }),
         {
           name: new UserName('name'),

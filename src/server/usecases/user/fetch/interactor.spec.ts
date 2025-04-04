@@ -4,20 +4,11 @@ import { User } from '#/domains/entities/user';
 import { Id, UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { UserRepositoryMock } from '#/domains/repositories/userRepository.mock';
 import { UserSession } from '#/usecases/shared/session/userSession';
+import { UpdateUserInteractor } from '#/usecases/user/update/interactor';
 import { FetchUserInteractor } from './interactor';
 
 describe('FetchUserInteractor', () => {
-  test.each([
-    [null],
-    [
-      {
-        user: User.create(
-          new UserName('test'),
-          new UserEmail('test@example.com'),
-        ),
-      },
-    ],
-  ])('指定されたIDのユーザーが返却される', async (context) => {
+  test('指定されたIDのユーザーが返却される', async () => {
     // given
     const user = User.create(
       new UserName('name'),
@@ -28,9 +19,12 @@ describe('FetchUserInteractor', () => {
 
     // when
     const result = await interactor.handle(
-      new UserSession(context, {
-        User: DITokens.UserRepository,
-      }),
+      new UserSession(
+        { user },
+        {
+          User: DITokens.UserPolicy,
+        },
+      ),
       user.id,
     );
 
@@ -44,7 +38,11 @@ describe('FetchUserInteractor', () => {
 
   test('指定されたIDのユーザーが存在しない場合、エラーが発生する', async () => {
     // given
-    const repository = new UserRepositoryMock();
+    const user = User.create(
+      new UserName('name'),
+      new UserEmail('user@example.com'),
+    );
+    const repository = new UserRepositoryMock([user]);
     const interactor = new FetchUserInteractor(repository);
 
     // when
@@ -52,9 +50,43 @@ describe('FetchUserInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(null, {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         }),
-        new Id('id'),
+        new Id(undefined),
+      ),
+    ).rejects.toThrow();
+    expect(repository.calledMethods).toHaveLength(1);
+    expect(repository.calledMethods[0].method).toBe('find');
+  });
+
+  test.each([
+    [null],
+    [
+      {
+        user: User.create(
+          new UserName('test'),
+          new UserEmail('test@example.com'),
+        ),
+      },
+    ],
+  ])('権限がない場合、エラーが発生する', async (context) => {
+    // given
+    const user = User.create(
+      new UserName('name'),
+      new UserEmail('user@example.com'),
+    );
+    const repository = new UserRepositoryMock([user]);
+    const interactor = new UpdateUserInteractor(repository);
+
+    // when
+    // then
+    await expect(
+      interactor.handle(
+        new UserSession(context, {
+          User: DITokens.UserPolicy,
+        }),
+        user.id,
+        {},
       ),
     ).rejects.toThrow();
     expect(repository.calledMethods).toHaveLength(1);

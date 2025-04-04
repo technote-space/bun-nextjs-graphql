@@ -19,7 +19,7 @@ describe('FetchMeInteractor', () => {
       new UserSession(
         { user },
         {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         },
       ),
     );
@@ -38,7 +38,7 @@ describe('FetchMeInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(null, {
-          User: DITokens.UserRepository,
+          User: DITokens.UserPolicy,
         }),
       ),
     ).rejects.toThrow();

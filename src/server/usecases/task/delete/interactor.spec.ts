@@ -28,7 +28,7 @@ describe('DeleteTaskInteractor', () => {
       new UserSession(
         { user },
         {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         },
       ),
       task.id,
@@ -62,7 +62,7 @@ describe('DeleteTaskInteractor', () => {
       new UserSession(
         { user },
         {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         },
       ),
       new Id(undefined),
@@ -104,7 +104,7 @@ describe('DeleteTaskInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(context, {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         }),
         task.id,
       ),

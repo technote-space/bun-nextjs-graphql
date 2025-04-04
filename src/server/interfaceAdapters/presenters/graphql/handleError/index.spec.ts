@@ -18,7 +18,7 @@ describe('GraphQLHandleErrorPresenter', () => {
 
     // when
     // then
-    expect(() => presenter.output(exception)).toThrow('Unauthorized');
+    expect(() => presenter.output(exception)).toThrow('認証されていません');
   });
 
   test('ForbiddenがGraphQL用の出力に変換される', () => {
@@ -28,7 +28,7 @@ describe('GraphQLHandleErrorPresenter', () => {
 
     // when
     // then
-    expect(() => presenter.output(exception)).toThrow('Forbidden');
+    expect(() => presenter.output(exception)).toThrow('権限がありません');
   });
 
   test('BadRequestがGraphQL用の出力に変換される', () => {
@@ -38,7 +38,7 @@ describe('GraphQLHandleErrorPresenter', () => {
 
     // when
     // then
-    expect(() => presenter.output(exception)).toThrow('Bad Request');
+    expect(() => presenter.output(exception)).toThrow('不正なリクエストです');
   });
 
   test('InvalidControlがGraphQL用の出力に変換される', () => {
@@ -85,7 +85,9 @@ describe('GraphQLHandleErrorPresenter', () => {
 
     // when
     // then
-    expect(() => presenter.output(exception)).toThrow('予期していないエラー');
+    expect(() => presenter.output(exception)).toThrow(
+      '予期せぬエラーが発生しました',
+    );
   });
 
   test('その他のエラーがGraphQL用の出力に変換される', () => {

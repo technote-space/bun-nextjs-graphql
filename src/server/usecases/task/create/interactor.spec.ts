@@ -23,7 +23,7 @@ describe('CreateTaskInteractor', () => {
           ),
         },
         {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         },
       ),
       {
@@ -38,7 +38,7 @@ describe('CreateTaskInteractor', () => {
     expect(result.completedAt.value).toBeNull();
 
     expect(repository.calledMethods).toHaveLength(1);
-    expect(repository.calledMethods[0].method).toBe('create');
+    expect(repository.calledMethods[0].method).toBe('save');
   });
 
   test('未ログインの場合、エラーが発生する', async () => {
@@ -51,7 +51,7 @@ describe('CreateTaskInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(null, {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         }),
         {
           title: new Title('title'),

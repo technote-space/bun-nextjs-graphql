@@ -28,7 +28,7 @@ describe('OnCompleteTaskInteractor', () => {
       new UserSession(
         { user },
         {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         },
       ),
       task.id,
@@ -39,7 +39,7 @@ describe('OnCompleteTaskInteractor', () => {
 
     expect(repository.calledMethods).toHaveLength(2);
     expect(repository.calledMethods[0].method).toBe('find');
-    expect(repository.calledMethods[1].method).toBe('update');
+    expect(repository.calledMethods[1].method).toBe('save');
   });
 
   test('指定されたIDのタスクが存在しない場合、エラーが発生する', async () => {
@@ -63,7 +63,7 @@ describe('OnCompleteTaskInteractor', () => {
         new UserSession(
           { user },
           {
-            Task: DITokens.TaskRepository,
+            Task: DITokens.TaskPolicy,
           },
         ),
         new Id(undefined),
@@ -102,7 +102,7 @@ describe('OnCompleteTaskInteractor', () => {
     await expect(
       interactor.handle(
         new UserSession(context, {
-          Task: DITokens.TaskRepository,
+          Task: DITokens.TaskPolicy,
         }),
         task.id,
       ),
