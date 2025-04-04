@@ -15,7 +15,9 @@ export class UpdateUserUseCaseMock implements UpdateUserUseCase {
   ): Promise<UserOutputDto> {
     return User.reconstruct(
       this.user.id,
+      this.user.ssoId,
       input.name ?? this.user.name,
+      input.email ?? this.user.email,
       this.user.createdAt,
       new UpdatedAt(undefined),
     );

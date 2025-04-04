@@ -30,6 +30,7 @@ export type CreateTaskInput = {
 };
 
 export type CreateUserInput = {
+  email: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };
 
@@ -37,6 +38,16 @@ export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
 };
+
+export enum ErrorCode {
+  BadRequest = 'BAD_REQUEST',
+  Forbidden = 'FORBIDDEN',
+  InvalidControl = 'INVALID_CONTROL',
+  NotFound = 'NOT_FOUND',
+  Unauthorized = 'UNAUTHORIZED',
+  UnexpectedError = 'UNEXPECTED_ERROR',
+  ValidationError = 'VALIDATION_ERROR'
+}
 
 export type List = {
   items: Array<Node>;
@@ -105,6 +116,7 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  me: User;
   task: Task;
   tasks: TaskConnection;
   user: User;
@@ -179,12 +191,14 @@ export type UpdateTaskInput = {
 };
 
 export type UpdateUserInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = Node & {
   __typename?: 'User';
   createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   tasks: TaskConnection;
@@ -303,6 +317,7 @@ export type ResolversTypes = ResolversObject<{
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   Edge: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['Edge']>;
+  ErrorCode: ErrorCode;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   List: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['List']>;
@@ -408,6 +423,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   task?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<QueryTaskArgs, 'id'>>;
   tasks?: Resolver<ResolversTypes['TaskConnection'], ParentType, ContextType, RequireFields<QueryTasksArgs, 'page' | 'perPage' | 'sortKey' | 'sortOrder'>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
@@ -440,6 +456,7 @@ export type TaskEdgeResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tasks?: Resolver<ResolversTypes['TaskConnection'], ParentType, ContextType, RequireFields<UserTasksArgs, 'page' | 'perPage' | 'sortKey' | 'sortOrder'>>;

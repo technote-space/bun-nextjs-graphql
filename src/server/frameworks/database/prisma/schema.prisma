@@ -5,7 +5,6 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./client"
 }
 
 generator fabbrica {
@@ -16,6 +15,7 @@ generator fabbrica {
 
 model User {
   id        String    @id @default(cuid())
+  ssoId     String    @unique
   name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

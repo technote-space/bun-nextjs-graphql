@@ -1,24 +1,20 @@
 export type AuthorizedUser = Readonly<{
   id: string;
-  username: string;
   email: string;
 }>;
 
-export type CreateAuthorizedUserInput = Readonly<{
-  username: string;
+export type SaveAuthorizedUserInput = Readonly<{
+  id?: string;
   email: string;
+  password?: string;
 }>;
-
-export type UpdateAuthorizedUserInput = Partial<CreateAuthorizedUserInput>;
 
 export interface SSOClient {
-  find(id: string): Promise<AuthorizedUser>;
+  find(id: string): Promise<AuthorizedUser | null>;
 
   findByEmail(email: string): Promise<AuthorizedUser | null>;
 
-  create(input: CreateAuthorizedUserInput): Promise<AuthorizedUser>;
-
-  update(id: string, input: UpdateAuthorizedUserInput): Promise<void>;
+  save(input: SaveAuthorizedUserInput): Promise<AuthorizedUser>;
 
   resetPassword(id: string, password: string): Promise<void>;
 

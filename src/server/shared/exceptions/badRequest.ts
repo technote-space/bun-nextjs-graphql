@@ -1,4 +1,4 @@
-import { Exception } from './exception';
+import { Exception } from '@technote-space/vo-entity-ts';
 
 export class BadRequest extends Exception {
   public constructor(reason?: string) {

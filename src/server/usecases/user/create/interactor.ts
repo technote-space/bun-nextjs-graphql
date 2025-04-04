@@ -2,6 +2,7 @@ import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
 import { User } from '#/domains/entities/user';
 import type { UserRepository } from '#/domains/repositories/userRepository';
+import { transform } from '#/shared/utils';
 import type { UserSession } from '#/usecases/shared/session/userSession';
 import type { CreateUserInputDto } from '#/usecases/user/create/dto';
 import type { UserOutputDto } from '../dto';
@@ -18,10 +19,11 @@ export class CreateUserInteractor implements CreateUserUseCase {
     session: UserSession,
     input: CreateUserInputDto,
   ): Promise<UserOutputDto> {
-    const user = User.create(input.name);
-    await session.authorize('create', user);
-    return this.userRepository.transaction(async (client) =>
-      this.userRepository.save(client, user),
-    );
+    return transform(User.create(input.name, input.email), async (user) => {
+      await session.authorize('create', user);
+      return this.userRepository.transaction(async (client) =>
+        this.userRepository.save(client, user),
+      );
+    });
   }
 }

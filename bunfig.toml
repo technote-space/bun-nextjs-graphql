@@ -1,0 +1,2 @@
+[test]
+preload = ["./src/server/shared/test/setup.ts"]

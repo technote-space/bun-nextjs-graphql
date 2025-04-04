@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { DITokens } from '#/config/constants';
 import { User } from '#/domains/entities/user';
-import { Name } from '#/domains/entities/user/valueObjects';
+import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { UserRepositoryMock } from '#/domains/repositories/userRepository.mock';
 import { UserSession } from '#/usecases/shared/session/userSession';
 import { CreateUserInteractor } from './interactor';
@@ -15,16 +15,22 @@ describe('CreateUserInteractor', () => {
     // when
     const result = await interactor.handle(
       new UserSession(
-        { user: User.create(new Name('test')) },
+        {
+          user: User.create(
+            new UserName('test'),
+            new UserEmail('test@example.com'),
+          ),
+        },
         {
           User: DITokens.UserRepository,
         },
       ),
-      { name: new Name('name') },
+      { name: new UserName('name'), email: new UserEmail('user@example.com') },
     );
 
     // then
     expect(result.name.value).toBe('name');
+    expect(result.email.value).toBe('user@example.com');
 
     expect(repository.calledMethods).toHaveLength(1);
     expect(repository.calledMethods[0].method).toBe('create');
@@ -42,7 +48,10 @@ describe('CreateUserInteractor', () => {
         new UserSession(null, {
           User: DITokens.UserRepository,
         }),
-        { name: new Name('name') },
+        {
+          name: new UserName('name'),
+          email: new UserEmail('user@example.com'),
+        },
       ),
     ).rejects.toThrow();
     expect(repository.calledMethods).toHaveLength(0);

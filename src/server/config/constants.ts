@@ -6,6 +6,7 @@ export const DITokens = {
   UserSessionProvider: 'UserSessionProvider',
   HandleErrorUseCase: 'HandleErrorUseCase',
   HandleErrorNotifications: 'HandleErrorNotifications',
+  HandleErrorPresenter: 'HandleErrorPresenter',
 
   TaskRepository: 'TaskRepository',
   TaskPolicy: 'TaskPolicy',
@@ -20,6 +21,7 @@ export const DITokens = {
 
   UserRepository: 'UserRepository',
   UserPolicy: 'UserPolicy',
+  FetchMeUseCase: 'FetchMeUseCase',
   FetchUserUseCase: 'FetchUserUseCase',
   PaginateUserQueryService: 'PaginateUserQueryService',
   CreateUserUseCase: 'CreateUserUseCase',

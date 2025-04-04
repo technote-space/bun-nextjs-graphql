@@ -26,7 +26,7 @@ export class DeleteUserController<Result> extends BaseController<
     @inject(DITokens.UserPresenter)
     private readonly presenter: UserPresenter<Result>,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
-    @inject(DITokens.HandleErrorUseCase)
+    @inject(DITokens.HandleErrorPresenter)
     handleErrorPresenter: HandleErrorPresenter<Result>,
   ) {
     super(handleErrorUseCase, handleErrorPresenter);

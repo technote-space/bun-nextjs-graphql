@@ -1,5 +1,6 @@
-import type { Name } from '#/domains/entities/user/valueObjects';
+import type { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 
 export type CreateUserInputDto = {
-  name: Name;
+  name: UserName;
+  email: UserEmail;
 };

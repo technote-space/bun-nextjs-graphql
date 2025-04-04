@@ -6,6 +6,7 @@ enum UserSortKey {
 type User implements Node {
   id: ID! @complexity(value: 0)
   name: String! @complexity(value: 0)
+  email: String! @complexity(value: 0)
   createdAt: DateTime! @complexity(value: 0)
   updatedAt: DateTime! @complexity(value: 0)
 
@@ -30,13 +31,16 @@ type UserConnection implements Connection {
 
 input CreateUserInput {
   name: String!
+  email: String!
 }
 
 input UpdateUserInput {
   name: String
+  email: String
 }
 
 type Query {
+  me: User!
   user(id: ID!): User!
   users(
     page: Int = 1

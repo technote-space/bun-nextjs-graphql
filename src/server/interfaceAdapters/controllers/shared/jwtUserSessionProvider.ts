@@ -1,6 +1,6 @@
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
-import { Id } from '#/domains/entities/user/valueObjects';
+import { SsoId } from '#/domains/entities/user/valueObjects';
 import type { UserRepository } from '#/domains/repositories/userRepository';
 import type { SSOClient } from '#/frameworks/sso/client';
 import { UserSession } from '#/usecases/shared/session/userSession';
@@ -23,10 +23,10 @@ export class JwtUserSessionProvider implements UserSessionProvider {
 
     const payload = await this.client.getJwtPayload(token);
     const user = await this.repository.transaction(async (client) =>
-      this.repository.find(client, new Id(payload.sub)),
+      this.repository.findBySsoId(client, new SsoId(payload.sub)),
     );
     if (!user) {
-      throw new UserSession(null, this.policies);
+      return new UserSession(null, this.policies);
     }
 
     return new UserSession({ user }, this.policies);

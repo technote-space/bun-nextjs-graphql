@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { DITokens } from '#/config/constants';
 import { Description, Title } from '#/domains/entities/task/valueObjects';
 import { User } from '#/domains/entities/user';
-import { Name } from '#/domains/entities/user/valueObjects';
+import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { TaskRepositoryMock } from '#/domains/repositories/taskRepository.mock';
 import { UserSession } from '#/usecases/shared/session/userSession';
 import { CreateTaskInteractor } from './interactor';
@@ -16,7 +16,12 @@ describe('CreateTaskInteractor', () => {
     // when
     const result = await interactor.handle(
       new UserSession(
-        { user: User.create(new Name('test')) },
+        {
+          user: User.create(
+            new UserName('test'),
+            new UserEmail('user@example.com'),
+          ),
+        },
         {
           Task: DITokens.TaskRepository,
         },

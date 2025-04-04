@@ -1,7 +1,7 @@
-import { Exception } from './exception';
+import { Exception } from '@technote-space/vo-entity-ts';
 
 export class Unexpected extends Exception {
-  public constructor() {
-    super(500, '予期せぬエラーです');
+  public constructor(reason?: string) {
+    super(500, '予期せぬエラーが発生しました', { reason });
   }
 }

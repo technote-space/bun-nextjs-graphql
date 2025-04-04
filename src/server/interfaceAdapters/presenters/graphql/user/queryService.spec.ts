@@ -4,8 +4,10 @@ import { User } from '#/domains/entities/user';
 import {
   CreatedAt,
   Id,
-  Name,
+  SsoId,
   UpdatedAt,
+  UserEmail,
+  UserName,
 } from '#/domains/entities/user/valueObjects';
 import { GraphQLUserQueryServicePresenter } from './queryService';
 
@@ -14,7 +16,9 @@ describe('GraphQLUserQueryServicePresenter', () => {
     // given
     const user = User.reconstruct(
       new Id('id'),
-      new Name('test name'),
+      new SsoId('sso-id'),
+      new UserName('test name'),
+      new UserEmail('user@example.com'),
       new CreatedAt('2025-01-01T00:00:00.000Z'),
       new UpdatedAt('2025-12-31T23:59:59.999Z'),
     );
@@ -42,6 +46,7 @@ describe('GraphQLUserQueryServicePresenter', () => {
             __typename: 'User',
             id: 'id',
             name: 'test name',
+            email: 'user@example.com',
             createdAt: dayjs('2025-01-01T00:00:00.000Z').toDate(),
             updatedAt: dayjs('2025-12-31T23:59:59.999Z').toDate(),
             tasks: undefined as never,

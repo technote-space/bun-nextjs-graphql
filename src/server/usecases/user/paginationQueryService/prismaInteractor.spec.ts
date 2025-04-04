@@ -4,8 +4,10 @@ import { User } from '#/domains/entities/user';
 import {
   CreatedAt,
   Id,
-  Name,
+  SsoId,
   UpdatedAt,
+  UserEmail,
+  UserName,
 } from '#/domains/entities/user/valueObjects';
 import { UserSession } from '#/usecases/shared/session/userSession';
 import { PrismaUserPaginationQueryService } from './prismaInteractor';
@@ -34,12 +36,14 @@ describe('PrismaUserPaginationQueryService', () => {
     ],
   ])('ページネーション結果が返却される', async (name, expectedWhere) => {
     // given
-    const items = [...Array(5).keys()].map((index) => ({
-      id: `id${index}`,
-      userId: `user-id${index % 2}`,
-      title: `title${index}`,
-      description: `description${index}`,
-      completedAt: null,
+    const users = [...Array(5).keys()].map((index) => ({
+      id: `sso-id${index}`,
+      email: `test${index}@example.com`,
+    }));
+    const items = users.map((user, index) => ({
+      id: `user-id${index}`,
+      ssoId: user.id,
+      name: `name${index}`,
       createdAt: new Date(),
       updatedAt: new Date(),
     }));
@@ -56,7 +60,9 @@ describe('PrismaUserPaginationQueryService', () => {
         toEntity: (user) =>
           User.reconstruct(
             new Id(user.id),
-            new Name(user.name),
+            new SsoId(user.ssoId),
+            new UserName(user.name),
+            new UserEmail(users.find((u) => u.id === user.ssoId)?.email ?? ''),
             new CreatedAt(user.createdAt),
             new UpdatedAt(user.updatedAt),
           ),
@@ -69,7 +75,9 @@ describe('PrismaUserPaginationQueryService', () => {
         {
           user: User.reconstruct(
             new Id('user-id1'),
-            new Name('user name'),
+            new SsoId('sso-id1'),
+            new UserName('user name'),
+            new UserEmail('user1@example.com'),
             new CreatedAt(undefined),
             new UpdatedAt(undefined),
           ),

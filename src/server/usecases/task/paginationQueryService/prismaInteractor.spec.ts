@@ -12,8 +12,10 @@ import {
 import { User } from '#/domains/entities/user';
 import {
   CreatedAt as UserCreatedAt,
+  UserEmail,
   Id as UserId,
-  Name as UserName,
+  UserName,
+  SsoId as UserSsoId,
   UpdatedAt as UserUpdatedAt,
 } from '#/domains/entities/user/valueObjects';
 import { UserSession } from '#/usecases/shared/session/userSession';
@@ -87,7 +89,9 @@ describe('PrismaTaskPaginationQueryService', () => {
         {
           user: User.reconstruct(
             new UserId('user-id1'),
+            new UserSsoId('sso-id'),
             new UserName('user name'),
+            new UserEmail('user@example.com'),
             new UserCreatedAt(undefined),
             new UserUpdatedAt(undefined),
           ),

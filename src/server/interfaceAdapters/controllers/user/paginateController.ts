@@ -26,7 +26,7 @@ export class PaginateUserController<Result> extends BaseController<
     @inject(DITokens.UserQueryServicePresenter)
     private readonly presenter: UserQueryServicePresenter,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
-    @inject(DITokens.HandleErrorUseCase)
+    @inject(DITokens.HandleErrorPresenter)
     handleErrorPresenter: HandleErrorPresenter<Result>,
   ) {
     super(handleErrorUseCase, handleErrorPresenter);

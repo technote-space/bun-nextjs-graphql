@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { User } from '#/domains/entities/user';
-import { Name } from '#/domains/entities/user/valueObjects';
+import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { UserSessionProviderMock } from '#/interfaceAdapters/controllers/shared/userSessionProvider.mock';
 import { HandleErrorInteractor } from '#/usecases/handleError/interactor';
 import { HandleErrorPresenterMock } from '#/usecases/handleError/presenter.mock';
@@ -12,7 +12,10 @@ import { CreateUserController } from './createController';
 describe('CreateUserController', () => {
   test('コントローラーの呼び出しに成功する', async () => {
     // given
-    const user = User.create(new Name('test'));
+    const user = User.create(
+      new UserName('test'),
+      new UserEmail('user@example.com'),
+    );
     const sessionProvider = new UserSessionProviderMock({ user });
     const useCase = new CreateUserUseCaseMock();
     const presenter = new UserPresenterMock();
@@ -28,11 +31,12 @@ describe('CreateUserController', () => {
 
     // when
     const result = await controller.invoke({
-      input: { name: 'test' },
+      input: { name: 'test', email: 'test@example.com' },
       token: 'token',
     });
 
     // then
     expect(result?.name.value).toBe('test');
+    expect(result?.email.value).toBe('test@example.com');
   });
 });

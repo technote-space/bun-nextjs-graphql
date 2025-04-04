@@ -1,4 +1,4 @@
-import { Exception } from './exception';
+import { Exception } from '@technote-space/vo-entity-ts';
 
 export class NotFound extends Exception {
   public constructor(target: string, table?: string, id?: string) {

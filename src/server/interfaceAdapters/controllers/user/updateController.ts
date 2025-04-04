@@ -1,6 +1,6 @@
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
-import { Id, Name } from '#/domains/entities/user/valueObjects';
+import { Id, UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { BaseController } from '#/interfaceAdapters/controllers/shared/baseController';
 import type { UserSessionProvider } from '#/interfaceAdapters/controllers/shared/userSessionProvider';
 import { getUpdateValue } from '#/interfaceAdapters/controllers/shared/utils';
@@ -11,6 +11,7 @@ import type { UpdateUserUseCase } from '#/usecases/user/update/usecase';
 
 type UpdateUserInput = {
   name?: string | null;
+  email?: string | null;
 };
 type InputData = {
   id: string;
@@ -31,7 +32,7 @@ export class UpdateUserController<Result> extends BaseController<
     @inject(DITokens.UserPresenter)
     private readonly presenter: UserPresenter<Result>,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
-    @inject(DITokens.HandleErrorUseCase)
+    @inject(DITokens.HandleErrorPresenter)
     handleErrorPresenter: HandleErrorPresenter<Result>,
   ) {
     super(handleErrorUseCase, handleErrorPresenter);
@@ -43,7 +44,11 @@ export class UpdateUserController<Result> extends BaseController<
         await this.sessionProvider.getSession(token),
         new Id(id),
         {
-          name: getUpdateValue(input.name ?? undefined, (v) => new Name(v)),
+          name: getUpdateValue(input.name ?? undefined, (v) => new UserName(v)),
+          email: getUpdateValue(
+            input.email ?? undefined,
+            (v) => new UserEmail(v),
+          ),
         },
       ),
     );

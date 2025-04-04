@@ -1,12 +1,12 @@
-import type { NextApiRequest } from 'next';
+import type { NextRequest } from 'next/server';
 
 export class GraphQLContext {
   constructor(readonly token?: string) {}
 }
 
 export const getContext = async (
-  request: NextApiRequest,
+  request: NextRequest,
 ): Promise<GraphQLContext> => {
-  const [type, token] = request.headers.authorization?.split(' ') ?? [];
+  const [type, token] = request.headers.get('Authorization')?.split(' ') ?? [];
   return new GraphQLContext(type === 'Bearer' ? token : undefined);
 };

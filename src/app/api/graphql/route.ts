@@ -1,10 +1,11 @@
 import '^/server/config/registry';
-import { ComplexityPlugin } from '$/complexityPlugin';
+// import { ComplexityPlugin } from '$/complexityPlugin';
 import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { loadSchemaSync } from '@graphql-tools/load';
 import { addResolversToSchema } from '@graphql-tools/schema';
+import type { NextRequest } from 'next/server';
 import { getContext } from './context';
 import { resolvers } from './resolvers';
 
@@ -14,10 +15,10 @@ const schema = loadSchemaSync('src/graphql-schema/src/*.graphql', {
 
 const server = new ApolloServer({
   schema: addResolversToSchema({ schema, resolvers }),
-  plugins: [new ComplexityPlugin()],
+  // plugins: [new ComplexityPlugin()],
 });
 
-const handler = startServerAndCreateNextHandler(server, {
+const handler = startServerAndCreateNextHandler<NextRequest>(server, {
   context: (req) => getContext(req),
 });
 

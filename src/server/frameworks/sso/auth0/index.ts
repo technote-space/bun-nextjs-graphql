@@ -3,9 +3,8 @@ import { jwtDecode } from 'jwt-decode';
 import { singleton } from 'tsyringe';
 import type {
   AuthorizedUser,
-  CreateAuthorizedUserInput,
   SSOClient,
-  UpdateAuthorizedUserInput,
+  SaveAuthorizedUserInput,
 } from '#/frameworks/sso/client';
 import { BadRequest, Unauthorized } from '#/shared/exceptions';
 
@@ -30,98 +29,82 @@ export class Auth0SSOClient implements SSOClient {
     this.connection = config.connection;
   }
 
-  public async find(id: string): Promise<AuthorizedUser> {
-    const user = await this.client.users.get({ id });
-
-    // TODO: remove debug code
-    console.log(user);
-
-    if (user.status !== 200) {
-      throw new BadRequest('ユーザーが見つかりません');
+  public async find(id: string): Promise<AuthorizedUser | null> {
+    const response = await this.client.users.get({ id });
+    if (response.status !== 200) {
+      return null;
     }
 
     return {
       id,
-      username: user.data.username,
-      email: user.data.email,
+      email: response.data.email,
     };
   }
 
   public async findByEmail(email: string): Promise<AuthorizedUser | null> {
-    const users = await this.client.usersByEmail.getByEmail({ email });
+    const response = await this.client.usersByEmail.getByEmail({ email });
+    if (response.status !== 200) {
+      throw new BadRequest();
+    }
 
-    // TODO: remove debug code
-    console.log(users);
-
-    if (users.status !== 200 || !users.data.length) {
-      throw new BadRequest('ユーザーが見つかりません');
+    if (!response.data.length) {
+      return null;
     }
 
     return {
-      id: users.data[0].id,
-      username: users.data[0].username,
-      email: users.data[0].email,
+      id: response.data[0].user_id,
+      email: response.data[0].email,
     };
   }
 
-  public async create(
-    input: CreateAuthorizedUserInput,
-  ): Promise<AuthorizedUser> {
-    const user = await this.client.users.create({
-      email: input.email,
-      username: input.username,
-      connection: this.connection,
-      email_verified: false,
-    });
+  public async save(input: SaveAuthorizedUserInput): Promise<AuthorizedUser> {
+    const user = await (input.id
+      ? this.find(input.id)
+      : this.findByEmail(input.email));
+    if (!user) {
+      const response = await this.client.users.create({
+        email: input.email,
+        password: input.password ?? 'Test1234',
+        connection: this.connection,
+        email_verified: false,
+      });
+      if (response.status !== 201) {
+        throw new BadRequest('ユーザーの作成に失敗しました');
+      }
 
-    // TODO: remove debug code
-    console.log(user);
-
-    if (user.status !== 200) {
-      throw new BadRequest('ユーザーの作成に失敗しました');
+      return {
+        id: response.data.user_id,
+        email: response.data.email,
+      };
     }
 
-    return {
-      id: user.data.user_id,
-      username: user.data.username,
-      email: user.data.email,
-    };
-  }
-
-  public async update(
-    id: string,
-    input: UpdateAuthorizedUserInput,
-  ): Promise<void> {
-    const result = await this.client.users.update(
-      { id },
+    const response = await this.client.users.update(
+      { id: user.id },
       {
         email: input.email,
-        username: input.username,
+        password: input.password,
         connection: this.connection,
       },
     );
-
-    // TODO: remove debug code
-    console.log(result);
-
-    if (result.status !== 200) {
+    if (response.status !== 200) {
       throw new BadRequest('ユーザーの更新に失敗しました');
     }
+
+    return {
+      id: response.data.user_id,
+      email: response.data.email,
+    };
   }
 
   public async resetPassword(id: string, password: string): Promise<void> {
-    const result = await this.client.users.update(
+    const response = await this.client.users.update(
       { id },
       {
         password,
         connection: this.connection,
       },
     );
-
-    // TODO: remove debug code
-    console.log(result);
-
-    if (result.status !== 200) {
+    if (response.status !== 200) {
       throw new BadRequest('ユーザーの更新に失敗しました');
     }
   }
@@ -131,10 +114,10 @@ export class Auth0SSOClient implements SSOClient {
   }
 
   public async deleteAll(): Promise<void> {
-    const users = await this.client.users.getAll();
-    if (users.status !== 200 || !users.data.length) return;
+    const response = await this.client.users.getAll();
+    if (response.status !== 200 || !response.data.length) return;
 
-    await Promise.all(users.data.map((user) => this.delete(user.user_id)));
+    await Promise.all(response.data.map((user) => this.delete(user.user_id)));
 
     return this.deleteAll();
   }

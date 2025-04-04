@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { User } from '#/domains/entities/user';
-import { Name as UserName } from '#/domains/entities/user/valueObjects';
+import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { UserSessionProviderMock } from '#/interfaceAdapters/controllers/shared/userSessionProvider.mock';
 import { HandleErrorInteractor } from '#/usecases/handleError/interactor';
 import { HandleErrorPresenterMock } from '#/usecases/handleError/presenter.mock';
@@ -12,7 +12,10 @@ import { DeleteTaskController } from './deleteController';
 describe('DeleteTaskController', () => {
   test('コントローラーの呼び出しに成功する', async () => {
     // given
-    const user = User.create(new UserName('test'));
+    const user = User.create(
+      new UserName('test'),
+      new UserEmail('user@example.com'),
+    );
     const sessionProvider = new UserSessionProviderMock({ user });
     const useCase = new DeleteTaskUseCaseMock(null);
     const presenter = new TaskPresenterMock();

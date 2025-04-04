@@ -1,4 +1,5 @@
-import { singleton } from 'tsyringe';
+import { inject, singleton } from 'tsyringe';
+import { DITokens } from '#/config/constants';
 import { Task } from '#/domains/entities/task';
 import {
   CompletedAt,
@@ -11,6 +12,7 @@ import {
 import { Id as UserId } from '#/domains/entities/user/valueObjects';
 import type { TaskRepository } from '#/domains/repositories/taskRepository';
 import type {
+  PrismaClient,
   Task as PrismaTask,
   TransactionPrismaClient,
 } from '#/frameworks/database/prisma';
@@ -21,6 +23,10 @@ export class PrismaTaskRepository
   extends PrismaSharedRepository<PrismaTask, Task, 'Task'>
   implements TaskRepository<TransactionPrismaClient>
 {
+  public constructor(@inject(DITokens.PrismaClient) _prisma: PrismaClient) {
+    super(_prisma);
+  }
+
   public toEntity(task: PrismaTask): Task {
     return Task.reconstruct(
       new Id(task.id),

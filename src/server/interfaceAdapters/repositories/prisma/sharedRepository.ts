@@ -32,9 +32,11 @@ export abstract class PrismaSharedRepository<
   extends PrismaRepository
   implements Repository
 {
-  public abstract toEntity(value: P): E;
+  public abstract toEntity(value: P): E | Promise<E>;
 
-  protected abstract getUpsertParams(entity: E): UpsertCreateInput<M>;
+  protected abstract getUpsertParams(
+    entity: E,
+  ): UpsertCreateInput<M> | Promise<UpsertCreateInput<M>>;
 
   protected abstract get model(): Lowercase<M>;
 
@@ -70,14 +72,16 @@ export abstract class PrismaSharedRepository<
   ): Promise<E | null> {
     return transform(
       await this.findUnique(client)({ where: { id: id.value } }),
-      this.toEntity,
+      this.toEntity.bind(this),
     );
   }
 
   public async save(client: TransactionPrismaClient, entity: E): Promise<E> {
     return transform(
-      await this.upsert(client)(getUpsertParams(entity, this.getUpsertParams)),
-      this.toEntity,
+      await this.upsert(client)(
+        await getUpsertParams(entity, this.getUpsertParams.bind(this)),
+      ),
+      this.toEntity.bind(this),
     );
   }
 
@@ -90,7 +94,7 @@ export abstract class PrismaSharedRepository<
         await this.findUnique(client)({ where: { id: id.value } }),
         async () => this.deleteMany(client)({ where: { id: id.value } }),
       ),
-      this.toEntity,
+      this.toEntity.bind(this),
     );
   }
 }

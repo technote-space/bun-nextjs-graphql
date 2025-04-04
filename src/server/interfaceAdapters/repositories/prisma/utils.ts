@@ -15,18 +15,21 @@ type _Entity = Entity &
     updatedAt: DateObject;
   }>;
 
-// biome-ignore lint/suspicious/noExplicitAny:
-export const getUpsertParams = <T extends _Entity, U extends Record<any, any>>(
+export const getUpsertParams = async <
+  T extends _Entity,
+  // biome-ignore lint/suspicious/noExplicitAny:
+  U extends Record<any, any>,
+>(
   entity: T,
-  getInput: (entity: T) => U,
-): {
+  getInput: (entity: T) => U | Promise<U>,
+): Promise<{
   where: { id: string };
   create: UndefinedToNull<U> & { id: string; createdAt: Date; updatedAt: Date };
   update: UndefinedToNull<U> & { createdAt: Date; updatedAt: Date };
-} => {
+}> => {
   const input = {
     ...(Object.fromEntries(
-      Object.entries(getInput(entity)).map(([key, value]) => [
+      Object.entries(await getInput(entity)).map(([key, value]) => [
         key,
         value === undefined ? null : value,
       ]),

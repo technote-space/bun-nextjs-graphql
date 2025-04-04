@@ -26,7 +26,7 @@ export class OnCompleteTaskController<Result> extends BaseController<
     @inject(DITokens.TaskPresenter)
     private readonly presenter: TaskPresenter<Result>,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
-    @inject(DITokens.HandleErrorUseCase)
+    @inject(DITokens.HandleErrorPresenter)
     handleErrorPresenter: HandleErrorPresenter<Result>,
   ) {
     super(handleErrorUseCase, handleErrorPresenter);

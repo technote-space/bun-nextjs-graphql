@@ -5,24 +5,25 @@ import { User } from '#/domains/entities/user';
 import {
   CreatedAt,
   Id,
-  Name,
+  SsoId,
   UpdatedAt,
+  UserEmail,
+  UserName,
 } from '#/domains/entities/user/valueObjects';
 import type { UserRepository } from '#/domains/repositories/userRepository';
 import type { Client } from '#/frameworks/database/repository';
 import type { SSOClient } from '#/frameworks/sso/client';
 
-const getUserId = async (
+const getSsoId = async (
   ssoClient: SSOClient,
   u: (typeof users)[number],
 ): Promise<string> => {
   const user = await ssoClient.findByEmail(u.email);
   if (!user) {
-    const user = await ssoClient.create({
-      username: u.username,
+    const user = await ssoClient.save({
       email: u.email,
+      password: u.password,
     });
-    await ssoClient.resetPassword(user.id, u.password);
     return user.id;
   }
 
@@ -35,16 +36,21 @@ const findOrCreateUser = async (
   ssoClient: SSOClient,
   u: (typeof users)[number],
 ) => {
-  const id = await getUserId(ssoClient, u);
+  const ssoId = await getSsoId(ssoClient, u);
   const user =
-    (await repository.find(client, new Id(id))) ??
+    (await repository.findBySsoId(client, new SsoId(ssoId))) ??
     User.reconstruct(
-      new Id(id),
-      new Name(u.name),
+      new Id(undefined),
+      new SsoId(ssoId),
+      new UserName(u.name),
+      new UserEmail(u.email),
       new CreatedAt(undefined),
       new UpdatedAt(undefined),
     );
-  await repository.save(client, user.update({ name: new Name(u.name) }));
+  await repository.save(
+    client,
+    user.update({ name: new UserName(u.name), email: new UserEmail(u.email) }),
+  );
 };
 
 export const seedUsers = async () => {

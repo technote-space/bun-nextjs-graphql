@@ -26,7 +26,7 @@ export class PaginateTaskController<Result> extends BaseController<
     @inject(DITokens.TaskQueryServicePresenter)
     private readonly presenter: TaskQueryServicePresenter,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
-    @inject(DITokens.HandleErrorUseCase)
+    @inject(DITokens.HandleErrorPresenter)
     handleErrorPresenter: HandleErrorPresenter<Result>,
   ) {
     super(handleErrorUseCase, handleErrorPresenter);

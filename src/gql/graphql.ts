@@ -29,6 +29,7 @@ export type CreateTaskInput = {
 };
 
 export type CreateUserInput = {
+  email: Scalars['String']['input'];
   name: Scalars['String']['input'];
 };
 
@@ -36,6 +37,15 @@ export type Edge = {
   cursor: Scalars['String']['output'];
   node: Node;
 };
+
+export type ErrorCode =
+  | 'BAD_REQUEST'
+  | 'FORBIDDEN'
+  | 'INVALID_CONTROL'
+  | 'NOT_FOUND'
+  | 'UNAUTHORIZED'
+  | 'UNEXPECTED_ERROR'
+  | 'VALIDATION_ERROR';
 
 export type List = {
   items: Array<Node>;
@@ -104,6 +114,7 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  me: User;
   task: Task;
   tasks: TaskConnection;
   user: User;
@@ -176,12 +187,14 @@ export type UpdateTaskInput = {
 };
 
 export type UpdateUserInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = Node & {
   __typename?: 'User';
   createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   tasks: TaskConnection;

@@ -1,6 +1,6 @@
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
-import { Name } from '#/domains/entities/user/valueObjects';
+import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { BaseController } from '#/interfaceAdapters/controllers/shared/baseController';
 import type { UserSessionProvider } from '#/interfaceAdapters/controllers/shared/userSessionProvider';
 import type { HandleErrorPresenter } from '#/usecases/handleError/presenter';
@@ -10,6 +10,7 @@ import type { UserPresenter } from '#/usecases/user/presenter';
 
 type CreateUserInput = {
   name: string;
+  email: string;
 };
 type InputData = {
   input: CreateUserInput;
@@ -29,7 +30,7 @@ export class CreateUserController<Result> extends BaseController<
     @inject(DITokens.UserPresenter)
     private readonly presenter: UserPresenter<Result>,
     @inject(DITokens.HandleErrorUseCase) handleErrorUseCase: HandleErrorUseCase,
-    @inject(DITokens.HandleErrorUseCase)
+    @inject(DITokens.HandleErrorPresenter)
     handleErrorPresenter: HandleErrorPresenter<Result>,
   ) {
     super(handleErrorUseCase, handleErrorPresenter);
@@ -38,7 +39,8 @@ export class CreateUserController<Result> extends BaseController<
   protected async execute({ input, token }: InputData): Promise<Result> {
     return this.presenter.entity(
       await this.useCase.handle(await this.sessionProvider.getSession(token), {
-        name: new Name(input.name),
+        name: new UserName(input.name),
+        email: new UserEmail(input.email),
       }),
     );
   }
