@@ -14,10 +14,7 @@ import { PrismaUserPaginationQueryService } from './prismaInteractor';
 
 describe('PrismaUserPaginationQueryService', () => {
   test.each([
-    [
-      undefined,
-      {},
-    ],
+    [undefined, {}],
     [
       'a b  a',
       {
