@@ -4,6 +4,7 @@ import { User } from '#/domains/entities/user';
 import {
   CreatedAt,
   Id,
+  Role,
   SsoId,
   UpdatedAt,
   UserEmail,
@@ -48,6 +49,7 @@ export class PrismaUserRepository
       new SsoId(user.ssoId),
       new UserName(user.name),
       new UserEmail(ssoUser.email),
+      new Role(user.role),
       new CreatedAt(user.createdAt),
       new UpdatedAt(user.updatedAt),
     );
@@ -62,6 +64,7 @@ export class PrismaUserRepository
     return {
       name: user.name.value,
       ssoId: ssoUser.id,
+      role: user.role.value,
     };
   }
 

@@ -3,6 +3,7 @@ import { DITokens } from '#/config/constants';
 import { Description, Title } from '#/domains/entities/task/valueObjects';
 import { User } from '#/domains/entities/user';
 import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import { Role } from '#/domains/entities/user/valueObjects';
 import { TaskRepositoryMock } from '#/domains/repositories/taskRepository.mock';
 import { UserSession } from '#/usecases/shared/session/userSession';
 import { CreateTaskInteractor } from './interactor';
@@ -20,6 +21,7 @@ describe('CreateTaskInteractor', () => {
           user: User.create(
             new UserName('test'),
             new UserEmail('user@example.com'),
+            new Role('ADMIN'),
           ),
         },
         {

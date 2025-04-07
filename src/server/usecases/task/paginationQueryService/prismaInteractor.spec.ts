@@ -11,6 +11,7 @@ import {
 } from '#/domains/entities/task/valueObjects';
 import { User } from '#/domains/entities/user';
 import {
+  Role,
   CreatedAt as UserCreatedAt,
   UserEmail,
   Id as UserId,
@@ -92,6 +93,7 @@ describe('PrismaTaskPaginationQueryService', () => {
             new UserSsoId('sso-id'),
             new UserName('user name'),
             new UserEmail('user@example.com'),
+            new Role('EDITOR'),
             new UserCreatedAt(undefined),
             new UserUpdatedAt(undefined),
           ),

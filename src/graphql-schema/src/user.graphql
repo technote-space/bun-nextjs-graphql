@@ -3,6 +3,11 @@ enum UserSortKey {
   name
 }
 
+enum UserRole {
+  ADMIN
+  EDITOR
+}
+
 type User implements Node {
   id: ID! @complexity(value: 0)
   name: String! @complexity(value: 0)
@@ -32,11 +37,13 @@ type UserConnection implements Connection {
 input CreateUserInput {
   name: String!
   email: String!
+  role: UserRole!
 }
 
 input UpdateUserInput {
   name: String
   email: String
+  role: UserRole
 }
 
 type Query {

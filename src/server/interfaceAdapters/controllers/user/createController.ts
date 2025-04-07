@@ -1,6 +1,11 @@
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
-import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import {
+  Role,
+  UserEmail,
+  UserName,
+  type UserRole,
+} from '#/domains/entities/user/valueObjects';
 import { BaseController } from '#/interfaceAdapters/controllers/shared/baseController';
 import type { UserSessionProvider } from '#/interfaceAdapters/controllers/shared/userSessionProvider';
 import type { HandleErrorPresenter } from '#/usecases/handleError/presenter';
@@ -11,6 +16,7 @@ import type { UserPresenter } from '#/usecases/user/presenter';
 type CreateUserInput = {
   name: string;
   email: string;
+  role: UserRole;
 };
 type InputData = {
   input: CreateUserInput;
@@ -41,6 +47,7 @@ export class CreateUserController<Result> extends BaseController<
       await this.useCase.handle(await this.sessionProvider.getSession(token), {
         name: new UserName(input.name),
         email: new UserEmail(input.email),
+        role: new Role(input.role),
       }),
     );
   }

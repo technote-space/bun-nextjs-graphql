@@ -1,6 +1,11 @@
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
-import { Id, UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import {
+  Id,
+  UserEmail,
+  UserName,
+  type UserRole,
+} from '#/domains/entities/user/valueObjects';
 import { BaseController } from '#/interfaceAdapters/controllers/shared/baseController';
 import type { UserSessionProvider } from '#/interfaceAdapters/controllers/shared/userSessionProvider';
 import { getUpdateValue } from '#/interfaceAdapters/controllers/shared/utils';
@@ -12,6 +17,7 @@ import type { UpdateUserUseCase } from '#/usecases/user/update/usecase';
 type UpdateUserInput = {
   name?: string | null;
   email?: string | null;
+  role?: UserRole | null;
 };
 type InputData = {
   id: string;

@@ -3,6 +3,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "ssoId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'EDITOR',
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "deletedAt" DATETIME

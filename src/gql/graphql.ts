@@ -31,6 +31,7 @@ export type CreateTaskInput = {
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  role: UserRole;
 };
 
 export type Edge = {
@@ -189,6 +190,7 @@ export type UpdateTaskInput = {
 export type UpdateUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<UserRole>;
 };
 
 export type User = Node & {
@@ -221,6 +223,10 @@ export type UserEdge = Edge & {
   cursor: Scalars['String']['output'];
   node: User;
 };
+
+export type UserRole =
+  | 'ADMIN'
+  | 'EDITOR';
 
 export type UserSortKey =
   | 'id'

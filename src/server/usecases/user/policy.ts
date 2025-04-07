@@ -1,16 +1,16 @@
 import { singleton } from 'tsyringe';
 import type { User } from '#/domains/entities/user';
-import { type Action, PolicyBase } from '#/usecases/shared/session/policy';
+import { PolicyBase } from '#/usecases/shared/session/policy';
 import type { UserSessionContext } from '#/usecases/shared/session/userSession';
 
 @singleton()
 export class UserPolicy extends PolicyBase<User> {
   public async before(
     context: UserSessionContext | null,
-    action: Action,
   ): Promise<boolean | null> {
-    if (action === 'list' || action === 'create')
-      return this.isLoggedIn(context);
+    if (!this.isLoggedIn(context)) return false;
+    if (context.user.role.isAdmin()) return true;
+
     return null;
   }
 

@@ -4,6 +4,7 @@ import { User } from '#/domains/entities/user';
 import {
   CreatedAt,
   Id,
+  Role,
   SsoId,
   UpdatedAt,
   UserEmail,
@@ -57,6 +58,7 @@ describe('PrismaUserPaginationQueryService', () => {
             new SsoId(user.ssoId),
             new UserName(user.name),
             new UserEmail(users.find((u) => u.id === user.ssoId)?.email ?? ''),
+            new Role('EDITOR'),
             new CreatedAt(user.createdAt),
             new UpdatedAt(user.updatedAt),
           ),
@@ -72,6 +74,7 @@ describe('PrismaUserPaginationQueryService', () => {
             new SsoId('sso-id1'),
             new UserName('user name'),
             new UserEmail('user1@example.com'),
+            new Role('ADMIN'),
             new CreatedAt(undefined),
             new UpdatedAt(undefined),
           ),

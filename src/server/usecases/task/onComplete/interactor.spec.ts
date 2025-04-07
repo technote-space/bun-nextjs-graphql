@@ -4,6 +4,7 @@ import { Task } from '#/domains/entities/task';
 import { Description, Id, Title } from '#/domains/entities/task/valueObjects';
 import { User } from '#/domains/entities/user';
 import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import { Role } from '#/domains/entities/user/valueObjects';
 import { TaskRepositoryMock } from '#/domains/repositories/taskRepository.mock';
 import { UserSession } from '#/usecases/shared/session/userSession';
 import { OnCompleteTaskInteractor } from './interactor';
@@ -14,6 +15,7 @@ describe('OnCompleteTaskInteractor', () => {
     const user = User.create(
       new UserName('name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
     );
     const task = Task.create(
       user.id,
@@ -47,6 +49,7 @@ describe('OnCompleteTaskInteractor', () => {
     const user = User.create(
       new UserName('name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
     );
     const task = Task.create(
       user.id,
@@ -80,6 +83,7 @@ describe('OnCompleteTaskInteractor', () => {
         user: User.create(
           new UserName('test'),
           new UserEmail('test@example.com'),
+          new Role('EDITOR'),
         ),
       },
     ],
@@ -88,6 +92,7 @@ describe('OnCompleteTaskInteractor', () => {
     const user = User.create(
       new UserName('name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
     );
     const task = Task.create(
       user.id,

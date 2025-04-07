@@ -1,6 +1,7 @@
 import type {
   CreatedAt,
   Id,
+  Role,
   UpdatedAt,
   UserEmail,
   UserName,
@@ -10,6 +11,7 @@ export type UserOutputDto = {
   id: Id;
   name: UserName;
   email: UserEmail;
+  role: Role;
   createdAt: CreatedAt;
   updatedAt: UpdatedAt;
 };

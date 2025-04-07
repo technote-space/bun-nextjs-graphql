@@ -19,11 +19,14 @@ export class CreateUserInteractor implements CreateUserUseCase {
     session: UserSession,
     input: CreateUserInputDto,
   ): Promise<UserOutputDto> {
-    return transform(User.create(input.name, input.email), async (user) => {
-      await session.authorize('create', user);
-      return this.userRepository.transaction(async (client) =>
-        this.userRepository.save(client, user),
-      );
-    });
+    return transform(
+      User.create(input.name, input.email, input.role),
+      async (user) => {
+        await session.authorize('create', user);
+        return this.userRepository.transaction(async (client) =>
+          this.userRepository.save(client, user),
+        );
+      },
+    );
   }
 }

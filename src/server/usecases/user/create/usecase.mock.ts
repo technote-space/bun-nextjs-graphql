@@ -9,6 +9,6 @@ export class CreateUserUseCaseMock implements CreateUserUseCase {
     _: UserSession,
     input: CreateUserInputDto,
   ): Promise<UserOutputDto> {
-    return User.create(input.name, input.email);
+    return User.create(input.name, input.email, input.role);
   }
 }

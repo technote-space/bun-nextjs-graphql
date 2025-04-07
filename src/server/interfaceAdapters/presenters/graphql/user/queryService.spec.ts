@@ -4,6 +4,7 @@ import { User } from '#/domains/entities/user';
 import {
   CreatedAt,
   Id,
+  Role,
   SsoId,
   UpdatedAt,
   UserEmail,
@@ -19,6 +20,7 @@ describe('GraphQLUserQueryServicePresenter', () => {
       new SsoId('sso-id'),
       new UserName('test name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
       new CreatedAt('2025-01-01T00:00:00.000Z'),
       new UpdatedAt('2025-12-31T23:59:59.999Z'),
     );

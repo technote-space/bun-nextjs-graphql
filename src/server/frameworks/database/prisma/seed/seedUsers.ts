@@ -5,6 +5,7 @@ import { User } from '#/domains/entities/user';
 import {
   CreatedAt,
   Id,
+  Role,
   SsoId,
   UpdatedAt,
   UserEmail,
@@ -44,6 +45,7 @@ const findOrCreateUser = async (
       new SsoId(ssoId),
       new UserName(u.name),
       new UserEmail(u.email),
+      new Role(u.role),
       new CreatedAt(undefined),
       new UpdatedAt(undefined),
     );

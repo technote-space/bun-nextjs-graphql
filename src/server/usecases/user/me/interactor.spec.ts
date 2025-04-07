@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { DITokens } from '#/config/constants';
 import { User } from '#/domains/entities/user';
 import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import { Role } from '#/domains/entities/user/valueObjects';
 import { UserSession } from '#/usecases/shared/session/userSession';
 import { FetchMeInteractor } from './interactor';
 
@@ -11,6 +12,7 @@ describe('FetchMeInteractor', () => {
     const user = User.create(
       new UserName('name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
     );
     const interactor = new FetchMeInteractor();
 

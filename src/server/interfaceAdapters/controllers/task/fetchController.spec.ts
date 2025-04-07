@@ -2,7 +2,11 @@ import { describe, expect, test } from 'bun:test';
 import { Task } from '#/domains/entities/task';
 import { Description, Title } from '#/domains/entities/task/valueObjects';
 import { User } from '#/domains/entities/user';
-import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import {
+  Role,
+  UserEmail,
+  UserName,
+} from '#/domains/entities/user/valueObjects';
 import { UserSessionProviderMock } from '#/interfaceAdapters/controllers/shared/userSessionProvider.mock';
 import { HandleErrorInteractor } from '#/usecases/handleError/interactor';
 import { HandleErrorPresenterMock } from '#/usecases/handleError/presenter.mock';
@@ -17,6 +21,7 @@ describe('FetchTaskController', () => {
     const user = User.create(
       new UserName('test'),
       new UserEmail('user@example.com'),
+      new Role('ADMIN'),
     );
     const task = Task.create(
       user.id,

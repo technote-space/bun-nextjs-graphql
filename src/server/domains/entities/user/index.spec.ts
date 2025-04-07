@@ -3,6 +3,7 @@ import { User } from '.';
 import {
   CreatedAt,
   Id,
+  Role,
   SsoId,
   UpdatedAt,
   UserEmail,
@@ -17,11 +18,13 @@ describe('User', () => {
       const user = User.create(
         new UserName('name'),
         new UserEmail('user@example.com'),
+        new Role('ADMIN'),
       );
 
       // then
       expect(user.name.value).toBe('name');
       expect(user.email.value).toBe('user@example.com');
+      expect(user.role.value).toBe('ADMIN');
       expect(user.ssoId.value).toBeNull();
     });
   });
@@ -35,6 +38,7 @@ describe('User', () => {
         new SsoId('sso-id'),
         new UserName('name'),
         new UserEmail('user@example.com'),
+        new Role('EDITOR'),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -44,6 +48,7 @@ describe('User', () => {
       expect(user.ssoId.value).toBe('sso-id');
       expect(user.name.value).toBe('name');
       expect(user.email.value).toBe('user@example.com');
+      expect(user.role.value).toBe('EDITOR');
       expect(user.createdAt.value.toISOString()).toBe(
         '2025-01-01T00:00:00.000Z',
       );
@@ -64,6 +69,7 @@ describe('User', () => {
         new SsoId('sso-id'),
         new UserName('name'),
         new UserEmail('user@example.com'),
+        new Role('ADMIN'),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -72,6 +78,7 @@ describe('User', () => {
         new SsoId('sso-id'),
         new UserName('name'),
         new UserEmail('user@example.com'),
+        new Role('ADMIN'),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -92,6 +99,7 @@ describe('User', () => {
         new SsoId('sso-id'),
         new UserName('name'),
         new UserEmail('user@example.com'),
+        new Role('ADMIN'),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );

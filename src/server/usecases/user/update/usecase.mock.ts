@@ -18,6 +18,7 @@ export class UpdateUserUseCaseMock implements UpdateUserUseCase {
       this.user.ssoId,
       input.name ?? this.user.name,
       input.email ?? this.user.email,
+      input.role ?? this.user.role,
       this.user.createdAt,
       new UpdatedAt(undefined),
     );

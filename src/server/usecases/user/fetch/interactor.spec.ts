@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import { DITokens } from '#/config/constants';
 import { User } from '#/domains/entities/user';
 import { Id, UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import { Role } from '#/domains/entities/user/valueObjects';
 import { UserRepositoryMock } from '#/domains/repositories/userRepository.mock';
 import { UserSession } from '#/usecases/shared/session/userSession';
 import { UpdateUserInteractor } from '#/usecases/user/update/interactor';
@@ -13,6 +14,7 @@ describe('FetchUserInteractor', () => {
     const user = User.create(
       new UserName('name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
     );
     const repository = new UserRepositoryMock([user]);
     const interactor = new FetchUserInteractor(repository);
@@ -41,6 +43,7 @@ describe('FetchUserInteractor', () => {
     const user = User.create(
       new UserName('name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
     );
     const repository = new UserRepositoryMock([user]);
     const interactor = new FetchUserInteractor(repository);
@@ -66,6 +69,7 @@ describe('FetchUserInteractor', () => {
         user: User.create(
           new UserName('test'),
           new UserEmail('test@example.com'),
+          new Role('EDITOR'),
         ),
       },
     ],
@@ -74,6 +78,7 @@ describe('FetchUserInteractor', () => {
     const user = User.create(
       new UserName('name'),
       new UserEmail('user@example.com'),
+      new Role('EDITOR'),
     );
     const repository = new UserRepositoryMock([user]);
     const interactor = new UpdateUserInteractor(repository);

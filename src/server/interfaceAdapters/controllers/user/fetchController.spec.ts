@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import { User } from '#/domains/entities/user';
 import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
+import { Role } from '#/domains/entities/user/valueObjects';
 import { UserSessionProviderMock } from '#/interfaceAdapters/controllers/shared/userSessionProvider.mock';
 import { HandleErrorInteractor } from '#/usecases/handleError/interactor';
 import { HandleErrorPresenterMock } from '#/usecases/handleError/presenter.mock';
@@ -15,6 +16,7 @@ describe('FetchUserController', () => {
     const user = User.create(
       new UserName('test'),
       new UserEmail('user@example.com'),
+      new Role('ADMIN'),
     );
     const sessionProvider = new UserSessionProviderMock({ user });
     const useCase = new FetchUserUseCaseMock(user);

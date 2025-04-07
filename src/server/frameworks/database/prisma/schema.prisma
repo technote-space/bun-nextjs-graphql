@@ -13,10 +13,16 @@ generator fabbrica {
   output      = "./fabbrica"
 }
 
+enum UserRole {
+  ADMIN
+  EDITOR
+}
+
 model User {
   id        String    @id @default(cuid())
   ssoId     String    @unique
   name      String
+  role      UserRole  @default(EDITOR)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?

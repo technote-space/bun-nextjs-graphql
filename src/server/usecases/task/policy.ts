@@ -9,7 +9,10 @@ export class TaskPolicy extends PolicyBase<Task> {
     context: UserSessionContext | null,
     action: Action,
   ): Promise<boolean | null> {
-    if (action === 'list') return this.isLoggedIn(context);
+    if (!this.isLoggedIn(context)) return false;
+    if (context.user.role.isAdmin()) return true;
+
+    if (action === 'list') return true;
     return null;
   }
 

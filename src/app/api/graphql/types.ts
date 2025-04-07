@@ -32,6 +32,7 @@ export type CreateTaskInput = {
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
+  role: UserRole;
 };
 
 export type Edge = {
@@ -193,6 +194,7 @@ export type UpdateTaskInput = {
 export type UpdateUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<UserRole>;
 };
 
 export type User = Node & {
@@ -225,6 +227,11 @@ export type UserEdge = Edge & {
   cursor: Scalars['String']['output'];
   node: User;
 };
+
+export enum UserRole {
+  Admin = 'ADMIN',
+  Editor = 'EDITOR'
+}
 
 export enum UserSortKey {
   Id = 'id',
@@ -336,6 +343,7 @@ export type ResolversTypes = ResolversObject<{
   User: ResolverTypeWrapper<User>;
   UserConnection: ResolverTypeWrapper<UserConnection>;
   UserEdge: ResolverTypeWrapper<UserEdge>;
+  UserRole: UserRole;
   UserSortKey: UserSortKey;
 }>;
 

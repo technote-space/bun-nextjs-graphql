@@ -74,7 +74,9 @@ export abstract class PolicyBase<T extends Entity> implements Policy<T> {
     return false;
   }
 
-  protected isLoggedIn(context: UserSessionContext | null): boolean {
+  protected isLoggedIn(
+    context: UserSessionContext | null,
+  ): context is UserSessionContext {
     return context !== null;
   }
 }
