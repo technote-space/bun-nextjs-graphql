@@ -12,6 +12,7 @@ type User implements Node {
   id: ID! @complexity(value: 0)
   name: String! @complexity(value: 0)
   email: String! @complexity(value: 0)
+  role: UserRole! @complexity(value: 0)
   createdAt: DateTime! @complexity(value: 0)
   updatedAt: DateTime! @complexity(value: 0)
 

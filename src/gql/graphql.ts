@@ -199,6 +199,7 @@ export type User = Node & {
   email: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  role: UserRole;
   tasks: TaskConnection;
   updatedAt: Scalars['DateTime']['output'];
 };

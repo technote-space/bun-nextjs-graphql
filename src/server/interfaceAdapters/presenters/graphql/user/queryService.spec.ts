@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'bun:test';
+import type { UserRole } from '$/types';
 import dayjs from 'dayjs';
 import { User } from '#/domains/entities/user';
 import {
@@ -49,6 +50,7 @@ describe('GraphQLUserQueryServicePresenter', () => {
             id: 'id',
             name: 'test name',
             email: 'user@example.com',
+            role: 'EDITOR' as UserRole,
             createdAt: dayjs('2025-01-01T00:00:00.000Z').toDate(),
             updatedAt: dayjs('2025-12-31T23:59:59.999Z').toDate(),
             tasks: undefined as never,

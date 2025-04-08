@@ -9,6 +9,7 @@ export const toGraphQLSchema = (user: UserOutputDto): GraphQLSchemaType =>
     id: user.id.value,
     name: user.name.value,
     email: user.email.value,
+    role: user.role.value,
     createdAt: user.createdAt.value.toDate(),
     updatedAt: user.updatedAt.value.toDate(),
   }) as GraphQLSchemaType;

@@ -1,6 +1,6 @@
-import { prisma } from '#/frameworks/database/prisma';
 import { describe, expect, test } from 'bun:test';
 import type { UserRole } from '#/domains/entities/user/valueObjects';
+import { prisma } from '#/frameworks/database/prisma';
 import { E2ETestHelper } from '#/shared/test/e2eTestHelper';
 import { userFactory } from '#/shared/test/utils';
 
@@ -12,6 +12,7 @@ describe('User E2E Tests', () => {
         id
         email
         name
+        role
       }
     }
   `;
@@ -23,7 +24,7 @@ describe('User E2E Tests', () => {
   ])('should fetch a user by id', async (u, userRole) => {
     const user = await prisma.user.findFirstOrThrow({
       where: { ssoId: u.email },
-    })
+    });
 
     const result = await testHelper.executeQuery(
       GET_USER_QUERY,
@@ -38,6 +39,7 @@ describe('User E2E Tests', () => {
       id: user.id,
       email: u.email,
       name: u.name,
+      role: u.role,
     });
   });
 
@@ -68,4 +70,4 @@ describe('User E2E Tests', () => {
       ).rejects.toThrow();
     },
   );
-}); 
+});
