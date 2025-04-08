@@ -20,9 +20,9 @@ describe('Task E2E Tests', () => {
     [testHelper.getEditorUser().email, 'EDITOR'],
     [testHelper.getEditorUser().email, 'ADMIN'],
     [undefined, 'ADMIN'],
-  ])('should fetch a task by id', async (userId, userRole) => {
+  ])('should fetch a task by id', async (ssoId, userRole) => {
     const task = await taskFactory.create({
-      ...(userId && { user: { connect: { ssoId: userId } } }),
+      ...(ssoId && { user: { connect: { ssoId } } }),
       title: 'Test Task',
       description: 'Test Description',
     });
