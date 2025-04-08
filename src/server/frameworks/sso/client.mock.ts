@@ -1,3 +1,4 @@
+import { Unauthorized } from '#/shared/exceptions';
 import { Mock } from '#/shared/test/mock';
 import type {
   AuthorizedUser,
@@ -57,6 +58,10 @@ export class SSOClientMock extends Mock implements SSOClient {
 
   public async getJwtPayload(token: string): Promise<{ sub: string }> {
     this.methodCalled('getJwtPayload', [token]);
-    return { sub: token };
+    if (await this.find(token)) {
+      return { sub: token };
+    }
+
+    throw new Unauthorized();
   }
 }

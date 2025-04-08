@@ -51,7 +51,11 @@ const findOrCreateUser = async (
     );
   await repository.save(
     client,
-    user.update({ name: new UserName(u.name), email: new UserEmail(u.email) }),
+    user.update({
+      name: new UserName(u.name),
+      email: new UserEmail(u.email),
+      role: new Role(u.role),
+    }),
   );
 };
 
