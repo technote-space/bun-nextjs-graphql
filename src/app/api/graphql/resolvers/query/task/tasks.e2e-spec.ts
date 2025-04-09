@@ -40,7 +40,7 @@ describe('Tasks E2E Tests', () => {
   );
 
   test('should throw an error when unauthenticated', async () => {
-    await expect(
+    expect(
       testHelper.executeQuery(GET_TASKS_QUERY, {}, null),
     ).rejects.toThrow();
   });

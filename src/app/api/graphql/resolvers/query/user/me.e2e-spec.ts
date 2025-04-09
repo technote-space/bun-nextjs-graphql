@@ -51,9 +51,7 @@ describe('Me E2E Tests', () => {
     });
 
     test('should throw an error when unauthenticated', async () => {
-      await expect(
-        testHelper.executeQuery(GET_ME_QUERY, {}, null),
-      ).rejects.toThrow();
+      expect(testHelper.executeQuery(GET_ME_QUERY, {}, null)).rejects.toThrow();
     });
   });
 });

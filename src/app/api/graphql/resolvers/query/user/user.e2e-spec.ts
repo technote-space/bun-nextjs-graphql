@@ -43,7 +43,7 @@ describe('User E2E Tests', () => {
   });
 
   test('should throw an error when user is not found', async () => {
-    await expect(
+    expect(
       testHelper.executeAdminQuery(GET_USER_QUERY, {
         id: 'non-existent-id',
       }),
@@ -57,7 +57,7 @@ describe('User E2E Tests', () => {
         where: { ssoId: testHelper.getAdminUser().email },
       });
 
-      await expect(
+      expect(
         testHelper.executeQuery(
           GET_USER_QUERY,
           {

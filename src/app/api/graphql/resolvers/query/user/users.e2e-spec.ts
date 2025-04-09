@@ -180,7 +180,7 @@ describe('Users E2E Tests', () => {
     test.each([['EDITOR'], [null]])(
       'should throw an error when EDITOR tries to fetch users or when unauthenticated',
       async (userRole) => {
-        await expect(
+        expect(
           testHelper.executeQuery(
             GET_USERS_QUERY,
             {

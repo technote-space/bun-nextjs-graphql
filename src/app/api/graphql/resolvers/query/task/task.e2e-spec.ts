@@ -45,7 +45,7 @@ describe('Task E2E Tests', () => {
   });
 
   test('should throw an error when task is not found', async () => {
-    await expect(
+    expect(
       testHelper.executeAdminQuery(GET_TASK_QUERY, {
         id: 'non-existent-id',
       }),
@@ -60,7 +60,7 @@ describe('Task E2E Tests', () => {
         description: 'Test Description',
       });
 
-      await expect(
+      expect(
         testHelper.executeQuery(
           GET_TASK_QUERY,
           {
