@@ -26,14 +26,22 @@ export class PrismaUserPaginationQueryService
     await session.authorize('list', User.name);
 
     const keywords = getKeywords(params.name);
-    return paginate('User', params, this.userRepository.toEntity, this.prisma, {
-      where: {
-        ...(keywords.length
-          ? {
-              AND: keywords.map((keyword) => ({ name: { contains: keyword } })),
-            }
-          : {}),
+    return paginate(
+      'User',
+      params,
+      this.userRepository.toEntity.bind(this.userRepository),
+      this.prisma,
+      {
+        where: {
+          ...(keywords.length
+            ? {
+                AND: keywords.map((keyword) => ({
+                  name: { contains: keyword },
+                })),
+              }
+            : {}),
+        },
       },
-    });
+    );
   }
 }

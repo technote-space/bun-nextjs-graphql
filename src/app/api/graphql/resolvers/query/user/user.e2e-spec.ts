@@ -2,7 +2,6 @@ import { describe, expect, test } from 'bun:test';
 import type { UserRole } from '#/domains/entities/user/valueObjects';
 import { prisma } from '#/frameworks/database/prisma';
 import { E2ETestHelper } from '#/shared/test/e2eTestHelper';
-import { userFactory } from '#/shared/test/utils';
 
 describe('User E2E Tests', () => {
   const testHelper = new E2ETestHelper();
@@ -54,9 +53,8 @@ describe('User E2E Tests', () => {
   test.each([['EDITOR'], [null]])(
     "should throw an error when EDITOR tries to access other user's data or when unauthenticated",
     async (userRole) => {
-      const user = await userFactory.create({
-        name: 'Test User',
-        role: 'EDITOR',
+      const user = await prisma.user.findFirstOrThrow({
+        where: { ssoId: testHelper.getAdminUser().email },
       });
 
       await expect(

@@ -16,7 +16,6 @@ const clearSSOClient = async () => {
 
 const clearDatabase = async () => {
   await prisma.user.deleteMany();
-  await seedUsers();
 };
 
 const setupDatabase = async () => {
@@ -34,8 +33,8 @@ const setup = async () => {
   initialize({ prisma });
 
   beforeEach(async () => {
-    await clearSSOClient();
-    await clearDatabase();
+    await Promise.all([clearSSOClient(), clearDatabase()]);
+    await seedUsers();
   });
 
   afterEach(async () => {

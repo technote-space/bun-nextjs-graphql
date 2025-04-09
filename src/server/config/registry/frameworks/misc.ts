@@ -10,12 +10,16 @@ import { JwtUserSessionProvider } from '#/interfaceAdapters/controllers/shared/j
 if (process.env.E2E) {
   container.registerInstance(
     DITokens.SSOClient,
-    new SSOClientMock(
-      users.map((user) => ({
+    new SSOClientMock([
+      ...users.map((user) => ({
         id: user.email,
         email: user.email,
       })),
-    ),
+      ...[...Array(10)].map((_, i) => ({
+        id: `user${i}@example.com`,
+        email: `user${i}@example.com`,
+      })),
+    ]),
   );
 } else {
   container.registerInstance(
