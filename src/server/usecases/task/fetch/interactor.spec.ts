@@ -63,7 +63,7 @@ describe('FetchTaskInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(null, {
           Task: DITokens.TaskPolicy,
@@ -103,7 +103,7 @@ describe('FetchTaskInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(context, {
           Task: DITokens.TaskPolicy,

@@ -50,7 +50,7 @@ describe('CreateTaskInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(null, {
           Task: DITokens.TaskPolicy,

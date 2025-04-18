@@ -62,7 +62,7 @@ describe('UpdateUserInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(
           { user },
@@ -101,7 +101,7 @@ describe('UpdateUserInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(context, {
           User: DITokens.UserPolicy,

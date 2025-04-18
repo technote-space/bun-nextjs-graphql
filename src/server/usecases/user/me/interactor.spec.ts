@@ -37,7 +37,7 @@ describe('FetchMeInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(null, {
           User: DITokens.UserPolicy,

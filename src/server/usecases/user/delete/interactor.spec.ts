@@ -89,7 +89,7 @@ describe('DeleteUserInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(context, {
           User: DITokens.UserPolicy,

@@ -61,7 +61,7 @@ describe('OnCompleteTaskInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(
           { user },
@@ -104,7 +104,7 @@ describe('OnCompleteTaskInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(context, {
           Task: DITokens.TaskPolicy,

@@ -50,7 +50,7 @@ describe('FetchUserInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(null, {
           User: DITokens.UserPolicy,
@@ -85,7 +85,7 @@ describe('FetchUserInteractor', () => {
 
     // when
     // then
-    await expect(
+    expect(
       interactor.handle(
         new UserSession(context, {
           User: DITokens.UserPolicy,
