@@ -60,18 +60,20 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 className="text-xl font-bold mb-4">Create New Task</h2>
+    <div className="bg-card-background rounded-lg shadow p-6 mb-6 border border-card-border">
+      <h2 className="text-xl font-bold mb-4 text-foreground">
+        Create New Task
+      </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="p-3 bg-red-100 text-red-700 rounded">{error}</div>
+          <div className="p-3 bg-red-500/10 text-red-500 rounded">{error}</div>
         )}
 
         <div>
           <label
             htmlFor="title"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             Title
           </label>
@@ -80,7 +82,7 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
             placeholder="Enter task title"
           />
         </div>
@@ -88,7 +90,7 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
         <div>
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             Description
           </label>
@@ -97,7 +99,7 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
             placeholder="Enter task description"
           />
         </div>
@@ -106,7 +108,7 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+            className="w-full py-2 px-4 bg-button-primary text-button-primary-text rounded hover:bg-button-primary/90 disabled:opacity-50"
           >
             {loading ? 'Creating...' : 'Create Task'}
           </button>

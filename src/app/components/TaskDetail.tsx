@@ -96,22 +96,24 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
     }
   };
 
-  if (loading) return <div className="p-4">Loading task details...</div>;
+  if (loading)
+    return <div className="p-4 text-foreground">Loading task details...</div>;
   if (error)
     return <div className="p-4 text-red-500">Error: {error.message}</div>;
-  if (!data?.task) return <div className="p-4">Task not found</div>;
+  if (!data?.task)
+    return <div className="p-4 text-foreground">Task not found</div>;
 
   const task = data.task;
   const isCompleted = !!task.completedAt;
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+    <div className="bg-card-background rounded-lg shadow-lg p-6 max-w-2xl mx-auto border border-card-border">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Task Details</h2>
+        <h2 className="text-xl font-bold text-foreground">Task Details</h2>
         <button
           type="button"
           onClick={onClose}
-          className="text-gray-500 hover:text-gray-700"
+          className="text-foreground/70 hover:text-foreground"
         >
           Close
         </button>
@@ -121,7 +123,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
         <div>
           <label
             htmlFor="task-title"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             Title
           </label>
@@ -131,10 +133,13 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
             />
           ) : (
-            <p id="task-title" className="p-2 bg-gray-50 rounded">
+            <p
+              id="task-title"
+              className="p-2 bg-input-background rounded border border-input-border text-foreground"
+            >
               {task.title}
             </p>
           )}
@@ -143,7 +148,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
         <div>
           <label
             htmlFor="task-description"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             Description
           </label>
@@ -153,12 +158,12 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
             />
           ) : (
             <p
               id="task-description"
-              className="p-2 bg-gray-50 rounded whitespace-pre-wrap"
+              className="p-2 bg-input-background rounded whitespace-pre-wrap border border-input-border text-foreground"
             >
               {task.description}
             </p>
@@ -169,22 +174,28 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
           <div>
             <label
               htmlFor="task-created"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-foreground mb-1"
             >
               Created
             </label>
-            <p id="task-created" className="p-2 bg-gray-50 rounded">
+            <p
+              id="task-created"
+              className="p-2 bg-input-background rounded border border-input-border text-foreground"
+            >
               {new Date(task.createdAt).toLocaleString()}
             </p>
           </div>
           <div>
             <label
               htmlFor="task-updated"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-foreground mb-1"
             >
               Updated
             </label>
-            <p id="task-updated" className="p-2 bg-gray-50 rounded">
+            <p
+              id="task-updated"
+              className="p-2 bg-input-background rounded border border-input-border text-foreground"
+            >
               {new Date(task.updatedAt).toLocaleString()}
             </p>
           </div>
@@ -193,20 +204,23 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
         <div>
           <label
             htmlFor="task-status"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-foreground mb-1"
           >
             Status
           </label>
-          <p id="task-status" className="p-2 bg-gray-50 rounded">
+          <p
+            id="task-status"
+            className="p-2 bg-input-background rounded border border-input-border text-foreground"
+          >
             {isCompleted ? (
-              <span className="text-green-600">
+              <span className="text-green-500">
                 Completed on{' '}
                 {task.completedAt
                   ? new Date(task.completedAt).toLocaleString()
                   : ''}
               </span>
             ) : (
-              <span className="text-yellow-600">Not completed</span>
+              <span className="text-yellow-500">Not completed</span>
             )}
           </p>
         </div>
@@ -216,7 +230,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
             type="button"
             onClick={handleUpdate}
             disabled={updating}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+            className="px-4 py-2 bg-button-primary text-button-primary-text rounded hover:bg-button-primary/90 disabled:opacity-50"
           >
             {isEditing ? 'Save Changes' : 'Edit Task'}
           </button>
@@ -226,7 +240,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
               type="button"
               onClick={handleComplete}
               disabled={completing}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600/90 disabled:opacity-50"
             >
               Mark as Completed
             </button>
@@ -236,7 +250,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
             type="button"
             onClick={handleDelete}
             disabled={deleting}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 disabled:opacity-50"
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-500/90 disabled:opacity-50"
           >
             Delete Task
           </button>

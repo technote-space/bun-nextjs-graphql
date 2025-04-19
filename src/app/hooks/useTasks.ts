@@ -29,16 +29,23 @@ interface DeleteTaskResult {
 }
 
 // Hook for fetching tasks list
-export function useGetTasks(variables: {
-  page?: number;
-  perPage?: number;
-  sortKey?: TaskSortKey;
-  sortOrder?: SortOrder;
-  q?: string;
-}) {
+export function useGetTasks(
+  variables: {
+    page?: number;
+    perPage?: number;
+    sortKey?: TaskSortKey;
+    sortOrder?: SortOrder;
+    q?: string;
+  },
+  refreshTrigger?: number,
+) {
   return useQuery<{ tasks: TaskConnection }>(GET_TASKS, {
     variables,
     fetchPolicy: 'cache-and-network',
+    // This will cause the query to refetch when refreshTrigger changes
+    notifyOnNetworkStatusChange: true,
+    // Using refreshTrigger in options to trigger refetch when it changes
+    ...(refreshTrigger !== undefined ? { key: `tasks-${refreshTrigger}` } : {}),
   });
 }
 

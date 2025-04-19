@@ -6,22 +6,27 @@ import { useState } from 'react';
 
 interface TaskListProps {
   onTaskSelect: (taskId: string) => void;
+  refreshTrigger?: number;
 }
 
-export function TaskList({ onTaskSelect }: TaskListProps) {
+export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [sortKey, setSortKey] = useState<TaskSortKey>(TaskSortKey.ID);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.ASC);
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeSearchQuery, setActiveSearchQuery] = useState('');
 
-  const { loading, error, data } = useGetTasks({
-    page,
-    perPage,
-    sortKey,
-    sortOrder,
-    q: searchQuery || undefined,
-  });
+  const { loading, error, data } = useGetTasks(
+    {
+      page,
+      perPage,
+      sortKey,
+      sortOrder,
+      q: activeSearchQuery || undefined,
+    },
+    refreshTrigger,
+  );
 
   // Update perPage state if it's different from the server
   if (
@@ -56,7 +61,8 @@ export function TaskList({ onTaskSelect }: TaskListProps) {
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Reset to first page when searching
+    // Update the active search query and reset to first page
+    setActiveSearchQuery(searchQuery);
     setPage(1);
   };
 
@@ -79,11 +85,11 @@ export function TaskList({ onTaskSelect }: TaskListProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search tasks..."
-            className="flex-1 p-2 border rounded"
+            className="flex-1 p-2 border rounded bg-input-background border-input-border text-foreground"
           />
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded"
+            className="px-4 py-2 bg-button-primary text-button-primary-text rounded"
           >
             Search
           </button>
@@ -97,7 +103,7 @@ export function TaskList({ onTaskSelect }: TaskListProps) {
             id="sort-by"
             value={sortKey}
             onChange={handleSortChange}
-            className="p-2 border rounded"
+            className="p-2 border rounded bg-input-background border-input-border text-foreground"
           >
             <option value={TaskSortKey.ID}>ID</option>
             <option value={TaskSortKey.TITLE}>Title</option>
@@ -106,29 +112,29 @@ export function TaskList({ onTaskSelect }: TaskListProps) {
         <button
           type="button"
           onClick={handleOrderChange}
-          className="px-3 py-1 border rounded flex items-center gap-1"
+          className="px-3 py-1 border rounded flex items-center gap-1 bg-button-secondary text-button-secondary-text border-input-border"
         >
           {sortOrder === SortOrder.ASC ? '↑ Ascending' : '↓ Descending'}
         </button>
       </div>
 
       {tasks.length === 0 ? (
-        <div className="p-4 text-center border rounded">No tasks found</div>
+        <div className="p-4 text-center border rounded border-card-border text-foreground bg-card-background">
+          No tasks found
+        </div>
       ) : (
-        <div className="border rounded divide-y">
+        <div className="border rounded divide-y border-card-border bg-card-background">
           {tasks.map(({ node }) => (
             <button
               key={node.id}
               type="button"
-              className="p-4 hover:bg-gray-50 cursor-pointer w-full text-left"
+              className="p-4 hover:bg-hover-background cursor-pointer w-full text-left text-foreground"
               onClick={() => onTaskSelect(node.id)}
               aria-label={`View task: ${node.title}`}
             >
               <h3 className="font-medium">{node.title}</h3>
-              <p className="text-sm text-gray-600 line-clamp-2">
-                {node.description}
-              </p>
-              <div className="mt-2 flex items-center text-xs text-gray-500">
+              <p className="text-sm line-clamp-2">{node.description}</p>
+              <div className="mt-2 flex items-center text-xs">
                 <span>
                   {node.completedAt
                     ? `Completed: ${new Date(node.completedAt).toLocaleDateString()}`
@@ -151,17 +157,17 @@ export function TaskList({ onTaskSelect }: TaskListProps) {
           disabled={
             !data?.tasks.pageInfo || data?.tasks.pageInfo.currentPage <= 1
           }
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-button-secondary text-button-secondary-text rounded disabled:opacity-50"
         >
           Previous
         </button>
-        <div className="text-center">
+        <div className="text-center text-foreground">
           <span className="py-2">
             Page {data?.tasks.pageInfo.currentPage || page} of{' '}
             {data?.tasks.pageInfo.totalPage || 1}
           </span>
           {data?.tasks.pageInfo.totalCount !== undefined && (
-            <div className="text-sm text-gray-500">
+            <div className="text-sm">
               Total items: {data.tasks.pageInfo.totalCount}
             </div>
           )}
@@ -173,7 +179,7 @@ export function TaskList({ onTaskSelect }: TaskListProps) {
             !data?.tasks.pageInfo ||
             data?.tasks.pageInfo.currentPage >= data?.tasks.pageInfo.totalPage
           }
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-button-secondary text-button-secondary-text rounded disabled:opacity-50"
         >
           Next
         </button>

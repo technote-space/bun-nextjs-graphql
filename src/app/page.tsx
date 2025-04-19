@@ -6,22 +6,24 @@ export default async function Home() {
 
   if (!session) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <h1 className="text-2xl font-bold mb-6 text-center">TODO App</h1>
-          <p className="mb-6 text-center text-gray-600">
+      <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
+        <div className="bg-card-background p-8 rounded-lg shadow-md w-full max-w-md border border-card-border">
+          <h1 className="text-2xl font-bold mb-6 text-center text-foreground">
+            TODO App
+          </h1>
+          <p className="mb-6 text-center text-foreground/70">
             Please sign up or log in to manage your tasks.
           </p>
           <div className="flex flex-col gap-4">
             <a
               href="/auth/login?screen_hint=signup"
-              className="w-full py-2 px-4 bg-blue-500 text-white rounded text-center hover:bg-blue-600"
+              className="w-full py-2 px-4 bg-button-primary text-button-primary-text rounded text-center hover:bg-button-primary/90"
             >
               Sign up
             </a>
             <a
               href="/auth/login"
-              className="w-full py-2 px-4 bg-gray-200 text-gray-800 rounded text-center hover:bg-gray-300"
+              className="w-full py-2 px-4 bg-button-secondary text-button-secondary-text rounded text-center hover:bg-button-secondary/90"
             >
               Log in
             </a>
@@ -32,13 +34,15 @@ export default async function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4 bg-gray-50">
+    <main className="min-h-screen p-4 bg-background">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Welcome, {session.user.name}!</h1>
+          <h1 className="text-2xl font-bold text-foreground">
+            Welcome, {session.user.name}!
+          </h1>
           <a
             href="/auth/logout"
-            className="py-2 px-4 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+            className="py-2 px-4 bg-button-secondary text-button-secondary-text rounded hover:bg-button-secondary/90"
           >
             Logout
           </a>
