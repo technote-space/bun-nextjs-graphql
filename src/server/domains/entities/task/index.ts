@@ -120,4 +120,10 @@ export class Task extends Entity {
       completedAt: new CompletedAt(undefined),
     });
   }
+
+  public onStarted(): Task {
+    return this.update({
+      startedAt: new StartedAt(undefined),
+    });
+  }
 }

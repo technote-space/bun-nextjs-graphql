@@ -16,6 +16,7 @@ export const DITokens = {
   DeleteTaskUseCase: 'DeleteTaskUseCase',
   UpdateTaskUseCase: 'UpdateTaskUseCase',
   OnCompleteTaskUseCase: 'OnCompleteTaskUseCase',
+  OnStartTaskUseCase: 'OnStartTaskUseCase',
   TaskPresenter: 'TaskPresenter',
   TaskQueryServicePresenter: 'TaskQueryServicePresenter',
 

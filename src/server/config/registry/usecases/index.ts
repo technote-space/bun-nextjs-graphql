@@ -5,6 +5,7 @@ import { CreateTaskInteractor } from '#/usecases/task/create/interactor';
 import { DeleteTaskInteractor } from '#/usecases/task/delete/interactor';
 import { FetchTaskInteractor } from '#/usecases/task/fetch/interactor';
 import { OnCompleteTaskInteractor } from '#/usecases/task/onComplete/interactor';
+import { OnStartTaskInteractor } from '#/usecases/task/onStart/interactor';
 import { PrismaTaskPaginationQueryService } from '#/usecases/task/paginationQueryService/prismaInteractor';
 import { UpdateTaskInteractor } from '#/usecases/task/update/interactor';
 import { CreateUserInteractor } from '#/usecases/user/create/interactor';
@@ -26,6 +27,7 @@ container.registerSingleton(
   DITokens.OnCompleteTaskUseCase,
   OnCompleteTaskInteractor,
 );
+container.registerSingleton(DITokens.OnStartTaskUseCase, OnStartTaskInteractor);
 
 container.registerSingleton(DITokens.FetchMeUseCase, FetchMeInteractor);
 container.registerSingleton(DITokens.FetchUserUseCase, FetchUserInteractor);
