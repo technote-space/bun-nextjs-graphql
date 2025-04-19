@@ -1,6 +1,11 @@
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
-import { Description, Id, Title } from '#/domains/entities/task/valueObjects';
+import {
+  Description,
+  ExpiredAt,
+  Id,
+  Title,
+} from '#/domains/entities/task/valueObjects';
 import { BaseController } from '#/interfaceAdapters/controllers/shared/baseController';
 import type { UserSessionProvider } from '#/interfaceAdapters/controllers/shared/userSessionProvider';
 import { getUpdateValue } from '#/interfaceAdapters/controllers/shared/utils';
@@ -12,6 +17,7 @@ import type { UpdateTaskUseCase } from '#/usecases/task/update/usecase';
 type UpdateTaskInput = {
   title?: string | null;
   description?: string | null;
+  expiredAt?: Date | null;
 };
 type InputData = {
   id: string;
@@ -49,6 +55,7 @@ export class UpdateTaskController<Result> extends BaseController<
             input.description ?? undefined,
             (v) => new Description(v),
           ),
+          expiredAt: getUpdateValue(input.expiredAt, (v) => new ExpiredAt(v)),
         },
       ),
     );

@@ -47,6 +47,7 @@ describe('UpdateTaskController', () => {
       input: {
         title: 'updated title',
         description: 'updated description',
+        expiredAt: new Date('2025-01-01T00:00:00.000Z'),
       },
       token: 'token',
     });
@@ -54,5 +55,8 @@ describe('UpdateTaskController', () => {
     // then
     expect(result?.title.value).toBe('updated title');
     expect(result?.description.value).toBe('updated description');
+    expect(result?.expiredAt.value?.toISOString()).toBe(
+      '2025-01-01T00:00:00.000Z',
+    );
   });
 });

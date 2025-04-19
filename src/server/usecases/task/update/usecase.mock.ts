@@ -20,7 +20,7 @@ export class UpdateTaskUseCaseMock implements UpdateTaskUseCase {
       input.description ?? this.task.description,
       this.task.completedAt,
       this.task.startedAt,
-      this.task.expiredAt,
+      input.expiredAt ?? this.task.expiredAt,
       this.task.createdAt,
       new UpdatedAt(undefined),
     );
