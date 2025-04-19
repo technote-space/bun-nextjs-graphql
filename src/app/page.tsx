@@ -12,15 +12,9 @@ export default async function Home() {
             TODO App
           </h1>
           <p className="mb-6 text-center text-foreground/70">
-            Please sign up or log in to manage your tasks.
+            Please log in to manage your tasks.
           </p>
           <div className="flex flex-col gap-4">
-            <a
-              href="/auth/login?screen_hint=signup"
-              className="w-full py-2 px-4 bg-button-primary text-button-primary-text rounded text-center hover:bg-button-primary/90"
-            >
-              Sign up
-            </a>
             <a
               href="/auth/login"
               className="w-full py-2 px-4 bg-button-secondary text-button-secondary-text rounded text-center hover:bg-button-secondary/90"
