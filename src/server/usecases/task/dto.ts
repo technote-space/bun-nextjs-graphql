@@ -2,7 +2,9 @@ import type {
   CompletedAt,
   CreatedAt,
   Description,
+  ExpiredAt,
   Id,
+  StartedAt,
   Status,
   Title,
   UpdatedAt,
@@ -15,6 +17,8 @@ export type TaskOutputDto = {
   title: Title;
   description: Description;
   completedAt: CompletedAt;
+  startedAt: StartedAt;
+  expiredAt: ExpiredAt;
   createdAt: CreatedAt;
   updatedAt: UpdatedAt;
   status: Status;

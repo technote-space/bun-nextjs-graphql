@@ -1,11 +1,14 @@
 import { describe, expect, test } from 'bun:test';
+import { TaskStatus } from '$/types';
 import dayjs from 'dayjs';
 import { Task } from '#/domains/entities/task';
 import {
   CompletedAt,
   CreatedAt,
   Description,
+  ExpiredAt,
   Id,
+  StartedAt,
   Title,
   UpdatedAt,
 } from '#/domains/entities/task/valueObjects';
@@ -23,6 +26,8 @@ describe('GraphQLTaskPresenter', () => {
         new Title('test title'),
         new Description('test description'),
         new CompletedAt(completedAt),
+        new StartedAt(null),
+        new ExpiredAt(null),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -41,7 +46,7 @@ describe('GraphQLTaskPresenter', () => {
         completedAt: completedAt ? new Date(completedAt) : null,
         createdAt: dayjs('2025-01-01T00:00:00.000Z').toDate(),
         updatedAt: dayjs('2025-12-31T23:59:59.999Z').toDate(),
-        status: completedAt ? 'Completed' : 'Planned',
+        status: completedAt ? TaskStatus.Completed : TaskStatus.Planned,
         user: undefined as never,
       });
     },

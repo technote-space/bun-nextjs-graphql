@@ -5,7 +5,9 @@ import {
   CompletedAt,
   CreatedAt,
   Description,
+  ExpiredAt,
   Id,
+  StartedAt,
   Title,
   UpdatedAt,
 } from '#/domains/entities/task/valueObjects';
@@ -34,6 +36,8 @@ export class PrismaTaskRepository
       new Title(task.title),
       new Description(task.description),
       new CompletedAt(task.completedAt),
+      new StartedAt(task.startedAt),
+      new ExpiredAt(task.expiredAt),
       new CreatedAt(task.createdAt),
       new UpdatedAt(task.updatedAt),
     );
@@ -45,6 +49,8 @@ export class PrismaTaskRepository
       title: task.title.value,
       description: task.description.value,
       completedAt: task.completedAt.value?.toDate(),
+      startedAt: task.startedAt.value?.toDate(),
+      expiredAt: task.expiredAt.value?.toDate(),
     };
   }
 

@@ -11,6 +11,8 @@ export const toGraphQLSchema = (task: TaskOutputDto): GraphQLSchemaType =>
     title: task.title.value,
     description: task.description.value,
     completedAt: task.completedAt.value?.toDate() ?? null,
+    startedAt: task.startedAt.value?.toDate() ?? null,
+    expiredAt: task.expiredAt.value?.toDate() ?? null,
     createdAt: task.createdAt.value.toDate(),
     updatedAt: task.updatedAt.value.toDate(),
     status: task.status.value,

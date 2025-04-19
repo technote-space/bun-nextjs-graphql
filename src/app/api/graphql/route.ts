@@ -19,7 +19,7 @@ const server = new ApolloServer({
 });
 
 const handler = startServerAndCreateNextHandler<NextRequest>(server, {
-  context: (req) => getContext(req),
+  context: () => getContext(),
 });
 
 export { handler as GET, handler as POST };

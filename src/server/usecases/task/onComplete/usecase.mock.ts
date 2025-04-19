@@ -18,6 +18,8 @@ export class OnCompleteTaskUseCaseMock implements OnCompleteTaskUseCase {
       this.task.title,
       this.task.description,
       new CompletedAt(undefined),
+      this.task.startedAt,
+      this.task.expiredAt,
       this.task.createdAt,
       new UpdatedAt(undefined),
     );

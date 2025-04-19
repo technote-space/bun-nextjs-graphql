@@ -5,7 +5,9 @@ import {
   CompletedAt,
   CreatedAt,
   Description,
+  ExpiredAt,
   Id,
+  StartedAt,
   Title,
   UpdatedAt,
 } from '#/domains/entities/task/valueObjects';
@@ -58,6 +60,8 @@ describe('PrismaTaskPaginationQueryService', () => {
       title: `title${index}`,
       description: `description${index}`,
       completedAt: null,
+      startedAt: null,
+      expiredAt: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     }));
@@ -78,6 +82,8 @@ describe('PrismaTaskPaginationQueryService', () => {
             new Title(task.title),
             new Description(task.description),
             new CompletedAt(task.completedAt),
+            new StartedAt(task.startedAt),
+            new ExpiredAt(task.expiredAt),
             new CreatedAt(task.createdAt),
             new UpdatedAt(task.updatedAt),
           ),

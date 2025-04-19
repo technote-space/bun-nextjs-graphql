@@ -4,7 +4,9 @@ import {
   CompletedAt,
   CreatedAt,
   type Description,
+  ExpiredAt,
   Id,
+  StartedAt,
   Status,
   type Title,
   UpdatedAt,
@@ -17,6 +19,8 @@ export class Task extends Entity {
     public readonly title: Title,
     public readonly description: Description,
     public readonly completedAt: CompletedAt,
+    public readonly startedAt: StartedAt,
+    public readonly expiredAt: ExpiredAt,
     public readonly createdAt: CreatedAt,
     public readonly updatedAt: UpdatedAt,
   ) {
@@ -46,6 +50,8 @@ export class Task extends Entity {
       title,
       description,
       new CompletedAt(null),
+      new StartedAt(null),
+      new ExpiredAt(null),
       new CreatedAt(undefined),
       new UpdatedAt(undefined),
     );
@@ -57,6 +63,8 @@ export class Task extends Entity {
     title: Title,
     description: Description,
     completedAt: CompletedAt,
+    startedAt: StartedAt,
+    expiredAt: ExpiredAt,
     createdAt: CreatedAt,
     updatedAt: UpdatedAt,
   ): Task {
@@ -66,6 +74,8 @@ export class Task extends Entity {
       title,
       description,
       completedAt,
+      startedAt,
+      expiredAt,
       createdAt,
       updatedAt,
     );
@@ -75,10 +85,14 @@ export class Task extends Entity {
     title,
     description,
     completedAt,
+    startedAt,
+    expiredAt,
   }: {
     title?: Title;
     description?: Description;
     completedAt?: CompletedAt;
+    startedAt?: StartedAt;
+    expiredAt?: ExpiredAt;
   }): Task {
     return Task._update(
       this,
@@ -87,6 +101,8 @@ export class Task extends Entity {
       title ?? this.title,
       description ?? this.description,
       completedAt ?? this.completedAt,
+      startedAt ?? this.startedAt,
+      expiredAt ?? this.expiredAt,
       this.createdAt,
       new UpdatedAt(undefined),
     );

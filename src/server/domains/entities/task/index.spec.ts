@@ -5,7 +5,9 @@ import {
   CompletedAt,
   CreatedAt,
   Description,
+  ExpiredAt,
   Id,
+  StartedAt,
   Title,
   UpdatedAt,
 } from './valueObjects';
@@ -26,13 +28,15 @@ describe('Task', () => {
       expect(task.title.value).toBe('title');
       expect(task.description.value).toBe('description');
       expect(task.completedAt.value).toBeNull();
+      expect(task.startedAt.value).toBeNull();
+      expect(task.expiredAt.value).toBeNull();
     });
   });
 
   describe('reconstruct', () => {
     test.each([[null], ['2025-01-02T00:00:00.000Z']])(
       'インスタンスが復元される',
-      (completedAt) => {
+      (date) => {
         // given
         // when
         const task = Task.reconstruct(
@@ -40,7 +44,9 @@ describe('Task', () => {
           new UserId('user-id'),
           new Title('title'),
           new Description('description'),
-          new CompletedAt(completedAt),
+          new CompletedAt(date),
+          new StartedAt(date),
+          new ExpiredAt(date),
           new CreatedAt('2025-01-01T00:00:00.000Z'),
           new UpdatedAt('2025-12-31T23:59:59.999Z'),
         );
@@ -50,7 +56,9 @@ describe('Task', () => {
         expect(task.userId.value).toBe('user-id');
         expect(task.title.value).toBe('title');
         expect(task.description.value).toBe('description');
-        expect(task.completedAt.value?.toISOString() ?? null).toBe(completedAt);
+        expect(task.completedAt.value?.toISOString() ?? null).toBe(date);
+        expect(task.startedAt.value?.toISOString() ?? null).toBe(date);
+        expect(task.expiredAt.value?.toISOString() ?? null).toBe(date);
         expect(task.createdAt.value.toISOString()).toBe(
           '2025-01-01T00:00:00.000Z',
         );
@@ -73,6 +81,8 @@ describe('Task', () => {
         new Title('title'),
         new Description('description'),
         new CompletedAt(null),
+        new StartedAt(null),
+        new ExpiredAt(null),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -82,6 +92,8 @@ describe('Task', () => {
         new Title('title'),
         new Description('description'),
         new CompletedAt(null),
+        new StartedAt(null),
+        new ExpiredAt(null),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -99,14 +111,16 @@ describe('Task', () => {
       [null, '2026-01-01T00:00:00.000Z'],
       ['2025-01-01T00:00:00.000Z', '2026-01-01T00:00:00.000Z'],
       ['2025-01-01T00:00:00.000Z', null],
-    ])('インスタンスが更新される', (completedAt, updateCompletedAt) => {
+    ])('インスタンスが更新される', (date, updateDate) => {
       // given
       const task = Task.reconstruct(
         new Id('id'),
         new UserId('user-id'),
         new Title('title'),
         new Description('description'),
-        new CompletedAt(completedAt),
+        new CompletedAt(date),
+        new StartedAt(date),
+        new ExpiredAt(date),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -115,14 +129,16 @@ describe('Task', () => {
       const result = task.update({
         title: new Title('updated title'),
         description: new Description('updated description'),
-        completedAt: new CompletedAt(updateCompletedAt),
+        completedAt: new CompletedAt(updateDate),
+        startedAt: new StartedAt(updateDate),
+        expiredAt: new ExpiredAt(updateDate),
       });
 
       expect(result.title.value).toBe('updated title');
       expect(result.description.value).toBe('updated description');
-      expect(result.completedAt.value?.toISOString() ?? null).toBe(
-        updateCompletedAt,
-      );
+      expect(result.completedAt.value?.toISOString() ?? null).toBe(updateDate);
+      expect(result.startedAt.value?.toISOString() ?? null).toBe(updateDate);
+      expect(result.expiredAt.value?.toISOString() ?? null).toBe(updateDate);
     });
   });
 
