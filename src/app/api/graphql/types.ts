@@ -25,6 +25,7 @@ export type Connection = {
 
 export type CreateTaskInput = {
   description: Scalars['String']['input'];
+  expiredAt?: InputMaybe<Scalars['DateTime']['input']>;
   title: Scalars['String']['input'];
   userId: Scalars['ID']['input'];
 };
@@ -62,6 +63,7 @@ export type Mutation = {
   createUser: User;
   deleteTask?: Maybe<Task>;
   deleteUser?: Maybe<User>;
+  startTask: Task;
   updateTask: Task;
   updateUser: User;
 };
@@ -88,6 +90,11 @@ export type MutationDeleteTaskArgs = {
 
 
 export type MutationDeleteUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationStartTaskArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -426,6 +433,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<MutationDeleteTaskArgs, 'id'>>;
   deleteUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
+  startTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationStartTaskArgs, 'id'>>;
   updateTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationUpdateTaskArgs, 'id' | 'input'>>;
   updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'input'>>;
 }>;

@@ -24,6 +24,7 @@ export type Connection = {
 
 export type CreateTaskInput = {
   description: Scalars['String']['input'];
+  expiredAt?: InputMaybe<Scalars['DateTime']['input']>;
   title: Scalars['String']['input'];
   userId: Scalars['ID']['input'];
 };
@@ -60,6 +61,7 @@ export type Mutation = {
   createUser: User;
   deleteTask: Maybe<Task>;
   deleteUser: Maybe<User>;
+  startTask: Task;
   updateTask: Task;
   updateUser: User;
 };
@@ -86,6 +88,11 @@ export type MutationDeleteTaskArgs = {
 
 
 export type MutationDeleteUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationStartTaskArgs = {
   id: Scalars['ID']['input'];
 };
 
