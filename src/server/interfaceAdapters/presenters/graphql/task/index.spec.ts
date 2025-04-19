@@ -18,16 +18,16 @@ import { GraphQLTaskPresenter } from '.';
 describe('GraphQLTaskPresenter', () => {
   test.each([[null], ['2025-02-01T00:00:00.000Z']])(
     'GraphQL用の出力に変換される',
-    (completedAt) => {
+    (date) => {
       // given
       const task = Task.reconstruct(
         new Id('id'),
         new UserId('user-id'),
         new Title('test title'),
         new Description('test description'),
-        new CompletedAt(completedAt),
-        new StartedAt(null),
-        new ExpiredAt(null),
+        new CompletedAt(date),
+        new StartedAt(date),
+        new ExpiredAt(date),
         new CreatedAt('2025-01-01T00:00:00.000Z'),
         new UpdatedAt('2025-12-31T23:59:59.999Z'),
       );
@@ -43,10 +43,12 @@ describe('GraphQLTaskPresenter', () => {
         userId: 'user-id',
         title: 'test title',
         description: 'test description',
-        completedAt: completedAt ? new Date(completedAt) : null,
+        completedAt: date ? new Date(date) : null,
+        startedAt: date ? new Date(date) : null,
+        expiredAt: date ? new Date(date) : null,
         createdAt: dayjs('2025-01-01T00:00:00.000Z').toDate(),
         updatedAt: dayjs('2025-12-31T23:59:59.999Z').toDate(),
-        status: completedAt ? TaskStatus.Completed : TaskStatus.Planned,
+        status: date ? TaskStatus.Completed : TaskStatus.Planned,
         user: undefined as never,
       });
     },

@@ -158,4 +158,99 @@ describe('Task', () => {
       expect(result.completedAt.value).not.toBeNull();
     });
   });
+
+  describe('status', () => {
+    test('completedAtが設定されている場合はCompletedが返却される', () => {
+      // given
+      const task = Task.reconstruct(
+        new Id('id'),
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+        new CompletedAt('2025-01-01T00:00:00.000Z'),
+        new StartedAt('2024-01-01T00:00:00.000Z'),
+        new ExpiredAt('2026-01-01T00:00:00.000Z'),
+        new CreatedAt('2023-01-01T00:00:00.000Z'),
+        new UpdatedAt('2023-01-01T00:00:00.000Z'),
+      );
+
+      // when
+      const result = task.status;
+
+      // then
+      expect(result.value).toBe('Completed');
+    });
+
+    test('expiredAtが過去の日付の場合はExpiredが返却される', () => {
+      // given
+      const pastDate = new Date();
+      pastDate.setDate(pastDate.getDate() - 1); // 1日前の日付
+
+      const task = Task.reconstruct(
+        new Id('id'),
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+        new CompletedAt(null),
+        new StartedAt('2024-01-01T00:00:00.000Z'),
+        new ExpiredAt(pastDate.toISOString()),
+        new CreatedAt('2023-01-01T00:00:00.000Z'),
+        new UpdatedAt('2023-01-01T00:00:00.000Z'),
+      );
+
+      // when
+      const result = task.status;
+
+      // then
+      expect(result.value).toBe('Expired');
+    });
+
+    test('startedAtが設定されている場合はInProgressが返却される', () => {
+      // given
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 1); // 1日後の日付
+
+      const task = Task.reconstruct(
+        new Id('id'),
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+        new CompletedAt(null),
+        new StartedAt('2024-01-01T00:00:00.000Z'),
+        new ExpiredAt(futureDate.toISOString()),
+        new CreatedAt('2023-01-01T00:00:00.000Z'),
+        new UpdatedAt('2023-01-01T00:00:00.000Z'),
+      );
+
+      // when
+      const result = task.status;
+
+      // then
+      expect(result.value).toBe('InProgress');
+    });
+
+    test('completedAt, expiredAt, startedAtが設定されていない場合はPlannedが返却される', () => {
+      // given
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 1); // 1日後の日付
+
+      const task = Task.reconstruct(
+        new Id('id'),
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+        new CompletedAt(null),
+        new StartedAt(null),
+        new ExpiredAt(futureDate.toISOString()),
+        new CreatedAt('2023-01-01T00:00:00.000Z'),
+        new UpdatedAt('2023-01-01T00:00:00.000Z'),
+      );
+
+      // when
+      const result = task.status;
+
+      // then
+      expect(result.value).toBe('Planned');
+    });
+  });
 });
