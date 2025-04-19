@@ -13,4 +13,5 @@ export const toGraphQLSchema = (task: TaskOutputDto): GraphQLSchemaType =>
     completedAt: task.completedAt.value?.toDate() ?? null,
     createdAt: task.createdAt.value.toDate(),
     updatedAt: task.updatedAt.value.toDate(),
+    status: task.status.value,
   }) as GraphQLSchemaType;

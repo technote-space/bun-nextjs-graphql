@@ -136,6 +136,7 @@ export type QueryTasksArgs = {
   q?: InputMaybe<Scalars['String']['input']>;
   sortKey?: InputMaybe<TaskSortKey>;
   sortOrder?: InputMaybe<SortOrder>;
+  status?: InputMaybe<TaskStatus>;
 };
 
 
@@ -163,6 +164,7 @@ export type Task = Node & {
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  status: TaskStatus;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
   user: User;
@@ -184,6 +186,11 @@ export type TaskEdge = Edge & {
 export enum TaskSortKey {
   Id = 'id',
   Title = 'title'
+}
+
+export enum TaskStatus {
+  Completed = 'Completed',
+  Planned = 'Planned'
 }
 
 export type UpdateTaskInput = {
@@ -339,6 +346,7 @@ export type ResolversTypes = ResolversObject<{
   TaskConnection: ResolverTypeWrapper<TaskConnection>;
   TaskEdge: ResolverTypeWrapper<TaskEdge>;
   TaskSortKey: TaskSortKey;
+  TaskStatus: TaskStatus;
   UpdateTaskInput: UpdateTaskInput;
   UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
@@ -444,6 +452,7 @@ export type TaskResolvers<ContextType = any, ParentType extends ResolversParentT
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['TaskStatus'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;

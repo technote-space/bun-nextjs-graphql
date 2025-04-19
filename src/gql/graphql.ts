@@ -134,6 +134,7 @@ export type QueryTasksArgs = {
   q: InputMaybe<Scalars['String']['input']>;
   sortKey?: InputMaybe<TaskSortKey>;
   sortOrder?: InputMaybe<SortOrder>;
+  status: InputMaybe<TaskStatus>;
 };
 
 
@@ -160,6 +161,7 @@ export type Task = Node & {
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  status: TaskStatus;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
   user: User;
@@ -181,6 +183,10 @@ export type TaskEdge = Edge & {
 export type TaskSortKey =
   | 'id'
   | 'title';
+
+export type TaskStatus =
+  | 'Completed'
+  | 'Planned';
 
 export type UpdateTaskInput = {
   description?: InputMaybe<Scalars['String']['input']>;

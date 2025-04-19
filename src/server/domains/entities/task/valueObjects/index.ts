@@ -4,3 +4,4 @@ export * from './description';
 export * from './completedAt';
 export * from './createdAt';
 export * from './updatedAt';
+export * from './status';

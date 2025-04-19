@@ -5,6 +5,7 @@ import {
   CreatedAt,
   type Description,
   Id,
+  Status,
   type Title,
   UpdatedAt,
 } from './valueObjects';
@@ -20,6 +21,14 @@ export class Task extends Entity {
     public readonly updatedAt: UpdatedAt,
   ) {
     super();
+  }
+
+  public get status(): Status {
+    if (this.completedAt.value) {
+      return new Status('Completed');
+    }
+
+    return new Status('Planned');
   }
 
   public equals(other: Task): boolean {

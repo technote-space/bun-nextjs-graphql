@@ -3,6 +3,11 @@ enum TaskSortKey {
   title
 }
 
+enum TaskStatus {
+  Planned
+  Completed
+}
+
 type Task implements Node {
   id: ID! @complexity(value: 0)
   userId: ID! @complexity(value: 0)
@@ -12,6 +17,7 @@ type Task implements Node {
   createdAt: DateTime! @complexity(value: 0)
   updatedAt: DateTime! @complexity(value: 0)
 
+  status: TaskStatus! @complexity(value: 0)
   user: User! @complexity(value: 3)
 }
 
@@ -44,6 +50,7 @@ type Query {
     sortKey: TaskSortKey = id
     sortOrder: SortOrder = asc
     q: String
+    status: TaskStatus
   ): TaskConnection! @complexity(value: 1, multipliers: ["perPage"])
 }
 

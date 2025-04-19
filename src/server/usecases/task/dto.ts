@@ -3,6 +3,7 @@ import type {
   CreatedAt,
   Description,
   Id,
+  Status,
   Title,
   UpdatedAt,
 } from '#/domains/entities/task/valueObjects';
@@ -16,4 +17,5 @@ export type TaskOutputDto = {
   completedAt: CompletedAt;
   createdAt: CreatedAt;
   updatedAt: UpdatedAt;
+  status: Status;
 };
