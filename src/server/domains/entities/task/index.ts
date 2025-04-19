@@ -1,5 +1,6 @@
 import { Entity } from '@technote-space/vo-entity-ts';
 import type { Id as UserId } from '#/domains/entities/user/valueObjects/id';
+import { InvalidControl } from '#/shared/exceptions/invalidControl';
 import {
   CompletedAt,
   CreatedAt,
@@ -116,12 +117,23 @@ export class Task extends Entity {
   }
 
   public onCompleted(): Task {
+    if (this.completedAt.value) {
+      throw new InvalidControl('タスクはすでに完了しています');
+    }
+
     return this.update({
       completedAt: new CompletedAt(undefined),
     });
   }
 
   public onStarted(): Task {
+    if (this.completedAt.value) {
+      throw new InvalidControl('タスクはすでに完了しています');
+    }
+    if (this.startedAt.value) {
+      throw new InvalidControl('タスクはすでに開始しています');
+    }
+
     return this.update({
       startedAt: new StartedAt(undefined),
     });

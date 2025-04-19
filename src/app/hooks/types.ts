@@ -6,6 +6,7 @@ export interface Task {
   completedAt: string | null;
   createdAt: string;
   updatedAt: string;
+  expiredAt: string | null;
 }
 
 export interface TaskEdge {
@@ -46,4 +47,5 @@ export interface CreateTaskInput {
 export interface UpdateTaskInput {
   title?: string;
   description?: string;
+  expiredAt?: string;
 }

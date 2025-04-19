@@ -157,6 +157,68 @@ describe('Task', () => {
       // then
       expect(result.completedAt.value).not.toBeNull();
     });
+
+    test('すでに完了しているタスクを完了にしようとすると、InvalidControlエラーが発生する', () => {
+      // given
+      const task = Task.create(
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+      );
+      const completedTask = task.onCompleted();
+
+      // when & then
+      expect(() => {
+        completedTask.onCompleted();
+      }).toThrow('その操作は許可されていません');
+    });
+  });
+
+  describe('onStarted', () => {
+    test('開始日時が更新される', () => {
+      // given
+      const task = Task.create(
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+      );
+
+      // when
+      const result = task.onStarted();
+
+      // then
+      expect(result.startedAt.value).not.toBeNull();
+    });
+
+    test('すでに開始しているタスクを開始にしようとすると、InvalidControlエラーが発生する', () => {
+      // given
+      const task = Task.create(
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+      );
+      const startedTask = task.onStarted();
+
+      // when & then
+      expect(() => {
+        startedTask.onStarted();
+      }).toThrow('その操作は許可されていません');
+    });
+
+    test('すでに完了しているタスクを開始にしようとすると、InvalidControlエラーが発生する', () => {
+      // given
+      const task = Task.create(
+        new UserId('user-id'),
+        new Title('title'),
+        new Description('description'),
+      );
+      const completedTask = task.onCompleted();
+
+      // when & then
+      expect(() => {
+        completedTask.onStarted();
+      }).toThrow('その操作は許可されていません');
+    });
   });
 
   describe('status', () => {
