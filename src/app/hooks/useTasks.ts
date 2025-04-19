@@ -7,6 +7,7 @@ import {
   DELETE_TASK,
   GET_TASK,
   GET_TASKS,
+  START_TASK,
   UPDATE_TASK,
 } from './taskGraphQL';
 import type { SortOrder, Task, TaskConnection, TaskSortKey, TaskStatus } from './types';
@@ -26,6 +27,10 @@ interface CompleteTaskResult {
 
 interface DeleteTaskResult {
   deleteTask: Task;
+}
+
+interface StartTaskResult {
+  startTask: Task;
 }
 
 // Hook for fetching tasks list
@@ -110,6 +115,23 @@ export function useDeleteTask(options?: {
 }) {
   return useMutation(DELETE_TASK, {
     refetchQueries: [{ query: GET_TASKS }],
+    ...options,
+  });
+}
+
+// Hook for starting a task
+export function useStartTask(
+  taskId: string,
+  options?: {
+    onCompleted?: (data: StartTaskResult) => void;
+    onError?: (error: Error) => void;
+  },
+) {
+  return useMutation(START_TASK, {
+    refetchQueries: [
+      { query: GET_TASKS },
+      { query: GET_TASK, variables: { id: taskId } },
+    ],
     ...options,
   });
 }

@@ -6,6 +6,7 @@ export const TASK_FIELDS = gql`
     id
     title
     description
+    startedAt
     completedAt
     createdAt
     updatedAt
@@ -79,6 +80,16 @@ export const COMPLETE_TASK = gql`
 export const DELETE_TASK = gql`
   mutation DeleteTask($id: ID!) {
     deleteTask(id: $id) {
+      ...TaskFields
+    }
+  }
+  ${TASK_FIELDS}
+`;
+
+// Mutation to start a task
+export const START_TASK = gql`
+  mutation StartTask($id: ID!) {
+    startTask(id: $id) {
       ...TaskFields
     }
   }

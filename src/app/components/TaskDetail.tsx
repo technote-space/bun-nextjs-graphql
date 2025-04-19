@@ -5,6 +5,7 @@ import {
   useCompleteTask,
   useDeleteTask,
   useGetTask,
+  useStartTask,
   useUpdateTask,
 } from '@/hooks/useTasks';
 import dayjs from 'dayjs';
@@ -39,6 +40,9 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
 
   // Mutation to complete a task
   const [completeTask, { loading: completing }] = useCompleteTask(taskId);
+
+  // Mutation to start a task
+  const [startTask, { loading: starting }] = useStartTask(taskId);
 
   // Mutation to delete a task
   const [deleteTask, { loading: deleting }] = useDeleteTask({
@@ -97,6 +101,18 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
     }
   };
 
+  const handleStart = async () => {
+    try {
+      await startTask({
+        variables: {
+          id: taskId,
+        },
+      });
+    } catch (error) {
+      console.error('Error starting task:', error);
+    }
+  };
+
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
@@ -120,6 +136,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
 
   const task = data.task;
   const isCompleted = !!task.completedAt;
+  const canBeStarted = !task.startedAt && !task.completedAt;
 
   return (
     <div className="bg-card-background rounded-lg shadow-lg p-6 max-w-2xl mx-auto border border-card-border">
@@ -278,6 +295,17 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
           >
             {isEditing ? 'Save Changes' : 'Edit Task'}
           </button>
+
+          {canBeStarted && (
+            <button
+              type="button"
+              onClick={handleStart}
+              disabled={starting}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600/90 disabled:opacity-50"
+            >
+              Start Task
+            </button>
+          )}
 
           {!isCompleted && (
             <button
