@@ -47,5 +47,5 @@ export interface CreateTaskInput {
 export interface UpdateTaskInput {
   title?: string;
   description?: string;
-  expiredAt?: string;
+  expiredAt?: string | null;
 }

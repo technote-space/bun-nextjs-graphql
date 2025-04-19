@@ -7,6 +7,7 @@ import {
   useGetTask,
   useUpdateTask,
 } from '@/hooks/useTasks';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 
 interface TaskDetailProps {
@@ -19,14 +20,18 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [expiredAt, setExpiredAt] = useState<string | null | undefined>(
+    undefined,
+  );
 
   // Query to get task details
   const { loading, error, data } = useGetTask(taskId);
 
   // Set form values when data is loaded
-  if (data?.task && (!title || !description)) {
-    setTitle(data.task.title);
-    setDescription(data.task.description);
+  if (data?.task) {
+    if (!title) setTitle(data.task.title);
+    if (!description) setDescription(data.task.description);
+    if (expiredAt === undefined) setExpiredAt(data.task.expiredAt);
   }
 
   // Mutation to update a task
@@ -55,6 +60,12 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
     const input: UpdateTaskInput = {};
     if (title !== data?.task.title) input.title = title;
     if (description !== data?.task.description) input.description = description;
+
+    // Check if expiredAt has changed
+    const currentExpiredAt = data?.task.expiredAt ?? null;
+    if (expiredAt !== currentExpiredAt) {
+      input.expiredAt = expiredAt ? new Date(expiredAt).toISOString() : null;
+    }
 
     if (Object.keys(input).length === 0) {
       setIsEditing(false);
@@ -212,14 +223,26 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
           >
             Expires
           </label>
-          <p
-            id="task-expired"
-            className="p-2 bg-input-background rounded border border-input-border text-foreground"
-          >
-            {task.expiredAt
-              ? new Date(task.expiredAt).toLocaleString()
-              : 'No expiration date'}
-          </p>
+          {isEditing ? (
+            <input
+              id="task-expired"
+              type="datetime-local"
+              value={
+                expiredAt ? dayjs(expiredAt).format('YYYY-MM-DDTHH:mm') : ''
+              }
+              onChange={(e) => setExpiredAt(e.target.value || null)}
+              className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
+            />
+          ) : (
+            <p
+              id="task-expired"
+              className="p-2 bg-input-background rounded border border-input-border text-foreground"
+            >
+              {task.expiredAt
+                ? new Date(task.expiredAt).toLocaleString()
+                : 'No expiration date'}
+            </p>
+          )}
         </div>
 
         <div>
