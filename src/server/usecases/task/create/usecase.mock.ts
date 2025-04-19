@@ -13,6 +13,7 @@ export class CreateTaskUseCaseMock implements CreateTaskUseCase {
       session.getContext().user.id,
       input.title,
       input.description,
+      input.expiredAt,
     );
   }
 }

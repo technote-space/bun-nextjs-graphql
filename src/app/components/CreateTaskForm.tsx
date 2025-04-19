@@ -12,6 +12,7 @@ interface CreateTaskFormProps {
 export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [expiredAt, setExpiredAt] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const [createTask, { loading }] = useCreateTask({
@@ -19,6 +20,7 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
       // Reset form and call onCreated callback
       setTitle('');
       setDescription('');
+      setExpiredAt('');
       setError(null);
       if (onCreated) {
         onCreated();
@@ -49,6 +51,11 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
       title: title.trim(),
       description: description.trim(),
     };
+
+    // Add expiredAt if provided
+    if (expiredAt) {
+      input.expiredAt = expiredAt;
+    }
 
     try {
       await createTask({
@@ -101,6 +108,22 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
             rows={4}
             className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
             placeholder="Enter task description"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="expiredAt"
+            className="block text-sm font-medium text-foreground mb-1"
+          >
+            Expiration Date (Optional)
+          </label>
+          <input
+            id="expiredAt"
+            type="datetime-local"
+            value={expiredAt}
+            onChange={(e) => setExpiredAt(e.target.value)}
+            className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
           />
         </div>
 

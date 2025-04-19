@@ -20,7 +20,12 @@ export class CreateTaskInteractor implements CreateTaskUseCase {
     input: CreateTaskInputDto,
   ): Promise<TaskOutputDto> {
     return transform(
-      Task.create(session.getContext().user.id, input.title, input.description),
+      Task.create(
+        session.getContext().user.id,
+        input.title,
+        input.description,
+        input.expiredAt,
+      ),
       async (task) => {
         await session.authorize('create', task);
         return this.taskRepository.transaction(async (client) =>

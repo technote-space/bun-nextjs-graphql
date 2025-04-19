@@ -49,6 +49,7 @@ export class Task extends Entity {
     userId: UserId,
     title: Title,
     description: Description,
+    expiredAt?: ExpiredAt,
   ): Task {
     return Task._create(
       new Id(undefined),
@@ -57,7 +58,7 @@ export class Task extends Entity {
       description,
       new CompletedAt(null),
       new StartedAt(null),
-      new ExpiredAt(null),
+      expiredAt ?? new ExpiredAt(null),
       new CreatedAt(undefined),
       new UpdatedAt(undefined),
     );

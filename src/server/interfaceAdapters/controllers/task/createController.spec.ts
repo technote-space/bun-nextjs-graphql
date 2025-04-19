@@ -41,4 +41,42 @@ describe('CreateTaskController', () => {
     expect(result?.title.value).toBe('title');
     expect(result?.description.value).toBe('description');
   });
+
+  test('expiredAtを指定してコントローラーの呼び出しに成功する', async () => {
+    // given
+    const user = User.create(
+      new UserName('test'),
+      new UserEmail('user@example.com'),
+      new Role('ADMIN'),
+    );
+    const sessionProvider = new UserSessionProviderMock({ user });
+    const useCase = new CreateTaskUseCaseMock();
+    const presenter = new TaskPresenterMock();
+    const handleErrorUseCase = new HandleErrorInteractor([]);
+    const handleErrorPresenter = new HandleErrorPresenterMock();
+    const controller = new CreateTaskController<TaskOutputDto>(
+      sessionProvider,
+      useCase,
+      presenter,
+      handleErrorUseCase,
+      handleErrorPresenter,
+    );
+
+    // when
+    const result = await controller.invoke({
+      input: {
+        title: 'title',
+        description: 'description',
+        expiredAt: new Date('2025-01-01T00:00:00.000Z'),
+      },
+      token: 'token',
+    });
+
+    // then
+    expect(result?.title.value).toBe('title');
+    expect(result?.description.value).toBe('description');
+    expect(result?.expiredAt.value?.toISOString()).toBe(
+      '2025-01-01T00:00:00.000Z',
+    );
+  });
 });

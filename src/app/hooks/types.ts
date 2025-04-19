@@ -40,6 +40,7 @@ export interface CreateTaskInput {
   userId: string;
   title: string;
   description: string;
+  expiredAt?: string;
 }
 
 export interface UpdateTaskInput {

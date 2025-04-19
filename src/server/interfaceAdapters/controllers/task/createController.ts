@@ -1,6 +1,10 @@
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
-import { Description, Title } from '#/domains/entities/task/valueObjects';
+import {
+  Description,
+  ExpiredAt,
+  Title,
+} from '#/domains/entities/task/valueObjects';
 import { BaseController } from '#/interfaceAdapters/controllers/shared/baseController';
 import type { UserSessionProvider } from '#/interfaceAdapters/controllers/shared/userSessionProvider';
 import type { HandleErrorPresenter } from '#/usecases/handleError/presenter';
@@ -11,6 +15,7 @@ import type { TaskPresenter } from '#/usecases/task/presenter';
 type CreateTaskInput = {
   title: string;
   description: string;
+  expiredAt?: Date | null;
 };
 type InputData = {
   input: CreateTaskInput;
@@ -41,6 +46,7 @@ export class CreateTaskController<Result> extends BaseController<
       await this.useCase.handle(await this.sessionProvider.getSession(token), {
         title: new Title(input.title),
         description: new Description(input.description),
+        expiredAt: new ExpiredAt(input.expiredAt ?? null),
       }),
     );
   }
