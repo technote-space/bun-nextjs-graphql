@@ -1,7 +1,12 @@
 import { describe, expect, test } from 'bun:test';
 import { DITokens } from '#/config/constants';
 import { Task } from '#/domains/entities/task';
-import { Description, Id, Title } from '#/domains/entities/task/valueObjects';
+import {
+  Description,
+  ExpiredAt,
+  Id,
+  Title,
+} from '#/domains/entities/task/valueObjects';
 import { User } from '#/domains/entities/user';
 import { UserEmail, UserName } from '#/domains/entities/user/valueObjects';
 import { Role } from '#/domains/entities/user/valueObjects';
@@ -12,15 +17,52 @@ import { UpdateTaskInteractor } from './interactor';
 describe('UpdateTaskInteractor', () => {
   test.each([
     [
+      new ExpiredAt(null),
       new Title('updated title'),
       new Description('updated description'),
+      new ExpiredAt(new Date('2023-12-31T23:59:59Z')),
       'updated title',
       'updated description',
+      '2023-12-31T23:59:59.000Z',
     ],
-    [undefined, undefined, 'title', 'description'],
+    [
+      new ExpiredAt(null),
+      undefined,
+      undefined,
+      undefined,
+      'title',
+      'description',
+      null,
+    ],
+    [
+      new ExpiredAt('2023-12-31T23:59:59Z'),
+      undefined,
+      undefined,
+      new ExpiredAt(null),
+      'title',
+      'description',
+      null,
+    ],
+    [
+      new ExpiredAt('2023-12-31T23:59:59Z'),
+      undefined,
+      undefined,
+      new ExpiredAt('2024-06-30T23:59:59Z'),
+      'title',
+      'description',
+      '2024-06-30T23:59:59.000Z',
+    ],
   ])(
     '指定されたIDのタスクが更新される',
-    async (title, description, expectedTitle, expectedDescription) => {
+    async (
+      expiredAt,
+      updateTitle,
+      updateDescription,
+      updateExpiredAt,
+      expectedTitle,
+      expectedDescription,
+      expectedExpiredAt,
+    ) => {
       // given
       const user = User.create(
         new UserName('name'),
@@ -31,6 +73,7 @@ describe('UpdateTaskInteractor', () => {
         user.id,
         new Title('title'),
         new Description('description'),
+        expiredAt,
       );
       const repository = new TaskRepositoryMock([task]);
       const interactor = new UpdateTaskInteractor(repository);
@@ -44,12 +87,19 @@ describe('UpdateTaskInteractor', () => {
           },
         ),
         task.id,
-        { title, description },
+        {
+          title: updateTitle,
+          description: updateDescription,
+          expiredAt: updateExpiredAt,
+        },
       );
 
       // then
       expect(result?.title.value).toBe(expectedTitle);
       expect(result?.description.value).toBe(expectedDescription);
+      expect(result?.expiredAt.value?.toISOString() ?? null).toBe(
+        expectedExpiredAt,
+      );
 
       expect(repository.calledMethods).toHaveLength(2);
       expect(repository.calledMethods[0].method).toBe('find');

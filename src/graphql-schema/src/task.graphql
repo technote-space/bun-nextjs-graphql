@@ -45,6 +45,7 @@ input CreateTaskInput {
 input UpdateTaskInput {
   title: String
   description: String
+  expiredAt: DateTime
 }
 
 type Query {

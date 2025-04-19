@@ -206,6 +206,7 @@ export enum TaskStatus {
 
 export type UpdateTaskInput = {
   description?: InputMaybe<Scalars['String']['input']>;
+  expiredAt?: InputMaybe<Scalars['DateTime']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
