@@ -163,7 +163,9 @@ export type Task = Node & {
   completedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
+  expiredAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
+  startedAt?: Maybe<Scalars['DateTime']['output']>;
   status: TaskStatus;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];
@@ -451,7 +453,9 @@ export type TaskResolvers<ContextType = any, ParentType extends ResolversParentT
   completedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  expiredAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  startedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['TaskStatus'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;

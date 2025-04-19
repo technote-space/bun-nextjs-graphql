@@ -160,7 +160,9 @@ export type Task = Node & {
   completedAt: Maybe<Scalars['DateTime']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
+  expiredAt: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
+  startedAt: Maybe<Scalars['DateTime']['output']>;
   status: TaskStatus;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTime']['output'];

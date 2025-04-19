@@ -13,6 +13,8 @@ type Task implements Node {
   userId: ID! @complexity(value: 0)
   title: String! @complexity(value: 0)
   description: String! @complexity(value: 0)
+  startedAt: DateTime @complexity(value: 0)
+  expiredAt: DateTime @complexity(value: 0)
   completedAt: DateTime @complexity(value: 0)
   createdAt: DateTime! @complexity(value: 0)
   updatedAt: DateTime! @complexity(value: 0)

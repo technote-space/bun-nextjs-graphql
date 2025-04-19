@@ -35,6 +35,8 @@ model Task {
   userId      String
   title       String
   description String
+  startedAt   DateTime?
+  expiredAt   DateTime?
   completedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

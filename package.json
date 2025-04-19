@@ -20,6 +20,7 @@
     "test:e2e": "bun test $(find ./src -name \"*.e2e-spec.ts\" -print0 | xargs -0 -J '{}' echo {}) --preload ./src/server/shared/test/setup.e2e.ts",
     "test:server": "source .env.test && NODE_ENV=test next dev -p $PORT --turbopack",
     "migrate": "prisma migrate deploy && prisma generate",
+    "migrate:reset": "rm -rdf ./src/server/frameworks/database/prisma/migrations && rm -f ./src/server/frameworks/database/prisma/*.db && prisma migrate dev --name init",
     "seed": "npx --yes tsx src/server/frameworks/database/prisma/seed/index.ts",
     "update": "npx --yes npm-check-updates -u --timeout 100000 && bun install",
     "prepare": "if [ ! -f .env ]; then cp .env.example .env; fi && prisma generate && bun run migrate"

@@ -15,6 +15,8 @@ CREATE TABLE "Task" (
     "userId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "startedAt" DATETIME,
+    "expiredAt" DATETIME,
     "completedAt" DATETIME,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
