@@ -191,9 +191,10 @@ describe('Tasks E2E Tests', () => {
       'EDITOR',
     );
 
-    expect(result.tasks.edges).toHaveLength(1);
-    expect(result.tasks.edges[0].node.id).toBe(plannedTask.id);
-    expect(result.tasks.edges[0].node.status).toBe('Planned');
+    expect(result.tasks.edges).toHaveLength(2);
+    expect(result.tasks.edges.map((edge) => edge.node.id)).toEqual(
+      expect.arrayContaining([expiredTask.id, plannedTask.id]),
+    );
 
     // Test filtering by multiple statuses
     result = await testHelper.executeQuery(

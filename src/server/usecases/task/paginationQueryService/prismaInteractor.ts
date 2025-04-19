@@ -58,10 +58,6 @@ export class PrismaTaskPaginationQueryService
                   ? [
                       {
                         completedAt: null,
-                        OR: [
-                          { expiredAt: null },
-                          { expiredAt: { gte: new Date() } },
-                        ],
                         startedAt: { not: null },
                       },
                     ]
@@ -70,10 +66,6 @@ export class PrismaTaskPaginationQueryService
                   ? [
                       {
                         completedAt: null,
-                        OR: [
-                          { expiredAt: null },
-                          { expiredAt: { gte: new Date() } },
-                        ],
                         startedAt: null,
                       },
                     ]

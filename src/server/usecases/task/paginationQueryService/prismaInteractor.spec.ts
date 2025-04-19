@@ -164,7 +164,6 @@ describe('PrismaTaskPaginationQueryService', () => {
         OR: [
           {
             completedAt: null,
-            OR: [{ expiredAt: null }, { expiredAt: { gte: expect.any(Date) } }],
             startedAt: { not: null },
           },
         ],
@@ -177,7 +176,6 @@ describe('PrismaTaskPaginationQueryService', () => {
         OR: [
           {
             completedAt: null,
-            OR: [{ expiredAt: null }, { expiredAt: { gte: expect.any(Date) } }],
             startedAt: null,
           },
         ],
@@ -191,7 +189,6 @@ describe('PrismaTaskPaginationQueryService', () => {
           { completedAt: { not: null } },
           {
             completedAt: null,
-            OR: [{ expiredAt: null }, { expiredAt: { gte: expect.any(Date) } }],
             startedAt: { not: null },
           },
         ],
@@ -214,12 +211,10 @@ describe('PrismaTaskPaginationQueryService', () => {
           },
           {
             completedAt: null,
-            OR: [{ expiredAt: null }, { expiredAt: { gte: expect.any(Date) } }],
             startedAt: { not: null },
           },
           {
             completedAt: null,
-            OR: [{ expiredAt: null }, { expiredAt: { gte: expect.any(Date) } }],
             startedAt: null,
           },
         ],

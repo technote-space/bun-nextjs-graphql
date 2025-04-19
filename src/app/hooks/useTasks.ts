@@ -10,7 +10,13 @@ import {
   START_TASK,
   UPDATE_TASK,
 } from './taskGraphQL';
-import type { SortOrder, Task, TaskConnection, TaskSortKey, TaskStatus } from './types';
+import type {
+  SortOrder,
+  Task,
+  TaskConnection,
+  TaskSortKey,
+  TaskStatus,
+} from './types';
 
 // Mutation result types
 interface CreateTaskResult {

@@ -77,10 +77,9 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
       if (prevStatuses.includes(status)) {
         // Remove the status if it's already selected
         return prevStatuses.filter((s) => s !== status);
-      } else {
-        // Add the status if it's not selected
-        return [...prevStatuses, status];
       }
+      // Add the status if it's not selected
+      return [...prevStatuses, status];
     });
     // Reset to first page when changing filters
     setPage(1);
