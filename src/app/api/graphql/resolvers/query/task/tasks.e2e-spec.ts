@@ -6,14 +6,15 @@ import { taskFactory } from '#/shared/test/utils';
 describe('Tasks E2E Tests', () => {
   const testHelper = new E2ETestHelper();
   const GET_TASKS_QUERY = `
-    query GetTasks($q: String) {
-      tasks(q: $q) {
+    query GetTasks($q: String, $statuses: [TaskStatus!]) {
+      tasks(q: $q, statuses: $statuses) {
         edges {
           node {
             id
             title
             description
             completedAt
+            status
           }
         }
         pageInfo {
@@ -107,6 +108,133 @@ describe('Tasks E2E Tests', () => {
     expect(result.tasks.edges).toHaveLength(2);
     expect(result.tasks.edges.map((edge) => edge.node.id)).toEqual(
       expect.arrayContaining(matchingTasks.map((task) => task.id)),
+    );
+  });
+
+  test('should filter tasks by status', async () => {
+    const currentUser = testHelper.getEditorUser();
+
+    // Create a completed task
+    const completedTask = await taskFactory.create({
+      user: { connect: { ssoId: currentUser.email } },
+      title: 'Completed Task',
+      description: 'This task is completed',
+      completedAt: new Date(),
+    });
+
+    // Create an expired task
+    const pastDate = new Date();
+    pastDate.setDate(pastDate.getDate() - 1); // Yesterday
+    const expiredTask = await taskFactory.create({
+      user: { connect: { ssoId: currentUser.email } },
+      title: 'Expired Task',
+      description: 'This task is expired',
+      expiredAt: pastDate,
+    });
+
+    // Create an in-progress task
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 1); // Tomorrow
+    const inProgressTask = await taskFactory.create({
+      user: { connect: { ssoId: currentUser.email } },
+      title: 'In Progress Task',
+      description: 'This task is in progress',
+      startedAt: new Date(),
+      expiredAt: futureDate,
+    });
+
+    // Create a planned task
+    const plannedTask = await taskFactory.create({
+      user: { connect: { ssoId: currentUser.email } },
+      title: 'Planned Task',
+      description: 'This task is planned',
+      expiredAt: futureDate,
+    });
+
+    // Test filtering by Completed status
+    let result = await testHelper.executeQuery(
+      GET_TASKS_QUERY,
+      { statuses: ['Completed'] },
+      'EDITOR',
+    );
+
+    expect(result.tasks.edges).toHaveLength(1);
+    expect(result.tasks.edges[0].node.id).toBe(completedTask.id);
+    expect(result.tasks.edges[0].node.status).toBe('Completed');
+
+    // Test filtering by Expired status
+    result = await testHelper.executeQuery(
+      GET_TASKS_QUERY,
+      { statuses: ['Expired'] },
+      'EDITOR',
+    );
+
+    expect(result.tasks.edges).toHaveLength(1);
+    expect(result.tasks.edges[0].node.id).toBe(expiredTask.id);
+    expect(result.tasks.edges[0].node.status).toBe('Expired');
+
+    // Test filtering by InProgress status
+    result = await testHelper.executeQuery(
+      GET_TASKS_QUERY,
+      { statuses: ['InProgress'] },
+      'EDITOR',
+    );
+
+    expect(result.tasks.edges).toHaveLength(1);
+    expect(result.tasks.edges[0].node.id).toBe(inProgressTask.id);
+    expect(result.tasks.edges[0].node.status).toBe('InProgress');
+
+    // Test filtering by Planned status
+    result = await testHelper.executeQuery(
+      GET_TASKS_QUERY,
+      { statuses: ['Planned'] },
+      'EDITOR',
+    );
+
+    expect(result.tasks.edges).toHaveLength(1);
+    expect(result.tasks.edges[0].node.id).toBe(plannedTask.id);
+    expect(result.tasks.edges[0].node.status).toBe('Planned');
+
+    // Test filtering by multiple statuses
+    result = await testHelper.executeQuery(
+      GET_TASKS_QUERY,
+      { statuses: ['Completed', 'InProgress'] },
+      'EDITOR',
+    );
+
+    expect(result.tasks.edges).toHaveLength(2);
+    expect(result.tasks.edges.map((edge) => edge.node.id)).toEqual(
+      expect.arrayContaining([completedTask.id, inProgressTask.id]),
+    );
+
+    // Test filtering by multiple statuses
+    result = await testHelper.executeQuery(
+      GET_TASKS_QUERY,
+      { statuses: ['Completed', 'Expired', 'InProgress', 'Planned'] },
+      'EDITOR',
+    );
+
+    expect(result.tasks.edges).toHaveLength(4);
+    expect(result.tasks.edges.map((edge) => edge.node.id)).toEqual(
+      expect.arrayContaining([
+        completedTask.id,
+        expiredTask.id,
+        inProgressTask.id,
+        plannedTask.id,
+      ]),
+    );
+
+    // Test with no status filter (should return all tasks)
+    result = await testHelper.executeQuery(GET_TASKS_QUERY, {}, 'EDITOR');
+
+    expect(result.tasks.edges).toHaveLength(4);
+    expect(result.tasks.edges.map((edge) => edge.node.id)).toEqual(
+      expect.arrayContaining([
+        completedTask.id,
+        expiredTask.id,
+        inProgressTask.id,
+        plannedTask.id,
+      ]),
     );
   });
 });

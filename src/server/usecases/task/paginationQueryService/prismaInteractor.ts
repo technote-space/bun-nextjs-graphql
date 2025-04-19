@@ -1,3 +1,4 @@
+import { TaskStatus } from '$/types';
 import { inject, singleton } from 'tsyringe';
 import { DITokens } from '#/config/constants';
 import { Task } from '#/domains/entities/task';
@@ -37,6 +38,47 @@ export class PrismaTaskPaginationQueryService
                   { description: { contains: keyword } },
                 ],
               })),
+            }
+          : {}),
+        ...(params.statuses?.length
+          ? {
+              OR: [
+                ...(params.statuses?.includes(TaskStatus.Completed)
+                  ? [{ completedAt: { not: null } }]
+                  : []),
+                ...(params.statuses?.includes(TaskStatus.Expired)
+                  ? [
+                      {
+                        completedAt: null,
+                        expiredAt: { lt: new Date() },
+                      },
+                    ]
+                  : []),
+                ...(params.statuses?.includes(TaskStatus.InProgress)
+                  ? [
+                      {
+                        completedAt: null,
+                        OR: [
+                          { expiredAt: null },
+                          { expiredAt: { gte: new Date() } },
+                        ],
+                        startedAt: { not: null },
+                      },
+                    ]
+                  : []),
+                ...(params.statuses?.includes(TaskStatus.Planned)
+                  ? [
+                      {
+                        completedAt: null,
+                        OR: [
+                          { expiredAt: null },
+                          { expiredAt: { gte: new Date() } },
+                        ],
+                        startedAt: null,
+                      },
+                    ]
+                  : []),
+              ],
             }
           : {}),
       },

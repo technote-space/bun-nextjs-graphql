@@ -143,7 +143,7 @@ export type QueryTasksArgs = {
   q?: InputMaybe<Scalars['String']['input']>;
   sortKey?: InputMaybe<TaskSortKey>;
   sortOrder?: InputMaybe<SortOrder>;
-  status?: InputMaybe<TaskStatus>;
+  statuses?: InputMaybe<Array<TaskStatus>>;
 };
 
 

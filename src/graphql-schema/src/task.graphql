@@ -56,7 +56,7 @@ type Query {
     sortKey: TaskSortKey = id
     sortOrder: SortOrder = asc
     q: String
-    status: TaskStatus
+    statuses: [TaskStatus!]
   ): TaskConnection! @complexity(value: 1, multipliers: ["perPage"])
 }
 
