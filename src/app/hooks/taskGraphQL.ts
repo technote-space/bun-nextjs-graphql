@@ -9,6 +9,7 @@ export const TASK_FIELDS = gql`
     completedAt
     createdAt
     updatedAt
+    expiredAt
   }
 `;
 

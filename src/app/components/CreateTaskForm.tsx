@@ -54,7 +54,7 @@ export function CreateTaskForm({ userId, onCreated }: CreateTaskFormProps) {
 
     // Add expiredAt if provided
     if (expiredAt) {
-      input.expiredAt = expiredAt;
+      input.expiredAt = new Date(expiredAt).toISOString();
     }
 
     try {

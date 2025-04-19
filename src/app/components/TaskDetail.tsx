@@ -203,6 +203,23 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
 
         <div>
           <label
+            htmlFor="task-expired"
+            className="block text-sm font-medium text-foreground mb-1"
+          >
+            Expires
+          </label>
+          <p
+            id="task-expired"
+            className="p-2 bg-input-background rounded border border-input-border text-foreground"
+          >
+            {task.expiredAt
+              ? new Date(task.expiredAt).toLocaleString()
+              : 'No expiration date'}
+          </p>
+        </div>
+
+        <div>
+          <label
             htmlFor="task-status"
             className="block text-sm font-medium text-foreground mb-1"
           >

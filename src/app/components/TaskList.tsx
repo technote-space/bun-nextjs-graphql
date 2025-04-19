@@ -144,6 +144,14 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
                 <span>
                   Created: {new Date(node.createdAt).toLocaleDateString()}
                 </span>
+                {node.expiredAt && (
+                  <>
+                    <span className="mx-2">•</span>
+                    <span>
+                      Expires: {new Date(node.expiredAt).toLocaleDateString()}
+                    </span>
+                  </>
+                )}
               </div>
             </button>
           ))}
