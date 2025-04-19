@@ -188,6 +188,8 @@ export type TaskSortKey =
 
 export type TaskStatus =
   | 'Completed'
+  | 'Expired'
+  | 'InProgress'
   | 'Planned';
 
 export type UpdateTaskInput = {

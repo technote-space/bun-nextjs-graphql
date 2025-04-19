@@ -31,6 +31,12 @@ export class Task extends Entity {
     if (this.completedAt.value) {
       return new Status('Completed');
     }
+    if (this.expiredAt.value?.isBefore()) {
+      return new Status('Expired');
+    }
+    if (this.startedAt.value) {
+      return new Status('InProgress');
+    }
 
     return new Status('Planned');
   }

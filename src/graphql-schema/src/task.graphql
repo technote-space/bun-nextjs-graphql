@@ -5,7 +5,9 @@ enum TaskSortKey {
 
 enum TaskStatus {
   Planned
+  InProgress
   Completed
+  Expired
 }
 
 type Task implements Node {

@@ -192,6 +192,8 @@ export enum TaskSortKey {
 
 export enum TaskStatus {
   Completed = 'Completed',
+  Expired = 'Expired',
+  InProgress = 'InProgress',
   Planned = 'Planned'
 }
 

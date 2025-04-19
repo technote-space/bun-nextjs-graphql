@@ -1,6 +1,6 @@
 import { Flags } from '@technote-space/vo-entity-ts';
 
-export type TaskStatus = 'Planned' | 'Completed';
+export type TaskStatus = 'Planned' | 'InProgress' | 'Completed' | 'Expired';
 
 export class Status extends Flags<TaskStatus> {
   protected get symbol() {
@@ -8,6 +8,6 @@ export class Status extends Flags<TaskStatus> {
   }
 
   get flagTypes(): TaskStatus[] {
-    return ['Planned', 'Completed'];
+    return ['Planned', 'InProgress', 'Completed', 'Expired'];
   }
 }
