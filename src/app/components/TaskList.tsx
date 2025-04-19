@@ -1,6 +1,6 @@
 'use client';
 
-import { SortOrder, TaskSortKey } from '@/hooks/types';
+import { SortOrder, TaskSortKey, TaskStatus } from '@/hooks/types';
 import { useGetTasks } from '@/hooks/useTasks';
 import { useState } from 'react';
 
@@ -16,6 +16,11 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.ASC);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSearchQuery, setActiveSearchQuery] = useState('');
+  const [selectedStatuses, setSelectedStatuses] = useState<TaskStatus[]>([
+    TaskStatus.PLANNED,
+    TaskStatus.IN_PROGRESS,
+    TaskStatus.EXPIRED,
+  ]);
 
   const { loading, error, data } = useGetTasks(
     {
@@ -24,6 +29,7 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
       sortKey,
       sortOrder,
       q: activeSearchQuery || undefined,
+      statuses: selectedStatuses.length > 0 ? selectedStatuses : undefined,
     },
     refreshTrigger,
   );
@@ -63,6 +69,20 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
     event.preventDefault();
     // Update the active search query and reset to first page
     setActiveSearchQuery(searchQuery);
+    setPage(1);
+  };
+
+  const handleStatusToggle = (status: TaskStatus) => {
+    setSelectedStatuses((prevStatuses) => {
+      if (prevStatuses.includes(status)) {
+        // Remove the status if it's already selected
+        return prevStatuses.filter((s) => s !== status);
+      } else {
+        // Add the status if it's not selected
+        return [...prevStatuses, status];
+      }
+    });
+    // Reset to first page when changing filters
     setPage(1);
   };
 
@@ -116,6 +136,48 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
         >
           {sortOrder === SortOrder.ASC ? '↑ Ascending' : '↓ Descending'}
         </button>
+      </div>
+
+      <div className="mb-4">
+        <div className="text-sm font-medium mb-2">Filter by status:</div>
+        <div className="flex flex-wrap gap-3">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={selectedStatuses.includes(TaskStatus.PLANNED)}
+              onChange={() => handleStatusToggle(TaskStatus.PLANNED)}
+              className="rounded text-primary-600 focus:ring-primary-500"
+            />
+            <span>Planned</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={selectedStatuses.includes(TaskStatus.IN_PROGRESS)}
+              onChange={() => handleStatusToggle(TaskStatus.IN_PROGRESS)}
+              className="rounded text-primary-600 focus:ring-primary-500"
+            />
+            <span>In Progress</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={selectedStatuses.includes(TaskStatus.COMPLETED)}
+              onChange={() => handleStatusToggle(TaskStatus.COMPLETED)}
+              className="rounded text-primary-600 focus:ring-primary-500"
+            />
+            <span>Completed</span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={selectedStatuses.includes(TaskStatus.EXPIRED)}
+              onChange={() => handleStatusToggle(TaskStatus.EXPIRED)}
+              className="rounded text-primary-600 focus:ring-primary-500"
+            />
+            <span>Expired</span>
+          </label>
+        </div>
       </div>
 
       {tasks.length === 0 ? (

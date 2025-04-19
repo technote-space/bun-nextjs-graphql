@@ -9,7 +9,7 @@ import {
   GET_TASKS,
   UPDATE_TASK,
 } from './taskGraphQL';
-import type { SortOrder, Task, TaskConnection, TaskSortKey } from './types';
+import type { SortOrder, Task, TaskConnection, TaskSortKey, TaskStatus } from './types';
 
 // Mutation result types
 interface CreateTaskResult {
@@ -36,6 +36,7 @@ export function useGetTasks(
     sortKey?: TaskSortKey;
     sortOrder?: SortOrder;
     q?: string;
+    statuses?: TaskStatus[];
   },
   refreshTrigger?: number,
 ) {

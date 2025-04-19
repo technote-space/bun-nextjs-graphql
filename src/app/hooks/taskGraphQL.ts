@@ -10,6 +10,7 @@ export const TASK_FIELDS = gql`
     createdAt
     updatedAt
     expiredAt
+    status
   }
 `;
 
@@ -25,8 +26,8 @@ export const GET_TASK = gql`
 
 // Query to get all tasks with pagination
 export const GET_TASKS = gql`
-  query GetTasks($page: Int, $perPage: Int, $sortKey: TaskSortKey, $sortOrder: SortOrder, $q: String) {
-    tasks(page: $page, perPage: $perPage, sortKey: $sortKey, sortOrder: $sortOrder, q: $q) {
+  query GetTasks($page: Int, $perPage: Int, $sortKey: TaskSortKey, $sortOrder: SortOrder, $q: String, $statuses: [TaskStatus!]) {
+    tasks(page: $page, perPage: $perPage, sortKey: $sortKey, sortOrder: $sortOrder, q: $q, statuses: $statuses) {
       pageInfo {
         totalCount
         perPage

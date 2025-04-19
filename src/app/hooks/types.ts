@@ -1,4 +1,11 @@
 // Task-related types
+export enum TaskStatus {
+  PLANNED = 'Planned',
+  IN_PROGRESS = 'InProgress',
+  COMPLETED = 'Completed',
+  EXPIRED = 'Expired',
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -7,6 +14,7 @@ export interface Task {
   createdAt: string;
   updatedAt: string;
   expiredAt: string | null;
+  status: TaskStatus;
 }
 
 export interface TaskEdge {
