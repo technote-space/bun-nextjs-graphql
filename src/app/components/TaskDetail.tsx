@@ -44,6 +44,10 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
 
   const handleUpdate = async () => {
     if (!isEditing) {
+      // Prevent editing if task is already completed
+      if (isCompleted) {
+        return;
+      }
       setIsEditing(true);
       return;
     }
@@ -246,7 +250,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
           <button
             type="button"
             onClick={handleUpdate}
-            disabled={updating}
+            disabled={updating || isCompleted}
             className="px-4 py-2 bg-button-primary text-button-primary-text rounded hover:bg-button-primary/90 disabled:opacity-50"
           >
             {isEditing ? 'Save Changes' : 'Edit Task'}
