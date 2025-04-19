@@ -1,12 +1,10 @@
-import type { NextRequest } from 'next/server';
+import { auth0 } from '^/lib/auth0';
 
 export class GraphQLContext {
   constructor(readonly token?: string) {}
 }
 
-export const getContext = async (
-  request: NextRequest,
-): Promise<GraphQLContext> => {
-  const [type, token] = request.headers.get('Authorization')?.split(' ') ?? [];
-  return new GraphQLContext(type === 'Bearer' ? token : undefined);
+export const getContext = async (): Promise<GraphQLContext> => {
+  const session = await auth0.getSession();
+  return new GraphQLContext(session?.tokenSet.idToken);
 };
