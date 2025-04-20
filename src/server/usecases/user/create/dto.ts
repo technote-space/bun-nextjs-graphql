@@ -4,8 +4,8 @@ import type {
   UserName,
 } from '#/domains/entities/user/valueObjects';
 
-export type CreateUserInputDto = {
+export type CreateUserInputDto = Readonly<{
   name: UserName;
   email: UserEmail;
   role: Role;
-};
+}>;

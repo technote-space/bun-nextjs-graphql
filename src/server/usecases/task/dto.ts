@@ -11,7 +11,7 @@ import type {
 } from '#/domains/entities/task/valueObjects';
 import type { Id as UserId } from '#/domains/entities/user/valueObjects';
 
-export type TaskOutputDto = {
+export type TaskOutputDto = Readonly<{
   id: Id;
   userId: UserId;
   title: Title;
@@ -22,4 +22,4 @@ export type TaskOutputDto = {
   createdAt: CreatedAt;
   updatedAt: UpdatedAt;
   status: Status;
-};
+}>;
