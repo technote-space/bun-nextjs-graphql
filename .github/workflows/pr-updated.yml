@@ -8,6 +8,9 @@ name: Pull Request updated
 jobs:
   triage:
     name: Pull Request Labeler
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     timeout-minutes: 3
     if: "! startsWith(github.head_ref, 'release/')"
