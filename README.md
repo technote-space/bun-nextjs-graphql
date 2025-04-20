@@ -164,9 +164,6 @@ enum SortOrder {
 # 依存関係のインストール
 bun install
 
-# データベースのセットアップ
-bun prisma migrate dev
-
 # 開発サーバーの実行
 bun dev
 ```
