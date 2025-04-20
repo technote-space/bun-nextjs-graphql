@@ -31,6 +31,7 @@ describe('PrismaTaskPaginationQueryService', () => {
       undefined,
       {
         userId: 'user-id1',
+        deletedAt: null,
       },
     ],
     [
@@ -51,6 +52,7 @@ describe('PrismaTaskPaginationQueryService', () => {
             ],
           },
         ],
+        deletedAt: null,
       },
     ],
   ])('ページネーション結果が返却される', async (q, expectedWhere) => {
