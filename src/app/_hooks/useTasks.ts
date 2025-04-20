@@ -1,6 +1,15 @@
 'use client';
 
-import { useMutation, useQuery } from '@apollo/client';
+import type {
+  Mutation,
+  SortOrder,
+  Task,
+  TaskConnection,
+  TaskSortKey,
+  TaskStatus,
+} from '$/types';
+import { type DocumentNode, useMutation, useQuery } from '@apollo/client';
+import type { QueryOptions } from '@apollo/client/core/watchQueryOptions';
 import {
   COMPLETE_TASK,
   CREATE_TASK,
@@ -10,34 +19,30 @@ import {
   START_TASK,
   UPDATE_TASK,
 } from './taskGraphQL';
-import type {
-  SortOrder,
-  Task,
-  TaskConnection,
-  TaskSortKey,
-  TaskStatus,
-} from './types';
 
-// Mutation result types
-interface CreateTaskResult {
-  createTask: Task;
+// Type aliases for specific mutation results
+type CreateTaskResult = Mutation['createTask'];
+type UpdateTaskResult = Mutation['updateTask'];
+type CompleteTaskResult = Mutation['completeTask'];
+type DeleteTaskResult = Mutation['deleteTask'];
+type StartTaskResult = Mutation['startTask'];
+
+// Common options type for task mutations
+interface TaskMutationOptions<T> {
+  onCompleted?: (data: T) => void;
+  onError?: (error: Error) => void;
 }
 
-interface UpdateTaskResult {
-  updateTask: Task;
-}
+// Helper function to create refetchQueries configuration
+const createRefetchQueries = (taskId?: string) => {
+  const queries: QueryOptions[] = [{ query: GET_TASKS }];
 
-interface CompleteTaskResult {
-  completeTask: Task;
-}
+  if (taskId) {
+    queries.push({ query: GET_TASK, variables: { id: taskId } });
+  }
 
-interface DeleteTaskResult {
-  deleteTask: Task;
-}
-
-interface StartTaskResult {
-  startTask: Task;
-}
+  return queries;
+};
 
 // Hook for fetching tasks list
 export function useGetTasks(
@@ -69,75 +74,48 @@ export function useGetTask(id: string) {
   });
 }
 
-// Hook for creating a task
-export function useCreateTask(options?: {
-  onCompleted?: (data: CreateTaskResult) => void;
-  onError?: (error: Error) => void;
-}) {
-  return useMutation(CREATE_TASK, {
-    refetchQueries: [{ query: GET_TASKS }],
+// Helper function to create task mutation hooks
+function createTaskMutation<T>(
+  mutation: DocumentNode,
+  taskId?: string,
+  options?: TaskMutationOptions<T>,
+) {
+  return useMutation(mutation, {
+    refetchQueries: createRefetchQueries(taskId),
     ...options,
   });
+}
+
+// Hook for creating a task
+export function useCreateTask(options?: TaskMutationOptions<CreateTaskResult>) {
+  return createTaskMutation<CreateTaskResult>(CREATE_TASK, undefined, options);
 }
 
 // Hook for updating a task
 export function useUpdateTask(
   taskId: string,
-  options?: {
-    onCompleted?: (data: UpdateTaskResult) => void;
-    onError?: (error: Error) => void;
-  },
+  options?: TaskMutationOptions<UpdateTaskResult>,
 ) {
-  return useMutation(UPDATE_TASK, {
-    refetchQueries: [
-      { query: GET_TASKS },
-      { query: GET_TASK, variables: { id: taskId } },
-    ],
-    ...options,
-  });
+  return createTaskMutation<UpdateTaskResult>(UPDATE_TASK, taskId, options);
 }
 
 // Hook for completing a task
 export function useCompleteTask(
   taskId: string,
-  options?: {
-    onCompleted?: (data: CompleteTaskResult) => void;
-    onError?: (error: Error) => void;
-  },
+  options?: TaskMutationOptions<CompleteTaskResult>,
 ) {
-  return useMutation(COMPLETE_TASK, {
-    refetchQueries: [
-      { query: GET_TASKS },
-      { query: GET_TASK, variables: { id: taskId } },
-    ],
-    ...options,
-  });
+  return createTaskMutation<CompleteTaskResult>(COMPLETE_TASK, taskId, options);
 }
 
 // Hook for deleting a task
-export function useDeleteTask(options?: {
-  onCompleted?: (data: DeleteTaskResult) => void;
-  onError?: (error: Error) => void;
-}) {
-  return useMutation(DELETE_TASK, {
-    refetchQueries: [{ query: GET_TASKS }],
-    ...options,
-  });
+export function useDeleteTask(options?: TaskMutationOptions<DeleteTaskResult>) {
+  return createTaskMutation<DeleteTaskResult>(DELETE_TASK, undefined, options);
 }
 
 // Hook for starting a task
 export function useStartTask(
   taskId: string,
-  options?: {
-    onCompleted?: (data: StartTaskResult) => void;
-    onError?: (error: Error) => void;
-  },
+  options?: TaskMutationOptions<StartTaskResult>,
 ) {
-  return useMutation(START_TASK, {
-    refetchQueries: [
-      { query: GET_TASKS },
-      { query: GET_TASK, variables: { id: taskId } },
-    ],
-    ...options,
-  });
+  return createTaskMutation<StartTaskResult>(START_TASK, taskId, options);
 }
