@@ -101,22 +101,29 @@ Authorization: Bearer <token>
 
 ### ページネーション
 
-APIはリスト操作のためのカーソルベースのページネーションをサポートしています：
+APIはリスト操作のためのオフセットベースのページネーションをサポートしています：
 
 ```graphql
 type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-  endCursor: String
-}
-
-interface Connection {
-  pageInfo: PageInfo!
+  totalCount: Int!
+  perPage: Int!
+  totalPage: Int!
+  currentPage: Int!
 }
 
 interface Edge {
   cursor: String!
+  node: Node!
+}
+
+interface Connection {
+  edges: [Edge!]!
+  pageInfo: PageInfo!
+}
+
+enum SortOrder {
+  asc
+  desc
 }
 ```
 
