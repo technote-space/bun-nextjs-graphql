@@ -18,3 +18,5 @@ jobs:
     timeout-minutes: 3
     steps:
       - uses: technote-space/pr-labeler-action@v4
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}

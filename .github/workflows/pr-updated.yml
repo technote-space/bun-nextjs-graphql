@@ -31,6 +31,7 @@ jobs:
           LINK_ISSUE_KEYWORD: ${{ (startsWith(github.head_ref, 'release/') && 'closes') || '' }}
           FILTER_PR: true
           CHANGE_TEMPLATE: ${{ env.CHANGE_TEMPLATE }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
   manageRelease:
     name: Manage release
