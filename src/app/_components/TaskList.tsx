@@ -1,6 +1,6 @@
 'use client';
 
-import { SortOrder, TaskSortKey, TaskStatus } from '@/_hooks/types';
+import { SortOrder, type TaskEdge, TaskSortKey, TaskStatus } from '$/types';
 import { useGetTasks } from '@/_hooks/useTasks';
 import { useState } from 'react';
 
@@ -12,14 +12,14 @@ interface TaskListProps {
 export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [sortKey, setSortKey] = useState<TaskSortKey>(TaskSortKey.ID);
-  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.ASC);
+  const [sortKey, setSortKey] = useState<TaskSortKey>(TaskSortKey.Id);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Asc);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSearchQuery, setActiveSearchQuery] = useState('');
   const [selectedStatuses, setSelectedStatuses] = useState<TaskStatus[]>([
-    TaskStatus.PLANNED,
-    TaskStatus.IN_PROGRESS,
-    TaskStatus.EXPIRED,
+    TaskStatus.Planned,
+    TaskStatus.InProgress,
+    TaskStatus.Expired,
   ]);
 
   const { loading, error, data } = useGetTasks(
@@ -62,7 +62,7 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
   };
 
   const handleOrderChange = () => {
-    setSortOrder(sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC);
+    setSortOrder(sortOrder === SortOrder.Asc ? SortOrder.Desc : SortOrder.Asc);
   };
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -93,7 +93,7 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
       </div>
     );
 
-  const tasks = data?.tasks.edges || [];
+  const tasks: TaskEdge[] = data?.tasks.edges || [];
 
   return (
     <div className="w-full">
@@ -124,8 +124,8 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
             onChange={handleSortChange}
             className="p-2 border rounded bg-input-background border-input-border text-foreground"
           >
-            <option value={TaskSortKey.ID}>ID</option>
-            <option value={TaskSortKey.TITLE}>Title</option>
+            <option value={TaskSortKey.Id}>ID</option>
+            <option value={TaskSortKey.Title}>Title</option>
           </select>
         </div>
         <button
@@ -133,7 +133,7 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
           onClick={handleOrderChange}
           className="px-3 py-1 border rounded flex items-center gap-1 bg-button-secondary text-button-secondary-text border-input-border"
         >
-          {sortOrder === SortOrder.ASC ? '↑ Ascending' : '↓ Descending'}
+          {sortOrder === SortOrder.Asc ? '↑ Ascending' : '↓ Descending'}
         </button>
       </div>
 
@@ -143,8 +143,8 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={selectedStatuses.includes(TaskStatus.PLANNED)}
-              onChange={() => handleStatusToggle(TaskStatus.PLANNED)}
+              checked={selectedStatuses.includes(TaskStatus.Planned)}
+              onChange={() => handleStatusToggle(TaskStatus.Planned)}
               className="rounded text-primary-600 focus:ring-primary-500"
             />
             <span>Planned</span>
@@ -152,8 +152,8 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={selectedStatuses.includes(TaskStatus.IN_PROGRESS)}
-              onChange={() => handleStatusToggle(TaskStatus.IN_PROGRESS)}
+              checked={selectedStatuses.includes(TaskStatus.InProgress)}
+              onChange={() => handleStatusToggle(TaskStatus.InProgress)}
               className="rounded text-primary-600 focus:ring-primary-500"
             />
             <span>In Progress</span>
@@ -161,8 +161,8 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={selectedStatuses.includes(TaskStatus.COMPLETED)}
-              onChange={() => handleStatusToggle(TaskStatus.COMPLETED)}
+              checked={selectedStatuses.includes(TaskStatus.Completed)}
+              onChange={() => handleStatusToggle(TaskStatus.Completed)}
               className="rounded text-primary-600 focus:ring-primary-500"
             />
             <span>Completed</span>
@@ -170,8 +170,8 @@ export function TaskList({ onTaskSelect, refreshTrigger = 0 }: TaskListProps) {
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={selectedStatuses.includes(TaskStatus.EXPIRED)}
-              onChange={() => handleStatusToggle(TaskStatus.EXPIRED)}
+              checked={selectedStatuses.includes(TaskStatus.Expired)}
+              onChange={() => handleStatusToggle(TaskStatus.Expired)}
               className="rounded text-primary-600 focus:ring-primary-500"
             />
             <span>Expired</span>

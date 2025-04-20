@@ -1,6 +1,6 @@
 'use client';
 
-import type { UpdateTaskInput } from '@/_hooks/types';
+import type { UpdateTaskInput } from '$/types';
 import {
   useCompleteTask,
   useDeleteTask,
@@ -21,7 +21,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [expiredAt, setExpiredAt] = useState<string | null | undefined>(
+  const [expiredAt, setExpiredAt] = useState<Date | null | undefined>(
     undefined,
   );
 
@@ -68,7 +68,7 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
     // Check if expiredAt has changed
     const currentExpiredAt = data?.task.expiredAt ?? null;
     if (expiredAt !== currentExpiredAt) {
-      input.expiredAt = expiredAt ? new Date(expiredAt).toISOString() : null;
+      input.expiredAt = expiredAt ? new Date(expiredAt) : null;
     }
 
     if (Object.keys(input).length === 0) {
@@ -247,7 +247,9 @@ export function TaskDetail({ taskId, onClose, onDeleted }: TaskDetailProps) {
               value={
                 expiredAt ? dayjs(expiredAt).format('YYYY-MM-DDTHH:mm') : ''
               }
-              onChange={(e) => setExpiredAt(e.target.value || null)}
+              onChange={(e) =>
+                setExpiredAt(e.target.value ? new Date(e.target.value) : null)
+              }
               className="w-full p-2 border rounded bg-input-background border-input-border text-foreground"
             />
           ) : (
