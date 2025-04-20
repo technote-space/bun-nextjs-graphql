@@ -1,17 +1,21 @@
 typescript:
   - changed-files:
-    - '**/*.ts'
-    - '**/*.tsx'
+    - any-glob-to-any-file:
+      - '**/*.ts'
+      - '**/*.tsx'
 
 'Type: Testing':
   - changed-files:
-    - '**/*.spec.ts'
-    - '**/*.e2e-spec.ts'
+    - any-glob-to-any-file:
+      - '**/*.spec.ts'
+      - '**/*.e2e-spec.ts'
 
 'Type: Documentation':
   - changed-files:
-    - '**/*.md'
+    - any-glob-to-any-file:
+      - '**/*.md'
 
 'Type: CI/CD':
   - changed-files:
-    - '.github/workflows/*.yml'
+    - any-glob-to-any-file:
+      - '.github/workflows/*.yml'
