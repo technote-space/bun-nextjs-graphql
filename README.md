@@ -117,11 +117,7 @@ enum UserRole {
 
 ### 認証
 
-APIは認証にAuth0を使用しています。すべてのAPIリクエストは、Authorizationヘッダーに有効なJWTトークンが必要です：
-
-```
-Authorization: Bearer <token>
-```
+APIは認証にAuth0を使用しています。アプリケーション内からのリクエストは、Auth0のセッション認証を使用して自動的に認証されます。これはNext.jsのミドルウェアによって処理されます。
 
 ### ページネーション
 
@@ -167,9 +163,6 @@ enum SortOrder {
 ```bash
 # 依存関係のインストール
 bun install
-
-# データベースのセットアップ
-bun prisma migrate dev
 
 # 開発サーバーの実行
 bun dev

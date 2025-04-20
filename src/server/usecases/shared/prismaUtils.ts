@@ -26,7 +26,12 @@ export const paginate = async <
 ): Promise<PaginationResult<E>> => {
   // biome-ignore lint/suspicious/noExplicitAny:
   const delegate = prisma[model.toLowerCase()] as any;
-  const totalCount = await delegate.count({ where: args?.where });
+  const totalCount = await delegate.count({
+    where: {
+      ...args?.where,
+      deletedAt: null,
+    },
+  });
   const toEntityList = async (items: I[]): Promise<E[]> =>
     items.reduce(
       async (prev, item) => (await prev).concat(await toEntity(item)),
@@ -38,6 +43,10 @@ export const paginate = async <
   const currentPage = Math.max(1, Math.min(page, totalPage));
   const items: I[] = await delegate.findMany({
     ...args,
+    where: {
+      ...args?.where,
+      deletedAt: null,
+    },
     take: _perPage,
     skip: (currentPage - 1) * _perPage,
     orderBy: {

@@ -13,6 +13,14 @@ import { getUpsertParams } from '#/interfaceAdapters/repositories/prisma/utils';
 import { tap, transform } from '#/shared/utils';
 import { PrismaRepository } from './repository';
 
+type _Model = Readonly<{
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date | null;
+}> &
+  // biome-ignore lint/suspicious/noExplicitAny:
+  Record<any, any>;
 type _Entity = Entity &
   Readonly<{
     id: StringId;
@@ -24,8 +32,7 @@ type UpsertCreateInput<M extends ModelName> = Readonly<
 >;
 
 export abstract class PrismaSharedRepository<
-    // biome-ignore lint/suspicious/noExplicitAny:
-    P extends Record<any, any>,
+    P extends _Model,
     E extends _Entity,
     M extends ModelName,
   >
@@ -50,8 +57,10 @@ export abstract class PrismaSharedRepository<
   private upsert(client: TransactionPrismaClient): <
     // biome-ignore lint/suspicious/noExplicitAny:
     T extends Record<any, any>,
+    // biome-ignore lint/suspicious/noExplicitAny:
+    W extends { id: string } & Record<any, any>,
   >(args: {
-    where: { id: string };
+    where: W;
     create: T & { id: string };
     update: T;
   }) => Promise<P> {
@@ -59,11 +68,17 @@ export abstract class PrismaSharedRepository<
     return (client[this.model] as any).upsert;
   }
 
-  private deleteMany(
-    client: TransactionPrismaClient,
-  ): (args: { where: { id: string } }) => Promise<{ count: number }> {
+  private updateMany(client: TransactionPrismaClient): <
     // biome-ignore lint/suspicious/noExplicitAny:
-    return (client[this.model] as any).deleteMany;
+    T extends Record<any, any>,
+    // biome-ignore lint/suspicious/noExplicitAny:
+    W extends Record<any, any>,
+  >(args: {
+    where: W;
+    data: T;
+  }) => Promise<{ count: number }> {
+    // biome-ignore lint/suspicious/noExplicitAny:
+    return (client[this.model] as any).updateMany;
   }
 
   public async find(
@@ -71,7 +86,10 @@ export abstract class PrismaSharedRepository<
     id: StringId,
   ): Promise<E | null> {
     return transform(
-      await this.findUnique(client)({ where: { id: id.value } }),
+      transform(
+        await this.findUnique(client)({ where: { id: id.value } }),
+        (value) => (value.deletedAt ? null : value),
+      ),
       this.toEntity.bind(this),
     );
   }
@@ -90,9 +108,16 @@ export abstract class PrismaSharedRepository<
     id: StringId,
   ): Promise<E | null> {
     return transform(
-      await tap(
-        await this.findUnique(client)({ where: { id: id.value } }),
-        async () => this.deleteMany(client)({ where: { id: id.value } }),
+      transform(
+        await tap(
+          await this.findUnique(client)({ where: { id: id.value } }),
+          async () =>
+            this.updateMany(client)({
+              where: { id: id.value, deletedAt: null },
+              data: { deletedAt: new Date() },
+            }),
+        ),
+        (value) => (value.deletedAt ? null : value),
       ),
       this.toEntity.bind(this),
     );

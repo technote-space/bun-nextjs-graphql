@@ -31,32 +31,62 @@ describe('paginate', () => {
     [
       { page: 1, perPage: 10, sortKey: 'id', sortOrder: 'desc' } as const,
       { totalCount: 25, perPage: 10, totalPage: 3, currentPage: 1 },
-      { skip: 0, take: 10, orderBy: { id: 'desc' } },
+      {
+        skip: 0,
+        take: 10,
+        orderBy: { id: 'desc' },
+        where: { deletedAt: null },
+      },
     ],
     [
       { page: 2, perPage: 10, sortKey: 'id', sortOrder: 'desc' } as const,
       { totalCount: 25, perPage: 10, totalPage: 3, currentPage: 2 },
-      { skip: 10, take: 10, orderBy: { id: 'desc' } },
+      {
+        skip: 10,
+        take: 10,
+        orderBy: { id: 'desc' },
+        where: { deletedAt: null },
+      },
     ],
     [
       { page: 3, perPage: 10, sortKey: 'id', sortOrder: 'desc' } as const,
       { totalCount: 25, perPage: 10, totalPage: 3, currentPage: 3 },
-      { skip: 20, take: 10, orderBy: { id: 'desc' } },
+      {
+        skip: 20,
+        take: 10,
+        orderBy: { id: 'desc' },
+        where: { deletedAt: null },
+      },
     ],
     [
       { page: 10, perPage: 10, sortKey: 'id', sortOrder: 'desc' } as const,
       { totalCount: 25, perPage: 10, totalPage: 3, currentPage: 3 },
-      { skip: 20, take: 10, orderBy: { id: 'desc' } },
+      {
+        skip: 20,
+        take: 10,
+        orderBy: { id: 'desc' },
+        where: { deletedAt: null },
+      },
     ],
     [
       { page: 10, perPage: 1000, sortKey: 'id', sortOrder: 'desc' } as const,
       { totalCount: 25, perPage: 100, totalPage: 1, currentPage: 1 },
-      { skip: 0, take: 100, orderBy: { id: 'desc' } },
+      {
+        skip: 0,
+        take: 100,
+        orderBy: { id: 'desc' },
+        where: { deletedAt: null },
+      },
     ],
     [
       { page: 1, perPage: 10, sortKey: 'title', sortOrder: 'asc' } as const,
       { totalCount: 25, perPage: 10, totalPage: 3, currentPage: 1 },
-      { skip: 0, take: 10, orderBy: { title: 'asc' } },
+      {
+        skip: 0,
+        take: 10,
+        orderBy: { title: 'asc' },
+        where: { deletedAt: null },
+      },
     ],
   ])(
     '指定されたページネーションのパラメータで検索される',
@@ -150,6 +180,7 @@ describe('paginate', () => {
             ],
           },
         ],
+        deletedAt: null,
       },
     });
   });

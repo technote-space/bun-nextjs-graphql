@@ -15,7 +15,7 @@ import { PrismaUserPaginationQueryService } from './prismaInteractor';
 
 describe('PrismaUserPaginationQueryService', () => {
   test.each([
-    [undefined, {}],
+    [undefined, { deletedAt: null }],
     [
       'a b  a',
       {
@@ -27,6 +27,7 @@ describe('PrismaUserPaginationQueryService', () => {
             name: { contains: 'b' },
           },
         ],
+        deletedAt: null,
       },
     ],
   ])('ページネーション結果が返却される', async (name, expectedWhere) => {

@@ -7,11 +7,11 @@ import type {
   UserName,
 } from '#/domains/entities/user/valueObjects';
 
-export type UserOutputDto = {
+export type UserOutputDto = Readonly<{
   id: Id;
   name: UserName;
   email: UserEmail;
   role: Role;
   createdAt: CreatedAt;
   updatedAt: UpdatedAt;
-};
+}>;

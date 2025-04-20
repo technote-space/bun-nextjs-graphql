@@ -4,8 +4,8 @@ import type {
   Title,
 } from '#/domains/entities/task/valueObjects';
 
-export type UpdateTaskInputDto = {
+export type UpdateTaskInputDto = Readonly<{
   title?: Title;
   description?: Description;
   expiredAt?: ExpiredAt;
-};
+}>;
