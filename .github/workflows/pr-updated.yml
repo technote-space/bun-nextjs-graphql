@@ -88,26 +88,3 @@ jobs:
           BRANCH_PREFIX: release/
           NEXT_VERSION: ${{ env.NEXT_VERSION }}
         if: env.NEXT_VERSION
-
-  checkPublish:
-    name: Check publish
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    if: "github.event.pull_request.head.user.id == github.event.pull_request.base.user.id && startsWith(github.head_ref, 'release/')"
-    steps:
-      - name: Set running flag
-        run: echo "RUNNING=1" >> $GITHUB_ENV
-      - name: Set running flag
-        run: |
-          if [ -z "$NPM_AUTH_TOKEN" ]; then
-            echo "RUNNING=" >> $GITHUB_ENV
-          fi
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-        if: env.RUNNING
-      - uses: technote-space/can-npm-publish-action@v1
-        if: env.RUNNING
