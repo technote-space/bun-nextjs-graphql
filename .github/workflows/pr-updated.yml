@@ -75,6 +75,7 @@ jobs:
       - name: Get version
         uses: technote-space/get-next-version-action@v1
         with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           EXCLUDE_MESSAGES: ${{ env.EXCLUDE_MESSAGES }}
         if: "env.RUNNING && ! startsWith(github.head_ref, 'release/v')"
       - name: Get version
