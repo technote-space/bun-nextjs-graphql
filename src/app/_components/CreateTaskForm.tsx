@@ -1,7 +1,7 @@
 'use client';
 
-import type { CreateTaskInput } from '@/hooks/types';
-import { useCreateTask } from '@/hooks/useTasks';
+import type { CreateTaskInput } from '@/_hooks/types';
+import { useCreateTask } from '@/_hooks/useTasks';
 import { useState } from 'react';
 
 interface CreateTaskFormProps {

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { CreateTaskForm } from './components/CreateTaskForm';
-import { TaskDetail } from './components/TaskDetail';
-import { TaskList } from './components/TaskList';
+import { CreateTaskForm } from '@/_components/CreateTaskForm';
+import { TaskDetail } from '@/_components/TaskDetail';
+import { TaskList } from '@/_components/TaskList';
 
 interface TodoAppProps {
   userId: string;

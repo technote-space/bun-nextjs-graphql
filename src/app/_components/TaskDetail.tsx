@@ -1,13 +1,13 @@
 'use client';
 
-import type { UpdateTaskInput } from '@/hooks/types';
+import type { UpdateTaskInput } from '@/_hooks/types';
 import {
   useCompleteTask,
   useDeleteTask,
   useGetTask,
   useStartTask,
   useUpdateTask,
-} from '@/hooks/useTasks';
+} from '@/_hooks/useTasks';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 

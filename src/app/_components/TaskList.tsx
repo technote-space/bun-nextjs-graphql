@@ -1,7 +1,7 @@
 'use client';
 
-import { SortOrder, TaskSortKey, TaskStatus } from '@/hooks/types';
-import { useGetTasks } from '@/hooks/useTasks';
+import { SortOrder, TaskSortKey, TaskStatus } from '@/_hooks/types';
+import { useGetTasks } from '@/_hooks/useTasks';
 import { useState } from 'react';
 
 interface TaskListProps {
