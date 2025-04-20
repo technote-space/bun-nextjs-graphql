@@ -158,7 +158,48 @@ enum SortOrder {
 
 ## 始め方
 
-まず、開発サーバーを実行します：
+### Auth0の設定
+
+1. [Auth0のウェブサイト](https://auth0.com/)にアクセスし、アカウントを作成またはログインします。
+2. 新しいアプリケーションを作成します：
+   - ダッシュボードから「Applications」→「Create Application」を選択
+   - アプリケーション名を入力（例：「TODO App」）
+   - 「Regular Web Applications」を選択
+   - 「Create」をクリック
+3. アプリケーション設定を構成します：
+   - 「Settings」タブで以下の項目を設定：
+     - Allowed Callback URLs: `http://localhost:3000/auth/callback`
+     - Allowed Logout URLs: `http://localhost:3000`
+   - 「Save Changes」をクリック
+4. 以下の情報をメモします：
+   - Domain
+   - Client ID
+   - Client Secret
+
+### 環境変数の設定
+
+1. プロジェクトのルートディレクトリに `.env` ファイルを作成します（`.env.sample` をコピーして使用できます）
+2. 以下の環境変数を設定します：
+
+```
+# Database
+DATABASE_URL="file:./dev.db"
+
+# SSO
+# @see https://github.com/auth0/nextjs-auth0
+AUTH0_DOMAIN=your-auth0-domain.auth0.com
+AUTH0_CLIENT_ID=your-client-id
+AUTH0_CLIENT_SECRET=your-client-secret
+AUTH0_SECRET=a-long-random-string-at-least-32-characters
+AUTH0_CONNECTION=Username-Password-Authentication
+APP_BASE_URL=http://localhost:3000
+```
+
+- `AUTH0_DOMAIN`、`AUTH0_CLIENT_ID`、`AUTH0_CLIENT_SECRET` には、Auth0アプリケーション設定からメモした値を入力します
+- `AUTH0_SECRET` には、32文字以上のランダムな文字列を生成して入力します（セッション暗号化に使用）
+  - 例: 以下のコマンドを使用して生成できます: `openssl rand -hex 32`
+
+### 開発サーバーの実行
 
 ```bash
 # 依存関係のインストール
