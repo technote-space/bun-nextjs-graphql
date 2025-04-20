@@ -23,7 +23,7 @@
     "migrate:reset": "rm -rdf ./src/server/frameworks/database/prisma/migrations && rm -f ./src/server/frameworks/database/prisma/*.db && prisma migrate dev --name init",
     "seed": "npx --yes tsx src/server/frameworks/database/prisma/seed/index.ts",
     "update": "npx --yes npm-check-updates -u --timeout 100000 && bun install",
-    "prepare": "if [ ! -f .env ]; then cp .env.example .env; fi && prisma generate && bun run migrate"
+    "prepare": "if [ ! -f .env ]; then cp .env.sample .env; fi && prisma generate && bun run migrate"
   },
   "dependencies": {
     "@apollo/client": "^3.13.8",
