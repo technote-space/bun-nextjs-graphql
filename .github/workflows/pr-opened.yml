@@ -1,0 +1,20 @@
+on:
+  pull_request_target:
+    types: [opened]
+
+name: Pull Request opened
+
+jobs:
+  assignAuthor:
+    name: Assign author to PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: technote-space/assign-author@v1
+
+  addLabelsByBranch:
+    name: PR Labeler
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: technote-space/pr-labeler-action@v4

@@ -1,0 +1,17 @@
+typescript:
+  - changed-files:
+    - '**/*.ts'
+    - '**/*.tsx'
+
+'Type: Testing':
+  - changed-files:
+    - '**/*.spec.ts'
+    - '**/*.e2e-spec.ts'
+
+'Type: Documentation':
+  - changed-files:
+    - '**/*.md'
+
+'Type: CI/CD':
+  - changed-files:
+    - '.github/workflows/*.yml'
