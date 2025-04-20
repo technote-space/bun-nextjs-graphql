@@ -3,6 +3,14 @@
 これは、Next.js、GraphQL、Prismaで構築されたモダンなTODOアプリケーションです。
 このアプリケーションはクリーンアーキテクチャの原則に従い、タスクとユーザーを管理するための堅牢なAPIを提供します。
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>Details</summary>
+
+</details>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## 技術スタック
 
 - **フロントエンド**: App Routerを使用したNext.js
