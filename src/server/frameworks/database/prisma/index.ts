@@ -1,12 +1,12 @@
-import { type Prisma, PrismaClient } from '@prisma/client';
-import type { ITXClientDenyList } from '@prisma/client/runtime/library';
+import { type Prisma, PrismaClient } from './client';
+import type { ITXClientDenyList } from './client/runtime/library';
 
 export type {
   User,
   Task,
   PrismaClient,
   Prisma,
-} from '@prisma/client';
+} from './client';
 
 export type TransactionPrismaClient = Omit<PrismaClient, ITXClientDenyList>;
 export type ModelName = Prisma.ModelName;
